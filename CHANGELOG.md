@@ -1,5 +1,17 @@
 # Changelog
 
+## 1.3.5
+
+Changed:
+
+- Habit detail: the middle stat shows the current streak ("4 / day streak") instead of the best streak. The best streak is still on Habits → Overall.
+- Habits → Overall: the legend ("Last 26 weeks", Done / Partial / Skipped) has the same gap above and below it.
+
+Fixed:
+
+- Deleting a habit from the Edit screen left an empty screen behind; it now goes back to the tab the habit was opened from.
+- New note: coming back after the system closed the app in the background reset the form to the habit and day it was opened with (from Today, a skipped habit on today's date) and dropped the text, so the note could be saved on the wrong habit and day. The habit, day and text are now kept.
+
 ## 1.3.4
 
 Changed:
