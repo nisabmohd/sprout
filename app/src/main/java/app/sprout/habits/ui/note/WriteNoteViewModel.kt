@@ -1,6 +1,7 @@
 package app.sprout.habits.ui.note
 
 import androidx.compose.runtime.Immutable
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.sprout.habits.data.Entry
@@ -42,6 +43,7 @@ class WriteNoteViewModel(
     noteId: Long,
     habitId: Long,
     epochDay: Long?,
+    private val state: SavedStateHandle,
 ) : ViewModel() {
     /** True when the screen was opened to write, not to edit a note picked from a list. */
     val opensTyping: Boolean = noteId == 0L
@@ -70,6 +72,10 @@ class WriteNoteViewModel(
 
     /** What the user had typed before [existing] was put above it. */
     private var typedBefore = ""
+        set(value) {
+            field = value
+            state[KEY_TYPED_BEFORE] = value
+        }
 
     private val _done = Channel<Unit>(Channel.CONFLATED)
     val done = _done.receiveAsFlow()
@@ -77,12 +83,27 @@ class WriteNoteViewModel(
     init {
         viewModelScope.launch {
             val note = if (noteId != 0L) repository.getNote(noteId) else null
-            _form.value = if (note != null) {
+            val keptHabit: Long? = state[KEY_HABIT]
+            val keptDay: Long? = state[KEY_DAY]
+            _form.value = if (keptHabit != null && keptDay != null) {
+                // Back after the system closed the app in the background: the habit, day and text
+                // as they were left, not the ones the screen was first opened with.
+                if (note == null) {
+                    existing = repository.getNote(keptHabit, keptDay)
+                    typedBefore = state[KEY_TYPED_BEFORE] ?: ""
+                }
+                NoteForm(true, note?.id ?: existing?.id ?: 0, keptHabit, LocalDate.ofEpochDay(keptDay), state[KEY_TEXT] ?: "")
+            } else if (note != null) {
                 NoteForm(true, note.id, note.habitId, LocalDate.ofEpochDay(note.date), note.text)
             } else {
                 val fallback = if (habitId != 0L) habitId else repository.observeHabits().first().firstOrNull()?.id ?: 0L
                 val date = epochDay?.let(LocalDate::ofEpochDay) ?: LocalDate.now()
                 formFor(fallback, date, typed = "")
+            }
+            _form.collect { f ->
+                state[KEY_HABIT] = f.habitId
+                state[KEY_DAY] = f.date.toEpochDay()
+                state[KEY_TEXT] = f.text
             }
         }
     }
@@ -139,5 +160,12 @@ class WriteNoteViewModel(
             repository.deleteNote(id)
             _done.send(Unit)
         }
+    }
+
+    private companion object {
+        const val KEY_HABIT = "habitId"
+        const val KEY_DAY = "day"
+        const val KEY_TEXT = "text"
+        const val KEY_TYPED_BEFORE = "typedBefore"
     }
 }

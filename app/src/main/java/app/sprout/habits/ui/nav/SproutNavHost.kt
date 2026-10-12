@@ -65,6 +65,7 @@ import app.sprout.habits.ui.habits.HabitsViewModel
 import app.sprout.habits.ui.manage.ManageHabitsScreen
 import app.sprout.habits.ui.manage.ManageHabitsViewModel
 import app.sprout.habits.ui.edit.EditHabitViewModel
+import androidx.lifecycle.createSavedStateHandle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import app.sprout.habits.AppContainer
 import app.sprout.habits.data.Settings
@@ -136,7 +137,7 @@ fun SproutNavHost(
             composable<WriteNoteRoute> { entry ->
                 val route = entry.toRoute<WriteNoteRoute>()
                 val vm = viewModel {
-                    WriteNoteViewModel(container.repository, route.noteId, route.habitId, route.epochDay.takeIf { it >= 0 })
+                    WriteNoteViewModel(container.repository, route.noteId, route.habitId, route.epochDay.takeIf { it >= 0 }, createSavedStateHandle())
                 }
                 WriteNoteScreen(vm, settings.weekStart, onClose = { navController.popBackStack() })
             }

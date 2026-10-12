@@ -13,6 +13,8 @@ description: Notes and the Journal tab (write, edit, delete, list). Use when cha
 
 **One note per habit and day in the form:** `WriteNoteViewModel.moveTo` looks up the note for the habit and day picked. If there is one, the form becomes that note ("Edit note"), with typed text added under it by `domain/joinNoteText`; moving on to an empty day takes only the typed text along. A note opened by its id is not swapped: changing its date moves it.
 
+**State:** the form's habit, day and text are kept in the `SavedStateHandle`, so coming back after the system closed the app in the background shows them as they were left. Before, the form fell back to the habit and day it was opened with (from Today, a skipped habit and today) with the text gone, and a note retyped there was saved on the wrong habit and day.
+
 **Pitfall:** in adb-driven checks, wait for a sheet to finish opening before `uiautomator dump`; a dump during the animation comes back without the Compose nodes.
 
 **Verify:** `python3 tools/verify/smoke.py journal`.
