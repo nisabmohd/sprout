@@ -113,7 +113,7 @@ fun HabitDetailScreen(
             item(key = "stats") {
                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                     StatTile(days(ui.monthDone), ui.monthDoneLabel, hc, Modifier.weight(1f))
-                    StatTile(days(ui.bestStreak), stringResource(R.string.best_streak), hc, Modifier.weight(1f))
+                    StatTile("${ui.currentStreak}", stringResource(R.string.day_streak), hc, Modifier.weight(1f))
                     StatTile("${ui.noteCount}", pluralStringResource(R.plurals.notes_count_label, ui.noteCount), hc, Modifier.weight(1f))
                 }
             }

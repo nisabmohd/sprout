@@ -63,6 +63,11 @@ class EditHabitViewModel(
     /** Emits once the habit has been saved, so the screen can close. */
     val saved = _saved.receiveAsFlow()
 
+    private val _deleted = Channel<Unit>(Channel.CONFLATED)
+
+    /** Emits once the habit has been deleted, so the screens showing it can close. */
+    val deleted = _deleted.receiveAsFlow()
+
     /** The habit as stored, kept so saving preserves fields the form doesn't show. */
     private var original: Habit? = null
 
@@ -134,7 +139,7 @@ class EditHabitViewModel(
         val habit = original ?: return
         viewModelScope.launch {
             repository.deleteHabit(habit)
-            _saved.send(Unit)
+            _deleted.send(Unit)
         }
     }
 

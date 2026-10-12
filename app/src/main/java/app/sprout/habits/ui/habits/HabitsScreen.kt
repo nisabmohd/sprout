@@ -236,7 +236,8 @@ private fun describe(kind: MarkKind, fraction: Float) = when (kind) {
 private fun Legend() {
     val colors = MaterialTheme.colorScheme
     FlowRow(
-        Modifier.fillMaxWidth().padding(horizontal = 4.dp),
+        // With the list's 8 dp, the legend has the same 16 dp under it as above it.
+        Modifier.fillMaxWidth().padding(start = 4.dp, end = 4.dp, bottom = 8.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
         itemVerticalAlignment = Alignment.CenterVertically,
     ) {

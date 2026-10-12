@@ -130,7 +130,6 @@
     <string name="edit_habit">Editar hábito</string>
     <string name="restore">Restaurar</string>
     <string name="archive">Archivar</string>
-    <string name="best_streak">mejor racha</string>
     <string name="notes_title">Notas</string>
     <string name="see_all">Ver todas</string>
     <string name="no_notes_yet">Aún no hay notas.</string>
@@ -312,8 +311,6 @@
     <string name="nudge_title">%1$s · ¿qué tal ha ido hoy?</string>
     <string name="nudge_text">Añade una nota sobre hoy.</string>
     <string name="reminder_check">Es hora de marcarlo.</string>
-    <string name="reminder_to_go">%1$s · faltan %2$s</string>
-    <string name="reminder_progress">Llevas %1$s de %2$s hoy.</string>
     <string name="reminder_goal">Objetivo de hoy: %1$s.</string>
     <string name="widget_done_today">%1$d de %2$d hechos hoy</string>
     <string name="widget_today_lower">hoy</string>

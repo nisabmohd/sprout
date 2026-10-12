@@ -87,9 +87,10 @@ import java.util.Locale
 import app.sprout.habits.ui.components.TimePickerSheet
 
 @Composable
-fun EditHabitScreen(viewModel: EditHabitViewModel, onClose: () -> Unit) {
+fun EditHabitScreen(viewModel: EditHabitViewModel, onClose: () -> Unit, onDeleted: () -> Unit) {
     val form by viewModel.form.collectAsStateWithLifecycle()
     LaunchedEffect(viewModel) { viewModel.saved.collect { onClose() } }
+    LaunchedEffect(viewModel) { viewModel.deleted.collect { onDeleted() } }
     if (!form.loaded) return
     var deleting by rememberSaveable { mutableStateOf(false) }
     EditHabitContent(

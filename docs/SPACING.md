@@ -18,6 +18,7 @@ When in doubt, copy the same element on the **Today** screen.
 | Between sections on a form | 20dp | New habit |
 | Section label → its cards | 8dp | "Today", "By habit", "Notes", "Backup & restore", "Icon", "Days" |
 | Section label inset | 4dp from the cards' left edge | Every section label |
+| Legend row | 16dp above and 16dp below | Habits → Overall ("Last 26 weeks" + Done / Partial / Skipped) |
 | Inside a card | 16dp padding on all sides | Every card and grouped-list row |
 | Tile → text in a card | 12dp | Every habit card and row |
 | Name → line under it | 2dp | Every habit card and row |

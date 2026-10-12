@@ -134,7 +134,6 @@
     <string name="edit_habit">Edit habit</string>
     <string name="restore">Restore</string>
     <string name="archive">Archive</string>
-    <string name="best_streak">best streak</string>
     <string name="notes_title">Notes</string>
     <string name="see_all">See all</string>
     <string name="no_notes_yet">No notes yet.</string>
@@ -316,8 +315,6 @@
     <string name="nudge_title">%1$s · how did today go?</string>
     <string name="nudge_text">Add a note about today.</string>
     <string name="reminder_check">Time to check it off.</string>
-    <string name="reminder_to_go">%1$s · %2$s to go</string>
-    <string name="reminder_progress">You\'re at %1$s of %2$s today.</string>
     <string name="reminder_goal">Goal today: %1$s.</string>
     <string name="widget_done_today">%1$d of %2$d done today</string>
     <string name="widget_today_lower">today</string>

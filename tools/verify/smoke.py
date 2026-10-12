@@ -246,7 +246,7 @@ def edit_past_day_from_detail_calendar():
     d.nav("Habits")
     d.tap("Week")
     d.tap("Wake up at 7")
-    assert d.exists("best streak"), "habit detail didn't open"
+    assert d.exists("day streak"), "habit detail didn't open"
     time.sleep(0.8)  # let the screen transition finish before tapping a day
     if day.month != datetime.date.today().month:
         d.tap("Previous month")
@@ -283,7 +283,7 @@ def habits_week_and_overall():
 @check
 def habit_detail_opens():
     d.tap("Read", timeout=5)
-    assert d.exists("best streak"), "detail stats missing"
+    assert d.exists("day streak"), "detail stats missing"
     assert d.exists("this month"), "detail's first stat isn't \"this month\""
     assert not any(n.label.endswith("%") for n in d.dump()), "detail still shows a percentage"
     assert d.exists("Edit habit"), "edit action missing"

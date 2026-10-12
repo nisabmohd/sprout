@@ -12,7 +12,6 @@ import app.sprout.habits.data.HabitIcon
 import app.sprout.habits.data.HabitRepository
 import app.sprout.habits.data.Note
 import app.sprout.habits.data.SettingsRepository
-import app.sprout.habits.domain.bestStreak
 import app.sprout.habits.domain.currentStreak
 import app.sprout.habits.domain.dayCredit
 import app.sprout.habits.domain.history
@@ -56,7 +55,6 @@ data class HabitDetailUi(
     /** "this month", or "August" when looking at another month. */
     val monthDoneLabel: String,
     val currentStreak: Int,
-    val bestStreak: Int,
     val noteCount: Int,
     val monthLabel: String,
     val canGoForward: Boolean,
@@ -139,7 +137,6 @@ class HabitDetailViewModel(
             monthDone = (first..minOf(last, todayDay)).count { history.isScheduled(it) && history.isKept(it, todayDay) },
             monthDoneLabel = if (ym == YearMonth.now()) strings(R.string.this_month) else ym.month.getDisplayName(TextStyle.FULL, Locale.getDefault()),
             currentStreak = history.currentStreak(todayDay),
-            bestStreak = history.bestStreak(todayDay),
             noteCount = notes.size,
             monthLabel = ym.format(datePattern("MMMM yyyy")),
             canGoForward = ym < YearMonth.now(),

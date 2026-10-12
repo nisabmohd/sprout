@@ -22,7 +22,7 @@ Habits are created and edited on one screen: name, icon (7 suggestions, or any o
 
 Measure habits have a step: how far − / + and the slider move when logging (1 page, 500 steps, 0.25 h). Before 1.1 there was a separate Duration type; the database migration and backup import turn those habits into Measure habits in "min" (step 5) or "h" (step 0.25).
 
-The Habits tab has a Week view (seven day marks per habit, with arrows to earlier weeks; tap any past day to edit it in the same sheet as Today) and an Overall view (a 26-week heatmap per habit with its current and best streak). Tapping a habit opens its detail screen (round back, edit, archive and delete buttons in the header) with the days done this month, best streak, note count, a month calendar (tap a past day to edit it) and its notes.
+The Habits tab has a Week view (seven day marks per habit, with arrows to earlier weeks; tap any past day to edit it in the same sheet as Today) and an Overall view (a 26-week heatmap per habit with its current and best streak). Tapping a habit opens its detail screen (round back, edit, archive and delete buttons in the header) with the days done this month, the current streak, note count, a month calendar (tap a past day to edit it) and its notes.
 
 Code: `ui/edit/`, `ui/manage/`, `ui/habits/`, `ui/detail/`, statistics in `domain/Stats.kt`.
 
@@ -40,7 +40,7 @@ Code: `ui/insights/`.
 
 ## Reminders
 
-Each habit can have one daily reminder on its scheduled days. The time is set in a sheet with hour and minute steppers (tap or hold the arrows, or drag a number) and an AM/PM switch on 12-hour phones (`ui/components/TimePickerSheet.kt`). The notification shows what's left for today and opens the habit when tapped. Reminders are exact when the user allows "Alarms & reminders", and otherwise arrive within 10 minutes. At 9 PM, habits that were skipped and ask for a note get a short prompt to add one.
+Each habit can have one daily reminder on its scheduled days. The time is set in a sheet with hour and minute steppers (tap or hold the arrows, or drag a number) and an AM/PM switch on 12-hour phones (`ui/components/TimePickerSheet.kt`). The notification shows the habit and its goal and opens the habit when tapped. A habit already logged today (Done, Partial or Skip) gets no reminder, and one still showing is removed when the habit is logged. Reminders are exact when the user allows "Alarms & reminders", and otherwise arrive within 10 minutes. At 9 PM, habits that were skipped and ask for a note get a short prompt to add one.
 
 Code: `notify/`, timing in `domain/ReminderTime.kt`.
 

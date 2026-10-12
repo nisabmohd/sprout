@@ -143,7 +143,14 @@ fun SproutNavHost(
             composable<EditHabitRoute> { entry ->
                 val id = entry.toRoute<EditHabitRoute>().habitId
                 val vm = viewModel { EditHabitViewModel(container.repository, container.settings, id) }
-                EditHabitScreen(vm, onClose = { navController.popBackStack() })
+                EditHabitScreen(
+                    vm,
+                    onClose = { navController.popBackStack() },
+                    // The habit's detail page has nothing left to show, so it closes too.
+                    onDeleted = {
+                        if (!navController.popBackStack<HabitDetailRoute>(inclusive = true)) navController.popBackStack()
+                    },
+                )
             }
             composable<HabitsRoute> {
                 TabFrame {

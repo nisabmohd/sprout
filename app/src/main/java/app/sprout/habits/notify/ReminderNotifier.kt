@@ -15,7 +15,6 @@ import app.sprout.habits.data.Habit
 import app.sprout.habits.domain.measure
 import app.sprout.habits.data.HabitRepository
 import app.sprout.habits.data.TrackType
-import app.sprout.habits.ui.today.TodayViewModel.Companion.formatNumber
 import app.sprout.habits.domain.isScheduled
 import java.time.LocalDate
 import kotlinx.coroutines.CoroutineScope
@@ -26,19 +25,18 @@ class ReminderNotifier(
     private val context: Context,
     private val repository: HabitRepository,
 ) {
-    /** The habit's reminder, unless today is already done or skipped. */
+    /** The habit's reminder, unless today is already logged (Done, Partial or Skip). */
     @SuppressLint("MissingPermission") // checked by canPost()
     suspend fun showReminder(habit: Habit) {
         if (habit.archived || !Notifications.canPost(context)) return
-        val entry = repository.getEntry(habit.id, LocalDate.now().toEpochDay())
-        if (entry?.status == EntryStatus.DONE || entry?.status == EntryStatus.SKIP) return
-        val (title, text) = reminderText(habit, entry?.amount ?: 0.0, ResourceStrings(context))
+        if (repository.getEntry(habit.id, LocalDate.now().toEpochDay()) != null) return
+        val (title, text) = reminderText(habit, ResourceStrings(context))
         post(habit.id, Notifications.CHANNEL_REMINDERS, title, text, reminderId(habit.id))
     }
 
     /**
-     * Takes a reminder that is still showing out of the shade once its habit is done or skipped
-     * today, wherever that was logged (the app, a widget, an import).
+     * Takes a reminder that is still showing out of the shade once its habit is logged today,
+     * wherever that was done (the app, a widget, an import).
      */
     fun start(scope: CoroutineScope) {
         scope.launch {
@@ -48,8 +46,7 @@ class ReminderNotifier(
                 val today = LocalDate.now().toEpochDay()
                 val manager = NotificationManagerCompat.from(context)
                 for (entry in entries) {
-                    if (entry.date != today || entry.status == EntryStatus.PARTIAL) continue
-                    manager.cancel(reminderId(entry.habitId))
+                    if (entry.date == today) manager.cancel(reminderId(entry.habitId))
                 }
             }
         }
@@ -94,14 +91,10 @@ class ReminderNotifier(
         fun reminderId(habitId: Long) = habitId.toInt() * 2
         fun noteReminderId(habitId: Long) = habitId.toInt() * 2 + 1
 
-        /** Title and line for a reminder, given how much is already logged today. */
-        fun reminderText(habit: Habit, amount: Double, strings: Strings): Pair<String, String> {
-            return when {
-                habit.trackType == TrackType.CHECK -> habit.name to strings(R.string.reminder_check)
-                amount > 0 -> strings(R.string.reminder_to_go, habit.name, habit.measure((habit.target - amount).coerceAtLeast(0.0))) to
-                    strings(R.string.reminder_progress, formatNumber(amount), habit.measure(habit.target))
-                else -> habit.name to strings(R.string.reminder_goal, habit.measure(habit.target))
-            }
+        /** Title and line for a reminder. */
+        fun reminderText(habit: Habit, strings: Strings): Pair<String, String> = when (habit.trackType) {
+            TrackType.CHECK -> habit.name to strings(R.string.reminder_check)
+            TrackType.AMOUNT -> habit.name to strings(R.string.reminder_goal, habit.measure(habit.target))
         }
     }
 }
