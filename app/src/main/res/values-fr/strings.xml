@@ -311,6 +311,8 @@
     <string name="nudge_title">%1$s · comment s\'est passée la journée ?</string>
     <string name="nudge_text">Ajoutez une note sur aujourd\'hui.</string>
     <string name="reminder_check">C\'est le moment de le cocher.</string>
+    <string name="reminder_to_go">%1$s · encore %2$s</string>
+    <string name="reminder_progress">Vous en êtes à %1$s sur %2$s aujourd\'hui.</string>
     <string name="reminder_goal">Objectif du jour : %1$s.</string>
     <string name="widget_done_today">%1$d sur %2$d faits aujourd\'hui</string>
     <string name="widget_today_lower">aujourd\'hui</string>

@@ -311,6 +311,8 @@
     <string name="nudge_title">%1$s · आज कैसा रहा?</string>
     <string name="nudge_text">आज के बारे में नोट जोड़ें।</string>
     <string name="reminder_check">टिक करने का समय हो गया।</string>
+    <string name="reminder_to_go">%1$s · %2$s बाकी</string>
+    <string name="reminder_progress">आज %2$s में से %1$s हो गया।</string>
     <string name="reminder_goal">आज का लक्ष्य: %1$s।</string>
     <string name="widget_done_today">आज %2$d में से %1$d पूरे</string>
     <string name="widget_today_lower">आज</string>

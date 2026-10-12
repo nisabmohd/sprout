@@ -311,6 +311,8 @@
     <string name="nudge_title">%1$s・今日はどうでしたか？</string>
     <string name="nudge_text">今日のことをメモしましょう。</string>
     <string name="reminder_check">チェックする時間です。</string>
+    <string name="reminder_to_go">%1$s・あと %2$s</string>
+    <string name="reminder_progress">今日は %2$s 中 %1$s です。</string>
     <string name="reminder_goal">今日の目標：%1$s</string>
     <string name="widget_done_today">今日は %2$d 件中 %1$d 件完了</string>
     <string name="widget_today_lower">今日</string>
