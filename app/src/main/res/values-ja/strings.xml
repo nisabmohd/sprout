@@ -130,6 +130,7 @@
     <string name="edit_habit">習慣を編集</string>
     <string name="restore">元に戻す</string>
     <string name="archive">アーカイブ</string>
+    <string name="best_streak">最長連続</string>
     <string name="notes_title">メモ</string>
     <string name="see_all">すべて見る</string>
     <string name="no_notes_yet">メモはまだありません。</string>

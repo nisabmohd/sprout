@@ -130,6 +130,7 @@
     <string name="edit_habit">Modifier l\'habitude</string>
     <string name="restore">Restaurer</string>
     <string name="archive">Archiver</string>
+    <string name="best_streak">meilleure série</string>
     <string name="notes_title">Notes</string>
     <string name="see_all">Tout voir</string>
     <string name="no_notes_yet">Pas encore de note.</string>

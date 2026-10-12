@@ -139,6 +139,9 @@ object SproutType {
 /** The smallest a nav bar label may shrink to when a translation is too long for its tab. */
 val NavLabelMinSize = 9.sp
 
+/** The smallest a habit detail stat value ("11 days") may shrink to when its card is too narrow for it. */
+val StatValueMinSize = 16.sp
+
 /** Sizes for the Glance widgets, which can't use Compose text styles. Same scale as [SproutType]. */
 object WidgetType {
     val display = 40.sp

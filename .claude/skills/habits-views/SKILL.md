@@ -7,12 +7,13 @@ description: The Habits tab (Week marks, Overall heatmap) and Habit detail (stat
 
 **Code**
 - `ui/habits/HabitsViewModel.kt` + `HabitsScreen.kt`: Week view queries only the visible week; Overall queries 26 weeks. Best streak in Overall is within that window.
-- `ui/detail/HabitDetailViewModel.kt` + `HabitDetailScreen.kt`: all entries of one habit (current streak), month calendar, notes, round header buttons for edit, archive and delete.
+- `ui/detail/HabitDetailViewModel.kt` + `HabitDetailScreen.kt`: all entries of one habit (all-time best streak), month calendar, notes, round header buttons for edit, archive and delete.
 - `ui/components/DayMark.kt`: the shared mark shapes (check, pie, dash, dashed ring, dotted ring, dot) also used by widgets.
 - `domain/Stats.kt`: `HabitHistory`, `score`, `currentStreak`, `bestStreak`, `counts`.
 
 **Verify:** `python3 tools/verify/smoke.py habits detail`. Unit tests: `StatsTest`.
 
 **Pitfalls**
+- The three stat cards in habit detail must stay one line each on a 360dp-wide phone (`adb shell wm density 480` on the emulator): 12dp padding, the value shrinks to fit, the cards share one height.
 - The 7 day columns and heatmap month labels are in `CappedFontScale`; month labels drop the first (partial) month if the next starts within 3 columns.
 - Days before a habit was created don't count (`Habit.firstDay()`).

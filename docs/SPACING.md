@@ -45,4 +45,4 @@ So a section label always has **16dp above it and 8dp below it**. Where the list
 ## Exceptions (only these)
 - The month calendar cards (habit detail, date sheets) use 12dp side padding for the same reason.
 - Today's habit cards use 12dp horizontal and 8dp vertical padding with a 68dp minimum height, because the fill and the ring reach the card's edge.
-- The three stat cards in habit detail use 12dp vertical padding.
+- The three stat cards in habit detail use 12dp padding on every side, so "best streak" fits on one line on a 360dp-wide phone.

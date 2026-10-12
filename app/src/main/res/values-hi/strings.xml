@@ -130,6 +130,7 @@
     <string name="edit_habit">आदत बदलें</string>
     <string name="restore">वापस लाएं</string>
     <string name="archive">संग्रह करें</string>
+    <string name="best_streak">सबसे लंबा सिलसिला</string>
     <string name="notes_title">नोट</string>
     <string name="see_all">सभी देखें</string>
     <string name="no_notes_yet">अभी कोई नोट नहीं।</string>

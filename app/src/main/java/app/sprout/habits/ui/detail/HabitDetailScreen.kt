@@ -12,10 +12,12 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -27,6 +29,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicText
+import androidx.compose.foundation.text.TextAutoSize
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -49,6 +53,7 @@ import androidx.compose.material3.SnackbarHostState
 import app.sprout.habits.ui.today.DayLogHost
 import app.sprout.habits.ui.today.UndoSnackbarHost
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
@@ -57,6 +62,7 @@ import app.sprout.habits.ui.components.HeaderIconButton
 import app.sprout.habits.ui.components.MarkKind
 import app.sprout.habits.ui.manage.DeleteHabitDialog
 import app.sprout.habits.ui.theme.HabitColors
+import app.sprout.habits.ui.theme.StatValueMinSize
 import app.sprout.habits.ui.theme.habitColors
 
 @Composable
@@ -111,9 +117,10 @@ fun HabitDetailScreen(
                 }
             }
             item(key = "stats") {
-                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                // One height for all three, so a label that needs two lines doesn't make its card stand out.
+                Row(Modifier.height(IntrinsicSize.Min), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                     StatTile(days(ui.monthDone), ui.monthDoneLabel, hc, Modifier.weight(1f))
-                    StatTile("${ui.currentStreak}", stringResource(R.string.day_streak), hc, Modifier.weight(1f))
+                    StatTile(days(ui.bestStreak), stringResource(R.string.best_streak), hc, Modifier.weight(1f))
                     StatTile("${ui.noteCount}", pluralStringResource(R.plurals.notes_count_label, ui.noteCount), hc, Modifier.weight(1f))
                 }
             }
@@ -161,12 +168,21 @@ private fun days(n: Int) = pluralStringResource(R.plurals.day_count, n, n)
 private fun StatTile(value: String, label: String, hc: HabitColors, modifier: Modifier) {
     Column(
         modifier
+            .fillMaxHeight()
             .background(MaterialTheme.colorScheme.surfaceContainerLowest, RoundedCornerShape(18.dp))
-            .padding(horizontal = 16.dp, vertical = 12.dp),
-        verticalArrangement = Arrangement.spacedBy(2.dp),
+            .padding(12.dp),
+        // The labels sit on the bottom edge, so they stay level when one value has shrunk.
+        verticalArrangement = Arrangement.SpaceBetween,
     ) {
-        Text(value, style = SproutType.titleNumber, color = hc.ink, maxLines = 1)
-        Text(label, style = SproutType.supporting, color = MaterialTheme.colorScheme.onSurfaceVariant, maxLines = 2)
+        // On a narrow phone "11 days" shrinks to fit instead of losing "days".
+        val style = SproutType.titleNumber
+        BasicText(
+            value,
+            maxLines = 1,
+            style = style.copy(color = hc.ink),
+            autoSize = TextAutoSize.StepBased(minFontSize = StatValueMinSize, maxFontSize = style.fontSize, stepSize = 0.5.sp),
+        )
+        Text(label, style = SproutType.supporting, color = MaterialTheme.colorScheme.onSurfaceVariant, maxLines = 2, modifier = Modifier.padding(top = 2.dp))
     }
 }
 
