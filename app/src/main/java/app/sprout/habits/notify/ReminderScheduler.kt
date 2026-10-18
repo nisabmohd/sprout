@@ -75,17 +75,21 @@ class ReminderScheduler(
             return
         }
         val at = nextReminderTime(System.currentTimeMillis(), ZoneId.systemDefault(), NOTE_NUDGE_MINUTES, 0b111_1111, 0L) ?: return
+        val dated = notePendingIntent(dayOf(at))
         if (canScheduleExact()) {
-            alarms.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, at, intent)
+            alarms.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, at, dated)
         } else {
-            alarms.setWindow(AlarmManager.RTC_WAKEUP, at, WINDOW_MILLIS, intent)
+            alarms.setWindow(AlarmManager.RTC_WAKEUP, at, WINDOW_MILLIS, dated)
         }
     }
 
-    private fun notePendingIntent(): PendingIntent = PendingIntent.getBroadcast(
+    private fun dayOf(millis: Long): Long =
+        java.time.Instant.ofEpochMilli(millis).atZone(ZoneId.systemDefault()).toLocalDate().toEpochDay()
+
+    private fun notePendingIntent(day: Long = NO_DAY): PendingIntent = PendingIntent.getBroadcast(
         context,
         NOTE_NUDGE_REQUEST_CODE,
-        Intent(context, ReminderReceiver::class.java).setAction(ACTION_NOTE_NUDGE),
+        Intent(context, ReminderReceiver::class.java).setAction(ACTION_NOTE_NUDGE).putExtra(EXTRA_DAY, day),
         PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT,
     )
 
@@ -98,8 +102,8 @@ class ReminderScheduler(
         val at = nextReminderTime(System.currentTimeMillis(), ZoneId.systemDefault(), minutes, key.daysMask, key.firstDay)
         when {
             at == null -> cancel(key.id)
-            canScheduleExact() -> alarms.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, at, pendingIntent(key.id))
-            else -> alarms.setWindow(AlarmManager.RTC_WAKEUP, at, WINDOW_MILLIS, pendingIntent(key.id))
+            canScheduleExact() -> alarms.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, at, pendingIntent(key.id, dayOf(at)))
+            else -> alarms.setWindow(AlarmManager.RTC_WAKEUP, at, WINDOW_MILLIS, pendingIntent(key.id, dayOf(at)))
         }
     }
 
@@ -108,10 +112,11 @@ class ReminderScheduler(
 
     fun cancel(habitId: Long) = alarms.cancel(pendingIntent(habitId))
 
-    private fun pendingIntent(habitId: Long): PendingIntent = PendingIntent.getBroadcast(
+    /** [day] is the date the alarm is meant for, so one that arrives late can tell. */
+    private fun pendingIntent(habitId: Long, day: Long = NO_DAY): PendingIntent = PendingIntent.getBroadcast(
         context,
         habitId.toInt(),
-        Intent(context, ReminderReceiver::class.java).setAction(ACTION_REMINDER).putExtra(EXTRA_HABIT_ID, habitId),
+        Intent(context, ReminderReceiver::class.java).setAction(ACTION_REMINDER).putExtra(EXTRA_HABIT_ID, habitId).putExtra(EXTRA_DAY, day),
         PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT,
     )
 
@@ -119,6 +124,8 @@ class ReminderScheduler(
         const val ACTION_REMINDER = "app.sprout.habits.action.REMINDER"
         const val ACTION_NOTE_NUDGE = "app.sprout.habits.action.NOTE_NUDGE"
         const val EXTRA_HABIT_ID = "habitId"
+        const val EXTRA_DAY = "day"
+        const val NO_DAY = Long.MIN_VALUE
 
         /** 9:00 PM, as in the reminder design. */
         const val NOTE_NUDGE_MINUTES = 21 * 60

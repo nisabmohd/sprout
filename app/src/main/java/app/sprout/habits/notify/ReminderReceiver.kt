@@ -5,6 +5,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import app.sprout.habits.SproutApp
+import java.time.LocalDate
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
@@ -20,16 +21,21 @@ class ReminderReceiver : BroadcastReceiver() {
         val pending = goAsync()
         CoroutineScope(Dispatchers.IO).launch {
             try {
+                // Battery saving can hold an alarm back for hours. One that arrives after its day
+                // is over is dropped: it would check the new day, which has nothing logged yet,
+                // and remind about a habit that was already done or skipped.
+                val day = intent.getLongExtra(ReminderScheduler.EXTRA_DAY, ReminderScheduler.NO_DAY)
+                val onTime = day == ReminderScheduler.NO_DAY || day == LocalDate.now().toEpochDay()
                 when (intent.action) {
                     ReminderScheduler.ACTION_REMINDER -> {
                         val habitId = intent.getLongExtra(ReminderScheduler.EXTRA_HABIT_ID, 0L)
                         val habit = container.repository.getHabit(habitId) ?: return@launch
-                        container.reminderNotifier.showReminder(habit)
+                        if (onTime) container.reminderNotifier.showReminder(habit)
                         container.reminders.schedule(habit)
                     }
                     ReminderScheduler.ACTION_NOTE_NUDGE -> {
                         val habits = container.repository.observeHabits().first()
-                        container.reminderNotifier.showNoteNudges(habits)
+                        if (onTime) container.reminderNotifier.showNoteNudges(habits)
                         container.reminders.scheduleNoteNudge(habits.any { it.askForNote })
                     }
                 }
