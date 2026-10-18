@@ -157,8 +157,6 @@
     <string name="font_outfit_desc">गोलाकार, ज्यामितीय</string>
     <string name="font_lexend_desc">डिफ़ॉल्ट · आसानी से पढ़ने के लिए बना</string>
     <string name="font_atkinson_desc">कम दृष्टि वालों के लिए बना</string>
-    <string name="font_roboto_serif_desc">क्लासिक सेरिफ़, छपी किताब जैसा</string>
-    <string name="font_space_mono_desc">मोनोस्पेस, टाइपराइटर जैसा</string>
     <string name="backup_restore">बैकअप और रीस्टोर</string>
     <string name="appearance">रूप-रंग</string>
     <string name="theme">थीम</string>

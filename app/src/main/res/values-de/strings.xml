@@ -157,8 +157,6 @@
     <string name="font_outfit_desc">Rund, geometrisch</string>
     <string name="font_lexend_desc">Standard · für leichtes Lesen gemacht</string>
     <string name="font_atkinson_desc">Für Menschen mit Sehschwäche gestaltet</string>
-    <string name="font_roboto_serif_desc">Klassische Serifenschrift, wie ein gedrucktes Buch</string>
-    <string name="font_space_mono_desc">Festbreitenschrift, wie eine Schreibmaschine</string>
     <string name="backup_restore">Sichern und wiederherstellen</string>
     <string name="appearance">Darstellung</string>
     <string name="theme">Design</string>

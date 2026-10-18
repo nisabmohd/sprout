@@ -33,14 +33,6 @@ val OutfitFamily = variableFamily(R.font.outfit)
 private val SpaceGroteskFamily = variableFamily(R.font.space_grotesk) { w -> if (w <= 400) w + 70 else minOf(w + 100, 700) }
 private val LexendFamily = variableFamily(R.font.lexend)
 private val AtkinsonFamily = variableFamily(R.font.atkinson_hyperlegible)
-private val RobotoSerifFamily = variableFamily(R.font.roboto_serif)
-// Space Mono only comes as Regular and Bold files: Medium uses Regular, SemiBold uses Bold.
-private val SpaceMonoFamily = FontFamily(
-    Font(R.font.space_mono_regular, FontWeight.Normal),
-    Font(R.font.space_mono_regular, FontWeight.Medium),
-    Font(R.font.space_mono_bold, FontWeight.SemiBold),
-    Font(R.font.space_mono_bold, FontWeight.Bold),
-)
 
 fun BodyFont.family(): FontFamily = when (this) {
     BodyFont.SYSTEM -> FontFamily.Default
@@ -48,8 +40,6 @@ fun BodyFont.family(): FontFamily = when (this) {
     BodyFont.OUTFIT -> OutfitFamily
     BodyFont.LEXEND -> LexendFamily
     BodyFont.ATKINSON -> AtkinsonFamily
-    BodyFont.ROBOTO_SERIF -> RobotoSerifFamily
-    BodyFont.SPACE_MONO -> SpaceMonoFamily
 }
 
 /**

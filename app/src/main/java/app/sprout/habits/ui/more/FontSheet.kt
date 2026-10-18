@@ -21,8 +21,6 @@ private val FONT_INFO: Map<BodyFont, Pair<String?, Int>> = mapOf(
     BodyFont.SPACE_GROTESK to ("Space Grotesk" to R.string.font_space_grotesk_desc),
     BodyFont.OUTFIT to ("Outfit" to R.string.font_outfit_desc),
     BodyFont.ATKINSON to ("Atkinson Hyperlegible" to R.string.font_atkinson_desc),
-    BodyFont.ROBOTO_SERIF to ("Roboto Serif" to R.string.font_roboto_serif_desc),
-    BodyFont.SPACE_MONO to ("Space Mono" to R.string.font_space_mono_desc),
 )
 
 @Composable

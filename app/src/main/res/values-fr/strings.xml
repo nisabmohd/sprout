@@ -157,8 +157,6 @@
     <string name="font_outfit_desc">Arrondie, géométrique</string>
     <string name="font_lexend_desc">Par défaut · conçue pour une lecture facile</string>
     <string name="font_atkinson_desc">Conçue pour la basse vision</string>
-    <string name="font_roboto_serif_desc">Empattements classiques, comme un livre imprimé</string>
-    <string name="font_space_mono_desc">Chasse fixe, comme une machine à écrire</string>
     <string name="backup_restore">Sauvegarde et restauration</string>
     <string name="appearance">Apparence</string>
     <string name="theme">Thème</string>

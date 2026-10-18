@@ -28,8 +28,6 @@ private val LICENCES = listOf(
     "Outfit font" to "SIL Open Font License 1.1",
     "Lexend font" to "SIL Open Font License 1.1",
     "Atkinson Hyperlegible Next font" to "SIL Open Font License 1.1",
-    "Roboto Serif font" to "SIL Open Font License 1.1",
-    "Space Mono font" to "SIL Open Font License 1.1",
 )
 
 @Composable

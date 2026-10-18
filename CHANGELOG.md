@@ -8,7 +8,7 @@ Fixed:
 
 Changed:
 
-- Two new fonts: Roboto Serif (a classic serif, like a printed book) and Space Mono (monospaced, like a typewriter). More → Font is now one row that opens a Font sheet, like Language, with every font written in itself.
+- More → Font is now one row that opens a Font sheet, like Language, with every font written in itself.
 - Choose icon: 38 more everyday icons, for people of every age and country (67 in all): shower, self-care, weight, no alcohol, bedtime, mood, breakfast, fasting; swim, hike, football, cricket, tennis or badminton, basketball, stretch, take the stairs, martial arts; study, language, art, photography, instrument, pray, puzzles, listen; to-do, email, laundry, groceries, garden, recycle, budget, less TV. A new People group holds family and friends, call someone, kids, elders, pets and kindness. Search finds them in every app language.
 - Add note (Today and Journal): New note starts on the habit you skipped last that day that has no note yet. The Journal used to always start on the first habit, and Today on the first skipped habit in list order.
 - One grouping rule on every screen, with the Journal as the model. Section headers look the same everywhere: 16sp SemiBold title in the text colour, an optional count or button on the right, 20dp above and 8dp below. Before, More, New habit and habit detail used small grey labels, and Manage habits used a large "Archived" title.
