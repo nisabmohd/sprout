@@ -1,5 +1,9 @@
 package app.sprout.habits.ui.insights
 
+import app.sprout.habits.ui.components.groupedShape
+import app.sprout.habits.ui.components.SectionGapBelow
+import app.sprout.habits.ui.components.SectionGapAbove
+import app.sprout.habits.ui.components.SectionHeader
 import app.sprout.habits.ui.components.tick
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.semantics.contentDescription
@@ -194,11 +198,13 @@ private fun Section(
 ) {
     val colors = MaterialTheme.colorScheme
     Column(Modifier.fillMaxWidth()) {
-        Row(Modifier.padding(start = 4.dp, end = 4.dp, bottom = 8.dp), verticalAlignment = Alignment.CenterVertically) {
-            Text(title, style = SproutType.cardTitle, color = colors.onSurface, modifier = Modifier.weight(1f).padding(end = 12.dp))
-            if (trailingContent != null) trailingContent()
-            else if (trailing != null) Text(trailing, style = SproutType.supporting, color = colors.onSurfaceVariant)
-        }
+        // The list puts 16 dp between sections; the header adds the rest of the usual 20 dp.
+        SectionHeader(
+            title,
+            Modifier.padding(top = SectionGapAbove - 16.dp, bottom = SectionGapBelow),
+            meta = trailing,
+            trailing = trailingContent?.let { content -> { content() } },
+        )
         if (card) {
             Column(
                 Modifier.fillMaxWidth().background(colors.surfaceContainerLowest, RoundedCornerShape(24.dp)).padding(start = 16.dp, top = 20.dp, end = 16.dp, bottom = 16.dp),
@@ -409,12 +415,10 @@ private fun HabitBreakdown(rates: List<HabitRateUi>, byStreak: Boolean, onSort: 
             sorted.forEachIndexed { index, r ->
                 key(r.id) {
                 val hc = habitColors(r.hue)
-                val top = if (index == 0) 28.dp else 4.dp
-                val bottom = if (index == sorted.size - 1) 28.dp else 4.dp
                 Row(
                     Modifier
                         .fillMaxWidth()
-                        .clip(RoundedCornerShape(top, top, bottom, bottom))
+                        .clip(groupedShape(index, sorted.size))
                         .background(colors.surfaceContainerLowest)
                         .clickable(onClickLabel = stringResource(R.string.open_habit, r.name)) { onOpenHabit(r.id) }
                         .padding(start = 12.dp, top = 12.dp, end = 16.dp, bottom = 12.dp)

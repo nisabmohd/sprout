@@ -1,5 +1,20 @@
 # Changelog
 
+## Unreleased
+
+Changed (grouping, the same on every screen; the Journal is the model):
+
+- Section headers look the same everywhere: 16sp SemiBold title in the text colour, an optional count or button on the right, 20dp above and 8dp below. Before, More, New habit and habit detail used small grey labels, and Manage habits used a large "Archived" title.
+- More: the group headers ("Backup & restore", "Appearance", "General") no longer sit right on top of their group; there is now an 8dp gap below each one.
+- More, About and New habit: rows in a group are separate cards 2dp apart (big corners on the outside, small between), like a day in the Journal. The thin divider lines are gone. Appearance is split into Theme, Dynamic color, Accent, Font and Text size.
+- Habit detail: the notes are one group like the Journal (2dp apart, not 16dp), with the "Notes" header 8dp above them.
+- Insights → Habit breakdown: the rows have the same 24/6dp corners as every other group (were 28/4dp).
+- Add note (Today and Journal): New note starts on the habit you skipped last that day that has no note yet. The Journal used to always start on the first habit, and Today on the first skipped habit in list order.
+
+Fixed:
+
+- A reminder that the phone delivered late, after midnight (battery saving can hold alarms back), reminded you about a habit already marked Done or Skip. A late reminder is now dropped; the next one comes on time.
+
 ## 1.3.5
 
 Changed:

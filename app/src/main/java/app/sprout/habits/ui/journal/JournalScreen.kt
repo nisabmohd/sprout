@@ -1,5 +1,9 @@
 package app.sprout.habits.ui.journal
 
+import app.sprout.habits.ui.components.GroupGap
+import app.sprout.habits.ui.components.SectionGapBelow
+import app.sprout.habits.ui.components.SectionGapAbove
+import app.sprout.habits.ui.components.SectionHeader
 import app.sprout.habits.ui.theme.SproutType
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -135,7 +139,7 @@ fun JournalScreen(
         LazyColumn(
             Modifier.weight(1f).fillMaxWidth(),
             contentPadding = PaddingValues(start = 16.dp, end = 16.dp, top = 0.dp, bottom = 104.dp),
-            verticalArrangement = Arrangement.spacedBy(2.dp),
+            verticalArrangement = Arrangement.spacedBy(GroupGap),
         ) {
             val list = state?.days
             val shown = state
@@ -160,20 +164,13 @@ fun JournalScreen(
             }
             list.orEmpty().forEachIndexed { index, day ->
                 item(key = "d${day.day}") {
-                    // The day on the left, how many notes it has on the right, like the Insights
-                    // section headers.
-                    Row(
-                        // With the list's 2 dp gaps: 20 dp above the header, 8 dp below it.
-                        Modifier.fillMaxWidth().padding(start = 4.dp, end = 4.dp, top = if (index == 0) 0.dp else 18.dp, bottom = 6.dp),
-                        verticalAlignment = Alignment.Bottom,
-                    ) {
-                        Text(day.label, style = SproutType.cardTitle, color = colors.onSurface, modifier = Modifier.weight(1f))
-                        Text(
-                            pluralStringResource(R.plurals.note_count, day.notes.size, day.notes.size),
-                            style = SproutType.supporting,
-                            color = colors.onSurfaceVariant,
-                        )
-                    }
+                    // The day on the left, how many notes it has on the right. The list's own 2 dp
+                    // gaps are taken off, so the header has the usual space above and below.
+                    SectionHeader(
+                        day.label,
+                        Modifier.padding(top = if (index == 0) 0.dp else SectionGapAbove - GroupGap, bottom = SectionGapBelow - GroupGap),
+                        meta = pluralStringResource(R.plurals.note_count, day.notes.size, day.notes.size),
+                    )
                 }
                 // One group per day: 2 dp between its notes, big corners only on the outside.
                 itemsIndexed(day.notes, key = { _, note -> note.id }) { i, note ->

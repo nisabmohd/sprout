@@ -1,5 +1,9 @@
 package app.sprout.habits.ui.edit
 
+import app.sprout.habits.ui.components.GroupGap
+import app.sprout.habits.ui.components.SectionGapBelow
+import app.sprout.habits.ui.components.SectionGapAbove
+import app.sprout.habits.ui.components.SectionHeader
 import app.sprout.habits.ui.components.toggle
 import app.sprout.habits.ui.components.tick
 import androidx.compose.ui.platform.LocalHapticFeedback
@@ -169,7 +173,7 @@ private fun EditHabitContent(
                 .padding(horizontal = 16.dp)
                 .padding(top = 8.dp, bottom = 24.dp)
                 .navigationBarsPadding(),
-            verticalArrangement = Arrangement.spacedBy(20.dp),
+            verticalArrangement = Arrangement.spacedBy(SectionGapAbove),
         ) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 // The text field keeps 8 dp above its outline for the floating label; match it so the
@@ -270,11 +274,8 @@ private fun EditHabitContent(
                 )
             }
 
-            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.Bottom) {
-                    Text(stringResource(R.string.days), style = SproutType.label, color = colors.onSurfaceVariant, modifier = Modifier.weight(1f).padding(start = 4.dp))
-                    Text(daysLabel(form.daysMask), style = SproutType.supporting, color = colors.onSurfaceVariant)
-                }
+            Column(verticalArrangement = Arrangement.spacedBy(SectionGapBelow)) {
+                SectionHeader(stringResource(R.string.days), meta = daysLabel(form.daysMask))
                 Row(Modifier.fillMaxWidth()) {
                     orderedDays(form.weekStart).forEach { day ->
                         val on = form.daysMask and (1 shl (day.value - 1)) != 0
@@ -357,7 +358,7 @@ private fun EditHabitContent(
             }
 
             // Grouped like the Journal: separate cards 2 dp apart, no divider.
-            Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
+            Column(verticalArrangement = Arrangement.spacedBy(GroupGap)) {
                 Card(groupedShape(0, 2)) {
                     ToggleRow(stringResource(R.string.ask_note), stringResource(R.string.ask_note_desc), form.askForNote) { v -> needsNotifications(v); edit { it.copy(askForNote = v) } }
                 }
@@ -395,9 +396,8 @@ private fun EditHabitContent(
 
 @Composable
 private fun Section(title: String, content: @Composable ColumnScope.() -> Unit) {
-    Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-        // A section label: muted, 4 dp in from the card's edge.
-        Text(title, style = SproutType.label, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.padding(start = 4.dp))
+    Column(verticalArrangement = Arrangement.spacedBy(SectionGapBelow)) {
+        SectionHeader(title)
         content()
     }
 }

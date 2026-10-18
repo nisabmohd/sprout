@@ -1,5 +1,7 @@
 package app.sprout.habits.ui.note
 
+import app.sprout.habits.domain.isScheduled
+import app.sprout.habits.data.EntryStatus
 import androidx.compose.runtime.Immutable
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
@@ -96,9 +98,8 @@ class WriteNoteViewModel(
             } else if (note != null) {
                 NoteForm(true, note.id, note.habitId, LocalDate.ofEpochDay(note.date), note.text)
             } else {
-                val fallback = if (habitId != 0L) habitId else repository.observeHabits().first().firstOrNull()?.id ?: 0L
                 val date = epochDay?.let(LocalDate::ofEpochDay) ?: LocalDate.now()
-                formFor(fallback, date, typed = "")
+                formFor(if (habitId != 0L) habitId else suggestedHabit(date), date, typed = "")
             }
             _form.collect { f ->
                 state[KEY_HABIT] = f.habitId
@@ -106,6 +107,21 @@ class WriteNoteViewModel(
                 state[KEY_TEXT] = f.text
             }
         }
+    }
+
+    /**
+     * The habit a new note starts on when none was chosen (Add note on Today and in the Journal):
+     * the one skipped last on [date] that has no note yet, else the first habit due that day.
+     */
+    private suspend fun suggestedHabit(date: LocalDate): Long {
+        val day = date.toEpochDay()
+        val habits = repository.observeHabits().first()
+        val active = habits.map { it.id }.toSet()
+        val skipped = repository.observeEntries(day, day).first()
+            .filter { it.status == EntryStatus.SKIP && it.habitId in active }
+            .sortedByDescending { it.loggedAt ?: 0L }
+        skipped.firstOrNull { repository.getNote(it.habitId, day) == null }?.let { return it.habitId }
+        return (habits.firstOrNull { isScheduled(it.daysMask, date) } ?: habits.firstOrNull())?.id ?: 0L
     }
 
     fun setText(text: String) = _form.update { it.copy(text = text) }

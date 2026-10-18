@@ -1,5 +1,6 @@
 package app.sprout.habits.ui.more
 
+import app.sprout.habits.ui.components.SectionGapAbove
 import app.sprout.habits.ui.components.tick
 import androidx.compose.ui.platform.LocalHapticFeedback
 import app.sprout.habits.ui.theme.SproutType
@@ -124,7 +125,7 @@ fun MoreScreen(
         ) {
 
             item(key = "backup") {
-                SectionLabel(stringResource(R.string.backup_restore))
+                SectionLabel(stringResource(R.string.backup_restore), first = true)
                 BackupRows(backup) { msg -> scope.launch { snackbar.showSnackbar(msg) } }
             }
 
@@ -199,7 +200,7 @@ fun MoreScreen(
             }
 
             item(key = "about") {
-                Box(Modifier.padding(top = 8.dp)) {
+                Box(Modifier.padding(top = SectionGapAbove - 8.dp)) {
                     SettingsCard {
                         val update = settings.availableUpdate?.takeIf { isNewerVersion(it, BuildConfig.VERSION_NAME) }
                         SettingsRow(

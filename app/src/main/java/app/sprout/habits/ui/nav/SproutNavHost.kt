@@ -128,7 +128,7 @@ fun SproutNavHost(
                     vm,
                     onAddHabit = { navController.navigate(EditHabitRoute()) },
                     onOpenHabit = { id -> navController.navigate(HabitDetailRoute(id)) },
-                    onAddNote = { habitId, day -> navController.navigate(WriteNoteRoute(habitId = habitId, epochDay = day)) },
+                    onAddNote = { day -> navController.navigate(WriteNoteRoute(epochDay = day)) },
                     hasSampleData = settings.sampleHabitIds.isNotEmpty() && !settings.sampleBannerHidden,
                     onRemoveSampleData = { container.appScope.launch { SampleData.remove(container.repository, container.settings) } },
                 )

@@ -67,7 +67,7 @@ fun TodayScreen(
     onAddHabit: () -> Unit,
     onOpenHabit: (Long) -> Unit,
     /** Habit to preselect (0 = none) and the epoch day shown. */
-    onAddNote: (Long, Long) -> Unit,
+    onAddNote: (epochDay: Long) -> Unit,
     /** True while the sample habits a fresh install starts with are still there. */
     hasSampleData: Boolean = false,
     onRemoveSampleData: () -> Unit = {},
@@ -114,11 +114,8 @@ fun TodayScreen(
         // Hidden during a long screenshot, or it would be stamped into every captured frame.
         if (state.habits.isNotEmpty() && !LocalScrollCaptureInProgress.current) {
             ExtendedFloatingActionButton(
-                // Preselect a skipped habit that has no note yet, if there is one.
-                onClick = {
-                    val suggested = state.habits.firstOrNull { it.outcome == DayOutcome.SKIP && !it.hasNote } ?: state.habits.first()
-                    onAddNote(suggested.id, state.selectedDate.toEpochDay())
-                },
+                // New note picks the habit, the same way as the Journal's Add note.
+                onClick = { onAddNote(state.selectedDate.toEpochDay()) },
                 icon = { Icon(painterResource(R.drawable.ic_habit_pen), contentDescription = null, modifier = Modifier.size(22.dp)) },
                 text = { Text(stringResource(R.string.add_note), style = SproutType.label) },
                 containerColor = MaterialTheme.colorScheme.primaryContainer,

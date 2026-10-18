@@ -1,5 +1,12 @@
 package app.sprout.habits.ui.detail
 
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.runtime.key
+import app.sprout.habits.ui.components.groupedShape
+import app.sprout.habits.ui.components.GroupGap
+import app.sprout.habits.ui.components.SectionGapBelow
+import app.sprout.habits.ui.components.SectionGapAbove
+import app.sprout.habits.ui.components.SectionHeader
 import app.sprout.habits.ui.theme.SproutType
 import app.sprout.habits.ui.datePattern
 import androidx.compose.ui.res.pluralStringResource
@@ -125,18 +132,34 @@ fun HabitDetailScreen(
                 }
             }
             item(key = "calendar") { MonthCalendar(ui, hc, viewModel::previousMonth, viewModel::nextMonth, viewModel::editDay) }
-            item(key = "notes-header") {
-                Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-                    Text(stringResource(R.string.notes_title), style = SproutType.label, color = colors.onSurfaceVariant, modifier = Modifier.weight(1f).padding(start = 4.dp))
-                    if (ui.noteCount > 0) TextButton(onClick = onSeeAllNotes) { Text(stringResource(R.string.see_all), style = SproutType.label) }
+            // The notes as one group, like a day in the Journal: header, then rows 2 dp apart.
+            item(key = "notes") {
+                Column(Modifier.padding(top = SectionGapAbove - 16.dp), verticalArrangement = Arrangement.spacedBy(SectionGapBelow)) {
+                    SectionHeader(stringResource(R.string.notes_title)) {
+                        if (ui.noteCount > 0) {
+                            // The button keeps its 48 dp touch area but overhangs the header, so the
+                            // header is as tall as its text and the group sits the usual 8 dp under it.
+                            Box(Modifier.height(20.dp), contentAlignment = Alignment.CenterEnd) {
+                                TextButton(onClick = onSeeAllNotes, modifier = Modifier.wrapContentHeight(unbounded = true)) {
+                                    Text(stringResource(R.string.see_all), style = SproutType.label)
+                                }
+                            }
+                        }
+                    }
+                    if (ui.notes.isEmpty()) {
+                        Text(stringResource(R.string.no_notes_yet), style = SproutType.supporting, color = colors.onSurfaceVariant, modifier = Modifier.padding(start = 4.dp))
+                    } else {
+                        val shown = ui.notes.take(5)
+                        Column(verticalArrangement = Arrangement.spacedBy(GroupGap)) {
+                            shown.forEachIndexed { i, note ->
+                                key(note.card.id) {
+                                    NoteCard(note.card, onOpenNote, showHabit = false, dateLabel = note.dateLabel, shape = groupedShape(i, shown.size))
+                                }
+                            }
+                        }
+                    }
                 }
             }
-            if (ui.notes.isEmpty()) {
-                item(key = "no-notes") {
-                    Text(stringResource(R.string.no_notes_yet), style = SproutType.supporting, color = colors.onSurfaceVariant)
-                }
-            }
-            items(ui.notes.take(5), key = { it.card.id }) { note -> NoteCard(note.card, onOpenNote, showHabit = false, dateLabel = note.dateLabel) }
         }
         // Hidden during a long screenshot, or it would be stamped into every captured frame.
         // Lift the button above the Undo snackbar while it shows, so the two never overlap.

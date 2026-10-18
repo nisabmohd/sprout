@@ -1,5 +1,7 @@
 package app.sprout.habits.ui.manage
 
+import app.sprout.habits.ui.components.SectionGapAbove
+import app.sprout.habits.ui.components.SectionHeader
 import app.sprout.habits.ui.theme.SproutType
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectDragGesturesAfterLongPress
@@ -165,12 +167,8 @@ fun ManageHabitsScreen(
             }
             if (archived.isNotEmpty()) {
                 item(key = "archived") {
-                    Text(
-                        stringResource(R.string.archived),
-                        style = SproutType.title,
-                        color = colors.onBackground,
-                        modifier = Modifier.padding(start = 4.dp, top = 16.dp, bottom = 4.dp),
-                    )
+                    // With the list's 8 dp gaps: the usual 20 dp above the header, 8 dp below it.
+                    SectionHeader(stringResource(R.string.archived), Modifier.padding(top = SectionGapAbove - 8.dp))
                 }
                 items(archived, key = { "a${it.id}" }) { habit ->
                     HabitRow(habit, Modifier.animateItem(), elevated = false, handleModifier = null) {

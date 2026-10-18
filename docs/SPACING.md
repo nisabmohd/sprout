@@ -11,13 +11,13 @@ When in doubt, copy the same element on the **Today** screen.
 | Sheet side padding | 20dp (24dp for a sheet's title row) | Bottom sheets only |
 | Header to content | 8dp under the fixed tab header, then the list starts | All five tabs |
 | Title to filter chips | 12dp | Journal, Insights |
-| Between cards | 8dp | Habit cards on Today, Week, Overall; settings cards in More |
+| Between cards | 8dp | Habit cards on Today, Week, Overall; Manage habits |
 | Card title to its paragraph | 8dp | Sample habits banner, About → Free and open source |
 | Between rows of a grouped list | 2dp | Journal notes of one day, Insights → By habit, every settings group (More, About, New habit switches). Never a divider line |
-| Between sections | 16dp | Score card → habit cards, card → next section label, Insights cards |
-| Between sections on a form | 20dp | New habit |
-| Section label → its cards | 8dp | "Today", "By habit", "Notes", "Backup & restore", "Icon", "Days" |
-| Section label inset | 4dp from the cards' left edge | Every section label |
+| Between sections without a header | 16dp | Score card → habit cards, Insights summary card, habit detail stats → calendar |
+| Above a section header | 20dp (none for the first one under the screen header) | Every section header, on every screen: Journal days, Insights, More, habit detail "Notes", New habit, Manage habits "Archived" |
+| Section header → its group | 8dp | "Today", "Habit breakdown", "Notes", "Backup & restore", "Icon", "Days" |
+| Section header inset | 4dp from the cards' edges | Every section header |
 | Legend row | 16dp above and 16dp below | Habits → Overall ("Last 26 weeks" + Done / Partial / Skipped) |
 | Inside a card | 16dp padding on all sides | Every card and grouped-list row |
 | Tile → text in a card | 12dp | Every habit card and row |
@@ -26,7 +26,16 @@ When in doubt, copy the same element on the **Today** screen.
 | Text → switch or value on its right | at least 12dp | Every settings and form row |
 | Header buttons | 8dp apart | Every header |
 
-So a section label always has **16dp above it and 8dp below it**. Where the list adds its own gap between items (8dp on More, 2dp in Journal), the label's padding makes up the rest; it never adds to it.
+So a section header always has **20dp above it and 8dp below it**. Where the list adds its own gap between items (8dp on More, 2dp in Journal, 16dp on Insights), the header's padding makes up the rest; it never adds to it.
+
+## Grouping (one rule for every screen, 2026-10-19)
+
+The Journal's day groups are the model. In code: `ui/components/Grouping.kt` (`SectionHeader`, `groupedShape`, `GroupGap`, `SectionGapAbove`, `SectionGapBelow`). Use these; never hand-roll a header or a group.
+
+- **Section header:** the title in `cardTitle` (16sp SemiBold, text colour) on the left; on the right an optional meta in `supporting` (14sp muted: "2 notes", "Every day") or a control ("See all", Score | Streak). 4dp in, 20dp above, 8dp below. No muted 14sp labels, no 22sp titles.
+- **Group:** each row is its own white card, rows 2dp apart, 24dp corners on the outside of the group and 6dp between rows (`groupedShape`). **Never a divider line.**
+- A row that stands alone is a plain 24dp card.
+- Used by: Journal days, Insights (Patterns, Weekly rhythm, Habit breakdown), More (Backup & restore, Appearance, General), About links, habit detail Notes, New habit (sections and the two switches), Manage habits "Archived".
 
 ## Sizes
 

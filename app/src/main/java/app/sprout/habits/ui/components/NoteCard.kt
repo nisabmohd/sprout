@@ -107,13 +107,6 @@ data class NoteCardUi(
     }
 }
 
-/** The 24/6 dp corners of a grouped list: big on the outside of the group, small between its rows. */
-fun groupedShape(index: Int, count: Int): RoundedCornerShape {
-    val top = if (index == 0) 24.dp else 6.dp
-    val bottom = if (index == count - 1) 24.dp else 6.dp
-    return RoundedCornerShape(top, top, bottom, bottom)
-}
-
 /**
  * A note, built from the same pieces as a Today habit card: the habit tile, the name, the day's
  * mark, outcome and time under it ("Skipped · 9:12 AM"), then the note itself. Without

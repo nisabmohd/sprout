@@ -1,5 +1,9 @@
 package app.sprout.habits.ui.more
 
+import app.sprout.habits.ui.components.GroupGap
+import app.sprout.habits.ui.components.SectionGapBelow
+import app.sprout.habits.ui.components.SectionGapAbove
+import app.sprout.habits.ui.components.SectionHeader
 import app.sprout.habits.ui.components.toggle
 import androidx.compose.ui.platform.LocalHapticFeedback
 import app.sprout.habits.ui.theme.SproutType
@@ -30,15 +34,13 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
 
+/**
+ * A section header in a list with 8 dp gaps, put in the same item as its group: the usual 20 dp
+ * above it (none for the [first]) and 8 dp below it.
+ */
 @Composable
-fun SectionLabel(text: String) {
-    Text(
-        text,
-        style = SproutType.label,
-        color = MaterialTheme.colorScheme.onSurfaceVariant,
-        // With the list's 8 dp gaps: 16 dp above the label, 8 dp below it.
-        modifier = Modifier.padding(start = 4.dp, top = 8.dp),
-    )
+fun SectionLabel(text: String, first: Boolean = false) {
+    SectionHeader(text, Modifier.padding(top = if (first) 0.dp else SectionGapAbove - 8.dp, bottom = SectionGapBelow))
 }
 
 /** One white card with 24 dp corners, for a row that stands alone. */
@@ -57,7 +59,7 @@ fun SettingsCard(shape: Shape = RoundedCornerShape(24.dp), content: @Composable 
 @Composable
 fun SettingsGroup(vararg rows: (@Composable ColumnScope.() -> Unit)?) {
     val shown = rows.filterNotNull()
-    Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
+    Column(verticalArrangement = Arrangement.spacedBy(GroupGap)) {
         shown.forEachIndexed { i, row -> SettingsCard(groupedShape(i, shown.size), row) }
     }
 }
