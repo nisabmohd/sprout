@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+Changed:
+
+- The font you pick in More → Font now applies to titles too (screen and sheet titles, big numbers). They were always Outfit before. Home-screen widgets keep the phone's font; Android doesn't allow app fonts there.
+
 ## 1.3.6
 
 Fixed:

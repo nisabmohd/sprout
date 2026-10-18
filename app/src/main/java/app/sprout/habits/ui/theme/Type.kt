@@ -27,7 +27,7 @@ private fun variableFamily(@FontRes res: Int, axis: (Int) -> Int = { it }) = Fon
     },
 )
 
-val OutfitFamily = variableFamily(R.font.outfit)
+private val OutfitFamily = variableFamily(R.font.outfit)
 // Space Grotesk's strokes are about 17% thinner than Lexend's and Outfit's at the same weight, so
 // Regular is drawn at 470 and SemiBold at its heaviest, 700, to look as heavy as the other fonts.
 private val SpaceGroteskFamily = variableFamily(R.font.space_grotesk) { w -> if (w <= 400) w + 70 else minOf(w + 100, 700) }
@@ -45,7 +45,7 @@ fun BodyFont.family(): FontFamily = when (this) {
 /**
  * The type scale from TYPOGRAPHY.md, as Material slots so Material components pick it up too.
  * Screens never read these slots or set a size or weight themselves: they use [SproutType].
- * Headings (display, headline, titleLarge) use Outfit; everything else uses [body].
+ * Every style, headings included, uses [body], the font chosen in More.
  */
 fun sproutTypography(body: BodyFont, scale: Float): Typography {
     val bodyFamily = body.family()
@@ -55,9 +55,10 @@ fun sproutTypography(body: BodyFont, scale: Float): Typography {
         fontSize = (size * scale).sp,
         lineHeight = (size * lineHeight * scale).sp,
     )
-    val display = style(OutfitFamily, 40, FontWeight.SemiBold)
-    val screenTitle = style(OutfitFamily, 28, FontWeight.SemiBold)
-    val title = style(OutfitFamily, 22, FontWeight.SemiBold)
+    // Every style follows the chosen font, titles included (user, 2026-10-19).
+    val display = style(bodyFamily, 40, FontWeight.SemiBold)
+    val screenTitle = style(bodyFamily, 28, FontWeight.SemiBold)
+    val title = style(bodyFamily, 22, FontWeight.SemiBold)
     val label = style(bodyFamily, 14, FontWeight.SemiBold)
     return Typography(
         // display
@@ -90,13 +91,13 @@ fun sproutTypography(body: BodyFont, scale: Float): Typography {
  * of a style: set it where the text is drawn.
  */
 object SproutType {
-    /** Outfit 40 SemiBold: big input numbers, the Welcome headline. */
+    /** 40 SemiBold: big input numbers, the Welcome headline. */
     val display: TextStyle @Composable @ReadOnlyComposable get() = MaterialTheme.typography.displayLarge
 
-    /** Outfit 28 SemiBold: tab titles, the habit name in habit detail, hero numbers. */
+    /** 28 SemiBold: tab titles, the habit name in habit detail, hero numbers. */
     val screenTitle: TextStyle @Composable @ReadOnlyComposable get() = MaterialTheme.typography.headlineMedium
 
-    /** Outfit 22 SemiBold: top-bar, sheet and dialog titles, stat values. */
+    /** 22 SemiBold: top-bar, sheet and dialog titles, stat values. */
     val title: TextStyle @Composable @ReadOnlyComposable get() = MaterialTheme.typography.titleLarge
 
     /** 16 SemiBold: habit names, card titles, list row titles. */
@@ -122,7 +123,7 @@ object SproutType {
 
     /**
      * [display], [screenTitle] and [title] in the chosen body font, for numbers ("40%", "15 / 20",
-     * "09 : 00", "13 days"), so they match the text around them. Words in those styles stay Outfit.
+     * "09 : 00", "13 days"), so they match the text around them. Since 2026-10-19 the titles follow the chosen font too, so these match them; kept so call sites say what they draw.
      */
     val displayNumber: TextStyle @Composable @ReadOnlyComposable get() = display.inBodyFont()
     val screenTitleNumber: TextStyle @Composable @ReadOnlyComposable get() = screenTitle.inBodyFont()

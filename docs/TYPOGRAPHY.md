@@ -5,9 +5,9 @@ Weights are only **Regular (400)** and **SemiBold (600)**. Line height: about 1.
 
 | Style | Font | Size | Weight | Colour | Use it for (and nothing else) |
 | --- | --- | --- | --- | --- | --- |
-| `display` | Outfit | 40sp | SemiBold | text | Big input numbers: amount stepper "15", reminder time "09 : 00", the widget streak "11", the Welcome headline |
-| `screenTitle` | Outfit | 28sp | SemiBold | text | Tab titles (Today, Habits, Journal, Insights, More), the habit name in habit detail, hero numbers "40%" / "87%" |
-| `title` | Outfit | 22sp | SemiBold | text | Top-bar titles (New habit, New note, About), sheet and dialog titles, stat values ("13 days"), the reminder time "9:00 AM" |
+| `display` | Lexend* | 40sp | SemiBold | text | Big input numbers: amount stepper "15", reminder time "09 : 00", the widget streak "11", the Welcome headline |
+| `screenTitle` | Lexend* | 28sp | SemiBold | text | Tab titles (Today, Habits, Journal, Insights, More), the habit name in habit detail, hero numbers "40%" / "87%" |
+| `title` | Lexend* | 22sp | SemiBold | text | Top-bar titles (New habit, New note, About), sheet and dialog titles, stat values ("13 days"), the reminder time "9:00 AM" |
 | `cardTitle` | Lexend* | 16sp | SemiBold | text | Habit names in every card and row, **section headers above a group** (text colour: "Today", "Yesterday", "Habit breakdown", "Notes", "Backup & restore", "Icon", "Days"; see Grouping in SPACING.md, 2026-10-19), card titles ("Habits per day", "Theme", the sample banner's "These are sample habits", About's "Free and open source"), list row titles, the week range "21 – 27 Sep" |
 | `body` | Lexend* | 16sp | Regular | text | Note text, paragraphs, text fields |
 | `supporting` | Lexend* | 14sp | Regular | muted | The line under a cardTitle ("15 / 20 pages", "7 of 7 days · 2-day streak", "Best streak · 6 days"), **all trailing text on cards** ("Every day", "4-day streak", note time "9:12 AM", "2 notes", "Best: Tuesday"), descriptions |
@@ -15,7 +15,7 @@ Weights are only **Regular (400)** and **SemiBold (600)**. Line height: about 1.
 | `caption` | Lexend* | 12sp | Regular / SemiBold | muted | Helper text under fields, legends, field labels ("Name", "Target"; SemiBold), nav bar labels, font descriptions, small labels inside rings ("75%"; SemiBold), "today" under "1/7" |
 | `tiny` | Lexend* | 11sp | SemiBold | muted | Weekday names (Mon…Sun, M…S), heatmap month labels, the % inside the Today partial ring (text colour) |
 
-\* The body font is the user's choice (Lexend by default). Outfit is only for words in `display`, `screenTitle` and `title`.
+\* Every style uses the font chosen in More → Font (Lexend by default), titles included (user, 2026-10-19: "if I change font then it must change consistently"). Until then titles were always Outfit. Only the Font sheet (each font drawn in itself) and the home-screen widgets (Android only allows system fonts there) differ.
 
 **Numbers follow the body font.** A number drawn at `display`, `screenTitle` or `title` size (the amount "15 / 20", the time "09 : 00", the hero "40%" / "87%", stat values "13 days") uses `displayNumber`, `screenTitleNumber` or `titleNumber`: the same size and weight in the chosen font, so it matches the text around it (2026-10-07). The widget streak "11" stays in the system font, like all widget text.
 
