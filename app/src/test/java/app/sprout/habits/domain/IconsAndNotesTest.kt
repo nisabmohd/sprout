@@ -27,9 +27,9 @@ class IconsAndNotesTest {
         assertEquals(HabitIcon.OUTDOORS, HabitIcon.fromKey("no-such-icon"))
     }
 
-    @Test fun everyIconHasAUniqueKeyAndThereAre29() {
-        assertEquals(29, HabitIcon.entries.size)
-        assertEquals(29, HabitIcon.entries.map { it.key }.toSet().size)
+    @Test fun everyIconHasAUniqueKeyAndThereAre67() {
+        assertEquals(67, HabitIcon.entries.size)
+        assertEquals(67, HabitIcon.entries.map { it.key }.toSet().size)
     }
 
     @Test fun suggestionsPutTheCurrentIconFirstAndStaySeven() {

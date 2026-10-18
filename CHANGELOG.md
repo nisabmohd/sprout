@@ -10,6 +10,7 @@ Changed (grouping, the same on every screen; the Journal is the model):
 - Habit detail: the notes are one group like the Journal (2dp apart, not 16dp), with the "Notes" header 8dp above them.
 - Insights → Habit breakdown: the rows have the same 24/6dp corners as every other group (were 28/4dp).
 - Add note (Today and Journal): New note starts on the habit you skipped last that day that has no note yet. The Journal used to always start on the first habit, and Today on the first skipped habit in list order.
+- Choose icon: 38 more everyday icons, for people of every age and country (67 in all): shower, self-care, weight, no alcohol, bedtime, mood, breakfast, fasting; swim, hike, football, cricket, tennis or badminton, basketball, stretch, take the stairs, martial arts; study, language, art, photography, instrument, pray, puzzles, listen; to-do, email, laundry, groceries, garden, recycle, budget, less TV. A new People group holds family and friends, call someone, kids, elders, pets and kindness. Search finds them in every app language.
 
 Fixed:
 
