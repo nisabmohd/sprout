@@ -72,22 +72,20 @@ fun AboutScreen(updates: UpdateManager, onBack: () -> Unit, onOpenLicences: () -
             }
             // Not in the play build: Google Play doesn't allow asking for money outside its own billing.
             if (!BuildConfig.PLAY_STORE) SettingsCard { SupportRow { openUrl(context, BuildConfig.SPONSOR_URL) } }
-            SettingsCard {
-                val repo = BuildConfig.REPO_URL
+            val repo = BuildConfig.REPO_URL
+            SettingsGroup(
                 if (BuildConfig.PLAY_LISTED) {
-                    LinkRow(stringResource(R.string.rate_on_play), stringResource(R.string.rate_desc)) { openUrl(context, BuildConfig.PLAY_STORE_URL) }
-                    CardDivider()
-                }
-                LinkRow(stringResource(R.string.source_code), repo.removePrefix("https://")) { openUrl(context, repo) }
-                CardDivider()
-                LinkRow(stringResource(R.string.report_bug), stringResource(R.string.github_issues)) { openUrl(context, "$repo/issues") }
-                CardDivider()
-                LinkRow(stringResource(R.string.contribute), stringResource(R.string.contribute_desc)) { openUrl(context, "$repo/blob/main/CONTRIBUTING.md") }
-                CardDivider()
-                SettingsRow(stringResource(R.string.licences), stringResource(R.string.licences_desc), onClick = onOpenLicences) {
-                    Icon(painterResource(R.drawable.ic_chevron_right), contentDescription = null, modifier = Modifier.size(20.dp))
-                }
-            }
+                    { LinkRow(stringResource(R.string.rate_on_play), stringResource(R.string.rate_desc)) { openUrl(context, BuildConfig.PLAY_STORE_URL) } }
+                } else null,
+                { LinkRow(stringResource(R.string.source_code), repo.removePrefix("https://")) { openUrl(context, repo) } },
+                { LinkRow(stringResource(R.string.report_bug), stringResource(R.string.github_issues)) { openUrl(context, "$repo/issues") } },
+                { LinkRow(stringResource(R.string.contribute), stringResource(R.string.contribute_desc)) { openUrl(context, "$repo/blob/main/CONTRIBUTING.md") } },
+                {
+                    SettingsRow(stringResource(R.string.licences), stringResource(R.string.licences_desc), onClick = onOpenLicences) {
+                        Icon(painterResource(R.drawable.ic_chevron_right), contentDescription = null, modifier = Modifier.size(20.dp))
+                    }
+                },
+            )
             Text(stringResource(R.string.made_by), style = SproutType.supporting, color = colors.onSurfaceVariant, textAlign = TextAlign.Center, modifier = Modifier.padding(bottom = 24.dp))
         }
     }

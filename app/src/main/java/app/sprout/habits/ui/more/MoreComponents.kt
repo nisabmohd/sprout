@@ -16,7 +16,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Switch
@@ -25,6 +24,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Shape
+import app.sprout.habits.ui.components.groupedShape
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
@@ -40,17 +41,26 @@ fun SectionLabel(text: String) {
     )
 }
 
-/** A rounded group of rows with thin dividers between them. */
+/** One white card with 24 dp corners, for a row that stands alone. */
 @Composable
-fun SettingsCard(content: @Composable ColumnScope.() -> Unit) {
+fun SettingsCard(shape: Shape = RoundedCornerShape(24.dp), content: @Composable ColumnScope.() -> Unit) {
     Column(
-        Modifier.fillMaxWidth().clip(RoundedCornerShape(24.dp)).background(MaterialTheme.colorScheme.surfaceContainerLowest),
+        Modifier.fillMaxWidth().clip(shape).background(MaterialTheme.colorScheme.surfaceContainerLowest),
         content = content,
     )
 }
 
+/**
+ * Rows grouped like the Journal's notes: each row its own card, 2 dp apart, 24 dp corners on the
+ * outside of the group and 6 dp between rows. No dividers. Null rows are left out.
+ */
 @Composable
-fun CardDivider() = HorizontalDivider(color = MaterialTheme.colorScheme.surfaceContainerHigh)
+fun SettingsGroup(vararg rows: (@Composable ColumnScope.() -> Unit)?) {
+    val shown = rows.filterNotNull()
+    Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
+        shown.forEachIndexed { i, row -> SettingsCard(groupedShape(i, shown.size), row) }
+    }
+}
 
 /** Title, optional subtitle and a trailing slot; the whole row is the touch target. */
 @Composable

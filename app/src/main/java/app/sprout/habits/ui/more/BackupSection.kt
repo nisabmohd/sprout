@@ -65,13 +65,16 @@ fun BackupRows(backup: BackupManager, onMessage: (String) -> Unit) {
         }
     }
 
-    SettingsRow(stringResource(R.string.export_to_file), stringResource(R.string.export_desc), icon = R.drawable.ic_download, onClick = { choosingFormat = true })
-    CardDivider()
-    SettingsRow(
-        stringResource(R.string.import_from_file),
-        stringResource(R.string.import_desc),
-        icon = R.drawable.ic_upload,
-        onClick = { import.launch(arrayOf("application/json", "application/octet-stream", "text/plain")) },
+    SettingsGroup(
+        { SettingsRow(stringResource(R.string.export_to_file), stringResource(R.string.export_desc), icon = R.drawable.ic_download, onClick = { choosingFormat = true }) },
+        {
+            SettingsRow(
+                stringResource(R.string.import_from_file),
+                stringResource(R.string.import_desc),
+                icon = R.drawable.ic_upload,
+                onClick = { import.launch(arrayOf("application/json", "application/octet-stream", "text/plain")) },
+            )
+        },
     )
 
     if (choosingFormat) {

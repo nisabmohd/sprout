@@ -28,7 +28,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
@@ -46,6 +45,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.foundation.focusable
 import androidx.compose.ui.focus.focusRequester
@@ -70,6 +70,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import app.sprout.habits.R
+import app.sprout.habits.ui.components.groupedShape
 import app.sprout.habits.ui.components.HeaderIconButton
 import app.sprout.habits.ui.components.CappedFontScale
 import app.sprout.habits.ui.components.ColorSwatchRow
@@ -355,10 +356,14 @@ private fun EditHabitContent(
                 }
             }
 
-            Card {
-                ToggleRow(stringResource(R.string.ask_note), stringResource(R.string.ask_note_desc), form.askForNote) { v -> needsNotifications(v); edit { it.copy(askForNote = v) } }
-                HorizontalDivider(color = colors.surfaceContainerHigh)
-                ToggleRow(stringResource(R.string.show_widget), stringResource(R.string.show_widget_desc), form.showOnWidget) { v -> edit { it.copy(showOnWidget = v) } }
+            // Grouped like the Journal: separate cards 2 dp apart, no divider.
+            Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
+                Card(groupedShape(0, 2)) {
+                    ToggleRow(stringResource(R.string.ask_note), stringResource(R.string.ask_note_desc), form.askForNote) { v -> needsNotifications(v); edit { it.copy(askForNote = v) } }
+                }
+                Card(groupedShape(1, 2)) {
+                    ToggleRow(stringResource(R.string.show_widget), stringResource(R.string.show_widget_desc), form.showOnWidget) { v -> edit { it.copy(showOnWidget = v) } }
+                }
             }
 
             if (!form.isNew) {
@@ -398,9 +403,9 @@ private fun Section(title: String, content: @Composable ColumnScope.() -> Unit) 
 }
 
 @Composable
-private fun Card(content: @Composable ColumnScope.() -> Unit) {
+private fun Card(shape: Shape = RoundedCornerShape(22.dp), content: @Composable ColumnScope.() -> Unit) {
     Column(
-        Modifier.fillMaxWidth().clip(RoundedCornerShape(22.dp)).background(MaterialTheme.colorScheme.surfaceContainerLowest),
+        Modifier.fillMaxWidth().clip(shape).background(MaterialTheme.colorScheme.surfaceContainerLowest),
         content = content,
     )
 }

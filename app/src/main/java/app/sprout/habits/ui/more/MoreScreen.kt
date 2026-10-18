@@ -125,68 +125,77 @@ fun MoreScreen(
 
             item(key = "backup") {
                 SectionLabel(stringResource(R.string.backup_restore))
-                SettingsCard { BackupRows(backup) { msg -> scope.launch { snackbar.showSnackbar(msg) } } }
+                BackupRows(backup) { msg -> scope.launch { snackbar.showSnackbar(msg) } }
             }
 
             item(key = "appearance") {
                 SectionLabel(stringResource(R.string.appearance))
-                SettingsCard {
-                    Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
-                        Text(stringResource(R.string.theme), style = SproutType.cardTitle)
-                        // Each segment is a fixed share of the row, so labels stop scaling at 1.3x.
-                        CappedFontScale {
-                        SingleChoiceSegmentedButtonRow(Modifier.fillMaxWidth()) {
-                            val haptics = LocalHapticFeedback.current
-                            val modes = listOf(ThemeMode.SYSTEM to stringResource(R.string.theme_system), ThemeMode.LIGHT to stringResource(R.string.theme_light), ThemeMode.DARK to stringResource(R.string.theme_dark))
-                            modes.forEachIndexed { i, (mode, label) ->
-                                SegmentedButton(
-                                    selected = theme.mode == mode,
-                                    onClick = { if (theme.mode != mode) haptics.tick(); save { setThemeMode(mode) } },
-                                    shape = SegmentedButtonDefaults.itemShape(i, modes.size),
-                                    icon = {},
-                                    colors = SegmentedButtonDefaults.colors(
-                                        activeContainerColor = MaterialTheme.colorScheme.primaryContainer,
-                                        activeContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
-                                    ),
-                                ) { Text(label, style = SproutType.label) }
+                val dynamicSupported = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
+                SettingsGroup(
+                    {
+                        Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
+                            Text(stringResource(R.string.theme), style = SproutType.cardTitle)
+                            // Each segment is a fixed share of the row, so labels stop scaling at 1.3x.
+                            CappedFontScale {
+                            SingleChoiceSegmentedButtonRow(Modifier.fillMaxWidth()) {
+                                val haptics = LocalHapticFeedback.current
+                                val modes = listOf(ThemeMode.SYSTEM to stringResource(R.string.theme_system), ThemeMode.LIGHT to stringResource(R.string.theme_light), ThemeMode.DARK to stringResource(R.string.theme_dark))
+                                modes.forEachIndexed { i, (mode, label) ->
+                                    SegmentedButton(
+                                        selected = theme.mode == mode,
+                                        onClick = { if (theme.mode != mode) haptics.tick(); save { setThemeMode(mode) } },
+                                        shape = SegmentedButtonDefaults.itemShape(i, modes.size),
+                                        icon = {},
+                                        colors = SegmentedButtonDefaults.colors(
+                                            activeContainerColor = MaterialTheme.colorScheme.primaryContainer,
+                                            activeContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                                        ),
+                                    ) { Text(label, style = SproutType.label) }
+                                }
+                            }
                             }
                         }
-                        }
-                    }
-                    val dynamicSupported = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
+                    },
                     if (dynamicSupported) {
-                        SwitchRow(stringResource(R.string.dynamic_color), stringResource(R.string.dynamic_color_desc), theme.dynamicColor) { on -> save { setDynamicColor(on) } }
-                    }
+                        { SwitchRow(stringResource(R.string.dynamic_color), stringResource(R.string.dynamic_color_desc), theme.dynamicColor) { on -> save { setDynamicColor(on) } } }
+                    } else null,
                     if (!dynamicSupported || !theme.dynamicColor) {
-                        AccentPicker(theme.accentHue) { hue -> save { setAccentHue(hue) } }
-                    }
-                    Text(stringResource(R.string.font), style = SproutType.cardTitle, modifier = Modifier.padding(start = 16.dp, top = 8.dp, bottom = 4.dp))
-                    BodyFont.entries.forEach { font ->
-                        FontRow(font, selected = theme.font == font) { save { setFont(font) } }
-                    }
-                    TextSizeRow(theme.textScale) { scale -> save { setTextScale(scale) } }
-                }
+                        { AccentPicker(theme.accentHue) { hue -> save { setAccentHue(hue) } } }
+                    } else null,
+                    {
+                        Column(Modifier.padding(bottom = 6.dp)) {
+                            Text(stringResource(R.string.font), style = SproutType.cardTitle, modifier = Modifier.padding(start = 16.dp, top = 12.dp, bottom = 4.dp))
+                            BodyFont.entries.forEach { font ->
+                                FontRow(font, selected = theme.font == font) { save { setFont(font) } }
+                            }
+                        }
+                    },
+                    { TextSizeRow(theme.textScale) { scale -> save { setTextScale(scale) } } },
+                )
             }
 
             item(key = "general") {
                 SectionLabel(stringResource(R.string.general))
-                SettingsCard {
-                    SettingsRow(stringResource(R.string.language), onClick = { pickingLanguage = true }) {
-                        val tag = AppLanguage.current(context)
-                        TrailingValue(AppLanguage.LANGUAGES.firstOrNull { it.tag == tag }?.nativeName ?: stringResource(R.string.language_system))
-                        Icon(painterResource(R.drawable.ic_chevron_right), contentDescription = null, modifier = Modifier.padding(start = 4.dp).size(20.dp))
-                    }
-                    CardDivider()
-                    SettingsRow(stringResource(R.string.week_starts_on), onClick = { pickingWeekStart = true }) {
-                        TrailingValue(settings.weekStart.getDisplayName(TextStyle.FULL, Locale.getDefault()))
-                    }
-                    CardDivider()
-                    SettingsRow(stringResource(R.string.default_reminder), stringResource(R.string.default_reminder_desc), onClick = { pickingReminder = true }) {
-                        TrailingValue(TodayViewModel.formatTime(settings.defaultReminderMinutes))
-                    }
-                    CardDivider()
-                    SettingsRow(stringResource(R.string.notifications), onClick = { Notifications.openSettings(context) }) { TrailingValue(stringResource(R.string.system_settings)) }
-                }
+                SettingsGroup(
+                    {
+                        SettingsRow(stringResource(R.string.language), onClick = { pickingLanguage = true }) {
+                            val tag = AppLanguage.current(context)
+                            TrailingValue(AppLanguage.LANGUAGES.firstOrNull { it.tag == tag }?.nativeName ?: stringResource(R.string.language_system))
+                            Icon(painterResource(R.drawable.ic_chevron_right), contentDescription = null, modifier = Modifier.padding(start = 4.dp).size(20.dp))
+                        }
+                    },
+                    {
+                        SettingsRow(stringResource(R.string.week_starts_on), onClick = { pickingWeekStart = true }) {
+                            TrailingValue(settings.weekStart.getDisplayName(TextStyle.FULL, Locale.getDefault()))
+                        }
+                    },
+                    {
+                        SettingsRow(stringResource(R.string.default_reminder), stringResource(R.string.default_reminder_desc), onClick = { pickingReminder = true }) {
+                            TrailingValue(TodayViewModel.formatTime(settings.defaultReminderMinutes))
+                        }
+                    },
+                    { SettingsRow(stringResource(R.string.notifications), onClick = { Notifications.openSettings(context) }) { TrailingValue(stringResource(R.string.system_settings)) } },
+                )
             }
 
             item(key = "about") {
