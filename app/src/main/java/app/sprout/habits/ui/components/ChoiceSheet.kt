@@ -1,5 +1,6 @@
 package app.sprout.habits.ui.components
 
+import androidx.compose.ui.text.font.FontFamily
 import app.sprout.habits.ui.theme.SproutType
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -47,9 +48,19 @@ fun ChoiceSheet(
     }
 }
 
-/** One option: title with an optional line under it, the radio on the right; the chosen one is tinted. */
+/**
+ * One option: title with an optional line under it, the radio on the right; the chosen one is tinted.
+ * [fontFamily] draws the text in that font (the font sheet shows each font in itself).
+ */
 @Composable
-fun ChoiceRow(title: String, subtitle: String?, selected: Boolean, onClick: () -> Unit) {
+fun ChoiceRow(
+    title: String,
+    subtitle: String?,
+    selected: Boolean,
+    fontFamily: FontFamily? = null,
+    trailing: (@Composable () -> Unit)? = null,
+    onClick: () -> Unit,
+) {
     val colors = MaterialTheme.colorScheme
     Row(
         Modifier
@@ -62,9 +73,10 @@ fun ChoiceRow(title: String, subtitle: String?, selected: Boolean, onClick: () -
         horizontalArrangement = Arrangement.spacedBy(14.dp),
     ) {
         Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(2.dp)) {
-            Text(title, style = SproutType.cardTitle, color = colors.onSurface)
-            subtitle?.let { Text(it, style = SproutType.supporting, color = colors.onSurfaceVariant) }
+            Text(title, style = SproutType.cardTitle.copy(fontFamily = fontFamily ?: SproutType.cardTitle.fontFamily), color = colors.onSurface)
+            subtitle?.let { Text(it, style = SproutType.supporting.copy(fontFamily = fontFamily ?: SproutType.supporting.fontFamily), color = colors.onSurfaceVariant) }
         }
+        trailing?.invoke()
         RadioButton(selected = selected, onClick = null)
     }
 }

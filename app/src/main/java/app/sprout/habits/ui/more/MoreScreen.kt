@@ -13,7 +13,6 @@ import android.os.Build
 import app.sprout.habits.AppLanguage
 import app.sprout.habits.ui.components.ChoiceRow
 import app.sprout.habits.ui.components.ChoiceSheet
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -24,17 +23,13 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.selection.selectable
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.RadioButton
 import androidx.compose.material3.SegmentedButton
 import androidx.compose.material3.SegmentedButtonDefaults
 import androidx.compose.material3.SingleChoiceSegmentedButtonRow
 import androidx.compose.material3.Slider
-import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -44,11 +39,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.stateDescription
@@ -64,9 +56,7 @@ import app.sprout.habits.data.backup.BackupManager
 import app.sprout.habits.notify.Notifications
 import app.sprout.habits.ui.components.ColorSwatchRow
 import app.sprout.habits.ui.components.Swatch
-import app.sprout.habits.ui.theme.BodyFont
 import app.sprout.habits.ui.theme.ThemeMode
-import app.sprout.habits.ui.theme.family
 import app.sprout.habits.ui.theme.seedColorScheme
 import app.sprout.habits.ui.today.TodayViewModel
 import java.time.DayOfWeek
@@ -85,15 +75,6 @@ private val ACCENT_NAMES = mapOf(
 
 private val TEXT_SCALES = listOf(0.85f to R.string.text_small, 1f to R.string.text_default, 1.15f to R.string.text_large, 1.3f to R.string.text_largest)
 
-private val FONT_INFO = mapOf(
-    // Font names stay as they are in every language; null = "System default".
-    BodyFont.SYSTEM to (null to R.string.font_system_desc),
-    BodyFont.SPACE_GROTESK to ("Space Grotesk" to R.string.font_space_grotesk_desc),
-    BodyFont.OUTFIT to ("Outfit" to R.string.font_outfit_desc),
-    BodyFont.LEXEND to ("Lexend" to R.string.font_lexend_desc),
-    BodyFont.ATKINSON to ("Atkinson Hyperlegible" to R.string.font_atkinson_desc),
-)
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MoreScreen(
@@ -109,6 +90,7 @@ fun MoreScreen(
     var pickingWeekStart by remember { mutableStateOf(false) }
     var pickingReminder by remember { mutableStateOf(false) }
     var pickingLanguage by remember { mutableStateOf(false) }
+    var pickingFont by remember { mutableStateOf(false) }
     fun save(block: suspend SettingsRepository.() -> Unit) { scope.launch { repository.block() } }
 
     Box(Modifier.fillMaxSize()) {
@@ -164,11 +146,9 @@ fun MoreScreen(
                         { AccentPicker(theme.accentHue) { hue -> save { setAccentHue(hue) } } }
                     } else null,
                     {
-                        Column(Modifier.padding(bottom = 6.dp)) {
-                            Text(stringResource(R.string.font), style = SproutType.cardTitle, modifier = Modifier.padding(start = 16.dp, top = 12.dp, bottom = 4.dp))
-                            BodyFont.entries.forEach { font ->
-                                FontRow(font, selected = theme.font == font) { save { setFont(font) } }
-                            }
+                        SettingsRow(stringResource(R.string.font), onClick = { pickingFont = true }) {
+                            TrailingValue(fontName(theme.font))
+                            Icon(painterResource(R.drawable.ic_chevron_right), contentDescription = null, modifier = Modifier.padding(start = 4.dp).size(20.dp))
                         }
                     },
                     { TextSizeRow(theme.textScale) { scale -> save { setTextScale(scale) } } },
@@ -231,6 +211,14 @@ fun MoreScreen(
         )
     }
 
+    if (pickingFont) {
+        FontSheet(
+            current = theme.font,
+            onPick = { font -> save { setFont(font) }; pickingFont = false },
+            onDismiss = { pickingFont = false },
+        )
+    }
+
     if (pickingWeekStart) {
         ChoiceSheet(title = stringResource(R.string.week_starts_on), onDismiss = { pickingWeekStart = false }) {
             listOf(DayOfWeek.MONDAY, DayOfWeek.SUNDAY, DayOfWeek.SATURDAY).forEach { day ->
@@ -264,30 +252,6 @@ private fun AccentPicker(selectedHue: Float, onSelect: (Float) -> Unit) {
             selected = ACCENT_HUES.indexOf(selectedHue),
             onSelect = { i -> onSelect(ACCENT_HUES[i]) },
         )
-    }
-}
-
-@Composable
-private fun FontRow(font: BodyFont, selected: Boolean, onClick: () -> Unit) {
-    val (fontName, descriptionId) = FONT_INFO.getValue(font)
-    val name = fontName ?: stringResource(R.string.font_system)
-    val description = stringResource(descriptionId)
-    Row(
-        Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 8.dp, vertical = 2.dp)
-            .clip(RoundedCornerShape(16.dp))
-            .background(if (selected) MaterialTheme.colorScheme.surfaceContainerHigh else Color.Transparent)
-            .selectable(selected, role = Role.RadioButton, onClick = onClick)
-            .padding(horizontal = 8.dp, vertical = 8.dp),
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        RadioButton(selected = selected, onClick = null)
-        Column(Modifier.weight(1f).padding(start = 12.dp)) {
-            Text(name, style = SproutType.body.copy(fontFamily = font.family()))
-            Text(description, style = SproutType.caption.copy(fontFamily = font.family()), color = MaterialTheme.colorScheme.onSurfaceVariant)
-        }
-        Text("Aa", style = SproutType.title.copy(fontFamily = font.family()), color = MaterialTheme.colorScheme.onSurfaceVariant)
     }
 }
 

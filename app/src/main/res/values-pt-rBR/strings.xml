@@ -157,6 +157,8 @@
     <string name="font_outfit_desc">Arredondada, geométrica</string>
     <string name="font_lexend_desc">Padrão · feita para facilitar a leitura</string>
     <string name="font_atkinson_desc">Criada para baixa visão</string>
+    <string name="font_roboto_serif_desc">Serifa clássica, como um livro impresso</string>
+    <string name="font_space_mono_desc">Monoespaçada, como uma máquina de escrever</string>
     <string name="backup_restore">Backup e restauração</string>
     <string name="appearance">Aparência</string>
     <string name="theme">Tema</string>

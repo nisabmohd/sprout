@@ -157,6 +157,8 @@
     <string name="font_outfit_desc">丸みのある幾何学的な書体</string>
     <string name="font_lexend_desc">標準・読みやすさを重視</string>
     <string name="font_atkinson_desc">弱視の方のためにデザイン</string>
+    <string name="font_roboto_serif_desc">本のようなクラシックなセリフ体</string>
+    <string name="font_space_mono_desc">タイプライターのような等幅フォント</string>
     <string name="backup_restore">バックアップと復元</string>
     <string name="appearance">外観</string>
     <string name="theme">テーマ</string>

@@ -1,20 +1,22 @@
 # Changelog
 
-## Unreleased
-
-Changed (grouping, the same on every screen; the Journal is the model):
-
-- Section headers look the same everywhere: 16sp SemiBold title in the text colour, an optional count or button on the right, 20dp above and 8dp below. Before, More, New habit and habit detail used small grey labels, and Manage habits used a large "Archived" title.
-- More: the group headers ("Backup & restore", "Appearance", "General") no longer sit right on top of their group; there is now an 8dp gap below each one.
-- More, About and New habit: rows in a group are separate cards 2dp apart (big corners on the outside, small between), like a day in the Journal. The thin divider lines are gone. Appearance is split into Theme, Dynamic color, Accent, Font and Text size.
-- Habit detail: the notes are one group like the Journal (2dp apart, not 16dp), with the "Notes" header 8dp above them.
-- Insights → Habit breakdown: the rows have the same 24/6dp corners as every other group (were 28/4dp).
-- Add note (Today and Journal): New note starts on the habit you skipped last that day that has no note yet. The Journal used to always start on the first habit, and Today on the first skipped habit in list order.
-- Choose icon: 38 more everyday icons, for people of every age and country (67 in all): shower, self-care, weight, no alcohol, bedtime, mood, breakfast, fasting; swim, hike, football, cricket, tennis or badminton, basketball, stretch, take the stairs, martial arts; study, language, art, photography, instrument, pray, puzzles, listen; to-do, email, laundry, groceries, garden, recycle, budget, less TV. A new People group holds family and friends, call someone, kids, elders, pets and kindness. Search finds them in every app language.
+## 1.3.6
 
 Fixed:
 
 - A reminder that the phone delivered late, after midnight (battery saving can hold alarms back), reminded you about a habit already marked Done or Skip. A late reminder is now dropped; the next one comes on time.
+
+Changed:
+
+- Two new fonts: Roboto Serif (a classic serif, like a printed book) and Space Mono (monospaced, like a typewriter). More → Font is now one row that opens a Font sheet, like Language, with every font written in itself.
+- Choose icon: 38 more everyday icons, for people of every age and country (67 in all): shower, self-care, weight, no alcohol, bedtime, mood, breakfast, fasting; swim, hike, football, cricket, tennis or badminton, basketball, stretch, take the stairs, martial arts; study, language, art, photography, instrument, pray, puzzles, listen; to-do, email, laundry, groceries, garden, recycle, budget, less TV. A new People group holds family and friends, call someone, kids, elders, pets and kindness. Search finds them in every app language.
+- Add note (Today and Journal): New note starts on the habit you skipped last that day that has no note yet. The Journal used to always start on the first habit, and Today on the first skipped habit in list order.
+- One grouping rule on every screen, with the Journal as the model. Section headers look the same everywhere: 16sp SemiBold title in the text colour, an optional count or button on the right, 20dp above and 8dp below. Before, More, New habit and habit detail used small grey labels, and Manage habits used a large "Archived" title.
+- More: the group headers ("Backup & restore", "Appearance", "General") no longer sit right on top of their group; there is now an 8dp gap below each one.
+- More, About, Open-source licences and New habit: rows in a group are separate cards 2dp apart (big corners on the outside, small between), like a day in the Journal. The thin divider lines are gone. Appearance is split into Theme, Dynamic color, Accent, Font and Text size.
+- Habit detail: the notes are one group like the Journal (2dp apart, not 16dp), with the "Notes" header 8dp above them.
+- Insights → Habit breakdown: the rows have the same 24/6dp corners as every other group (were 28/4dp).
+- Code cleanup: 44 unused imports removed. No change to how the app works.
 
 ## 1.3.5
 

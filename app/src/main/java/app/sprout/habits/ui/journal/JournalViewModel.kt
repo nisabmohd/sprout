@@ -14,7 +14,6 @@ import app.sprout.habits.ui.components.NoteCardUi
 import app.sprout.habits.ui.datePattern
 import app.sprout.habits.ui.insights.InsightsViewModel
 import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow

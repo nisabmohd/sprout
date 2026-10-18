@@ -19,7 +19,6 @@ import app.sprout.habits.ui.components.markFor
 import app.sprout.habits.ui.today.TodayViewModel
 import java.time.LocalDate
 import java.time.LocalTime
-import java.time.format.DateTimeFormatter
 import java.time.format.TextStyle
 import java.util.Locale
 import kotlin.math.roundToInt

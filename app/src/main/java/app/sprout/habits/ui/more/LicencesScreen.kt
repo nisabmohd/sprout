@@ -8,7 +8,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
+import app.sprout.habits.ui.components.GroupGap
+import app.sprout.habits.ui.components.groupedShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -26,15 +28,18 @@ private val LICENCES = listOf(
     "Outfit font" to "SIL Open Font License 1.1",
     "Lexend font" to "SIL Open Font License 1.1",
     "Atkinson Hyperlegible Next font" to "SIL Open Font License 1.1",
+    "Roboto Serif font" to "SIL Open Font License 1.1",
+    "Space Mono font" to "SIL Open Font License 1.1",
 )
 
 @Composable
 fun LicencesScreen(onBack: () -> Unit) {
     Column(Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background).statusBarsPadding().navigationBarsPadding()) {
         TopBar(stringResource(R.string.licences), onBack)
-        LazyColumn(contentPadding = PaddingValues(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-            items(LICENCES, key = { it.first }) { (name, licence) ->
-                SettingsCard { SettingsRow(name, licence) }
+        // One group, like the Journal: rows 2 dp apart, big corners only on the outside.
+        LazyColumn(contentPadding = PaddingValues(16.dp), verticalArrangement = Arrangement.spacedBy(GroupGap)) {
+            itemsIndexed(LICENCES, key = { _, it -> it.first }) { i, (name, licence) ->
+                SettingsCard(groupedShape(i, LICENCES.size)) { SettingsRow(name, licence) }
             }
         }
     }

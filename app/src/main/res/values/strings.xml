@@ -161,6 +161,8 @@
     <string name="font_outfit_desc">Rounded, geometric</string>
     <string name="font_lexend_desc">Default · built for easy reading</string>
     <string name="font_atkinson_desc">Designed for low vision</string>
+    <string name="font_roboto_serif_desc">Classic serif, like a printed book</string>
+    <string name="font_space_mono_desc">Monospaced, like a typewriter</string>
     <string name="backup_restore">Backup &amp; restore</string>
     <string name="appearance">Appearance</string>
     <string name="theme">Theme</string>

@@ -21,6 +21,8 @@ Weights are only **Regular (400)** and **SemiBold (600)**. Line height: about 1.
 
 **Space Grotesk** draws about 17% thinner than Lexend and Outfit at the same weight, so `Type.kt` sets its weight axis to 470 for Regular and 700 for SemiBold. The weights in code stay 400 and 600.
 
+**Roboto Serif** is bundled as a variable font fixed at normal width, text optical size (14) and default grade, with only its 400–700 weight range kept. **Space Mono** only comes in Regular and Bold, so SemiBold text uses Bold (2026-10-19).
+
 **Exceptions (only these):**
 - The New note editor uses 18sp Regular with 1.55 line height, for comfortable writing.
 - Font previews in More → Font show each name in its own font at 16sp, with "Aa" at 22sp.

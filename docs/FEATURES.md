@@ -62,7 +62,7 @@ Code: `data/backup/`, `ui/more/BackupSection.kt`.
 
 ## Settings
 
-The More tab covers backup, the app language (English, Hindi, Spanish, German, French, Portuguese (Brazil), Japanese or the phone's language, applied at once), theme (system, light, dark), dynamic color or an accent color, font (system, Space Grotesk, Outfit, Lexend, Atkinson Hyperlegible), text size, the first day of the week, the default reminder time, notification settings and About.
+The More tab covers backup, the app language (English, Hindi, Spanish, German, French, Portuguese (Brazil), Japanese or the phone's language, applied at once), theme (system, light, dark), dynamic color or an accent color, font (a sheet like Language: Lexend, system, Space Grotesk, Outfit, Atkinson Hyperlegible, Roboto Serif, Space Mono, each shown in itself), text size, the first day of the week, the default reminder time, notification settings and About.
 
 Code: `ui/more/`, `data/SettingsRepository.kt`, `ui/theme/`, `AppLanguage.kt`; text in `res/values*/strings.xml`.
 

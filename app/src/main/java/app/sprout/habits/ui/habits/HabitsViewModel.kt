@@ -24,10 +24,8 @@ import app.sprout.habits.domain.weekOf
 import app.sprout.habits.ui.components.DayMark
 import app.sprout.habits.ui.components.markFor
 import app.sprout.habits.ui.today.DayLogger
-import app.sprout.habits.ui.today.TodayViewModel
 import java.time.DayOfWeek
 import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 import java.time.format.TextStyle
 import java.util.Locale
 import kotlin.math.roundToInt
