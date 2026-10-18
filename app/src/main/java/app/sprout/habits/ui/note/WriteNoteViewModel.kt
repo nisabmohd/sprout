@@ -1,7 +1,6 @@
 package app.sprout.habits.ui.note
 
 import app.sprout.habits.domain.isScheduled
-import app.sprout.habits.data.EntryStatus
 import androidx.compose.runtime.Immutable
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
@@ -111,16 +110,17 @@ class WriteNoteViewModel(
 
     /**
      * The habit a new note starts on when none was chosen (Add note on Today and in the Journal):
-     * the one skipped last on [date] that has no note yet, else the first habit due that day.
+     * the one logged last on [date] (Done, Partial or Skip) that has no note yet, else the first
+     * habit due that day.
      */
     private suspend fun suggestedHabit(date: LocalDate): Long {
         val day = date.toEpochDay()
         val habits = repository.observeHabits().first()
         val active = habits.map { it.id }.toSet()
-        val skipped = repository.observeEntries(day, day).first()
-            .filter { it.status == EntryStatus.SKIP && it.habitId in active }
+        val logged = repository.observeEntries(day, day).first()
+            .filter { it.habitId in active }
             .sortedByDescending { it.loggedAt ?: 0L }
-        skipped.firstOrNull { repository.getNote(it.habitId, day) == null }?.let { return it.habitId }
+        logged.firstOrNull { repository.getNote(it.habitId, day) == null }?.let { return it.habitId }
         return (habits.firstOrNull { isScheduled(it.daysMask, date) } ?: habits.firstOrNull())?.id ?: 0L
     }
 
