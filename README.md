@@ -1,6 +1,6 @@
 # Sprout
 
-Sprout is a small, open-source habit tracker for Android. It keeps your habits and notes on your phone, works without an account, and the APK is under 3 MB.
+Sprout is a small, open-source habit tracker for Android. It keeps your habits and notes on your phone, works without an account, and the APK is about 3 MB.
 
 | Today | Log an amount | Week | Overall |
 | --- | --- | --- | --- |
@@ -8,7 +8,7 @@ Sprout is a small, open-source habit tracker for Android. It keeps your habits a
 | **Habit detail** | **Journal** | **Insights** | **Dark mode** |
 | ![Habit detail](docs/screenshots/06-habit-detail.png) | ![Journal](docs/screenshots/07-journal.png) | ![Insights](docs/screenshots/09-insights.png) | ![Dark mode](docs/screenshots/13-today-dark.png) |
 
-More: [welcome](docs/screenshots/01-welcome.png), [filter by habit](docs/screenshots/08-filter-by-habit.png), [date range](docs/screenshots/10-date-range.png), [new habit](docs/screenshots/12-new-habit.png), [settings](docs/screenshots/11-more.png).
+More: [welcome](docs/screenshots/01-welcome.png), [filter by habit](docs/screenshots/08-filter-by-habit.png), [date range](docs/screenshots/10-date-range.png), [new habit](docs/screenshots/12-new-habit.png), [settings](docs/screenshots/11-more.png), [font](docs/screenshots/18-font-sheet.png).
 
 ### Widgets
 

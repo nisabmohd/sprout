@@ -24,7 +24,8 @@ These rules apply to every change, whether a person or an AI agent makes it. The
 
 ## Design and text
 
-- Screens follow the designs in `design/` (one PNG per screen, e.g. `today.png`, `journal.png`, `icon-picker.png`). Exact colors and icon paths are in `design/TOKENS.md`.
+- Screens follow the designs in `design/` (one PNG per screen, e.g. `today.png`, `journal.png`, `icon-picker.png`). Exact colors and icon paths are in `design/TOKENS.md`. Since 2026-10-19 they are captures of the app with the sample data (27 Sep); when a screen changes, recapture its PNG too. `habit-card-states`, `notifications`, `update-dialog` and `support-prompt` are still mockups.
+- Play Store shots in `release/phone-screenshots/` are framed by `tools/store_shots.py`, which keeps the status bar clear of the frame's corners.
 - Gaps and sizes follow [`docs/SPACING.md`](docs/SPACING.md): 16 dp side padding, cards 8 dp apart, sections 16 dp apart, 16 dp inside a card, section labels with 16 dp above and 8 dp below, a 44 dp habit tile wherever a habit is listed.
 - Charts (Insights) are drawn with Compose `Canvas` and use only the app colors: primary for done, the light primary tone for partial, outline grey for the rest. Every chart mark that can be tapped shows its numbers and has a content description.
 - When a screen changes, retake its screenshot in `docs/screenshots/` (see `release/README.md` for how they are staged) in the same commit. Don't invent a new value; copy the same element on Today.
