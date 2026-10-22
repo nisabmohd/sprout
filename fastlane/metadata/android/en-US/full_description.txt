@@ -1,0 +1,20 @@
+Sprout is a small habit tracker that keeps your habits and notes on your phone.
+
+Each day, every habit is Done, Partial or Skipped. Swipe right to mark it done, swipe left to skip it, or press and hold to log an amount, like 15 of 20 pages or 30 of 45 minutes. Every change can be undone.
+
+<ul>
+<li>Today: your score for the day and a card for each habit</li>
+<li>Habits: the week at a glance, or the last 26 weeks as a heatmap, with streaks</li>
+<li>Habit detail: a month calendar where you can fix any past day</li>
+<li>Journal: short notes tied to a habit and a day, filtered by habit or date</li>
+<li>Insights: your score, habits per day and each habit's score for any date range</li>
+<li>Reminders at the time you choose, and an evening nudge to add a note when you skip</li>
+<li>Four home-screen widgets: This week, Today, Today strip and Streak</li>
+<li>Export and import a JSON backup, or export CSV for spreadsheets</li>
+<li>Material You: light and dark theme, dynamic color or an accent color, five fonts and a text size</li>
+<li>English, Hindi, Spanish, German, French, Portuguese (Brazil) and Japanese</li>
+</ul>
+
+Skipped days are left out of your score, so one bad day doesn't sink the week.
+
+No ads, no tracking, no internet permission and no account. Your data stays on your phone unless you export it.
