@@ -2,6 +2,11 @@
 
 Sprout is a small, open-source habit tracker for Android. It keeps your habits and notes on your phone, works without an account, and the APK is about 3 MB.
 
+**No ads · No tracking · No account · Free and open source (GPL v3)**
+
+[<img src="docs/badges/github.png" alt="Get it on GitHub" height="80">](https://github.com/nisabmohd/sprout-habit-tracker/releases/latest)
+[<img src="docs/badges/obtainium.png" alt="Get it on Obtainium" height="80">](https://apps.obtainium.imranr.dev/redirect?r=obtainium://add/https://github.com/nisabmohd/sprout-habit-tracker)
+
 | Today | Log an amount | Week | Overall |
 | --- | --- | --- | --- |
 | ![Today](docs/screenshots/02-today.png) | ![Log an amount](docs/screenshots/03-log-amount.png) | ![Week view](docs/screenshots/04-habits-week.png) | ![Overall heatmap](docs/screenshots/05-habits-overall.png) |
@@ -40,6 +45,8 @@ Download `sprout-vX.Y.Z-github.apk` from the latest [GitHub release](https://git
 - `github` is the one on GitHub Releases. It has no Google code and checks GitHub for new versions: About → Check for updates, or once a day on its own, then downloads and installs the update for you.
 - `foss` is the same app without the update check and without any network access. This is the one for F-Droid, which updates it.
 - `play` is for Google Play and will add Google Drive backup (see [`TODO.md`](TODO.md)).
+
+**Obtainium:** tap the Obtainium badge above on your phone, or add `https://github.com/nisabmohd/sprout-habit-tracker` in [Obtainium](https://github.com/ImranR98/Obtainium). When it asks which APK to install, pick the `foss` one; Obtainium keeps it up to date. All GitHub builds are signed with the same key, so you can switch between them without losing your data.
 
 Sprout runs on Android 8.0 and later.
 

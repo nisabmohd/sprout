@@ -1,0 +1,11 @@
+name: Feature request
+description: An idea to make Sprout better
+labels: [enhancement]
+body:
+  - type: textarea
+    id: idea
+    attributes:
+      label: What would you like?
+      description: Describe the idea and the problem it solves for you.
+    validations:
+      required: true
