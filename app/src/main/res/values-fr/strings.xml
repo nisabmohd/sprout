@@ -327,8 +327,6 @@
     <string name="set_time">Valider l\'heure</string>
     <string name="time_hour">Heure</string>
     <string name="time_minute">Minute</string>
-    <string name="time_later">Plus tard</string>
-    <string name="time_earlier">Plus tôt</string>
     <string name="clear">Effacer</string>
     <string name="delete_habit_title">Supprimer %1$s ?</string>
     <string name="delete_habit_text">L\'habitude sera supprimée avec tout son historique et ses notes. Archivez-la plutôt pour les garder.</string>
@@ -497,4 +495,28 @@
     <string name="insights_sort_streak">Série</string>
     <string name="insights_sort_by_score">Trier par score</string>
     <string name="insights_sort_by_streak">Trier par série</string>
+    <string name="time_am_pm">Matin ou après-midi</string>
+    <string name="about_contact">Contact : %1$s</string>
+    <string name="welcome_step_of">Étape %1$d sur %2$d</string>
+    <string name="welcome_pick_title">Choisissez quelques habitudes</string>
+    <string name="welcome_pick_body">Commencez petit. Vous pourrez les modifier ou en ajouter à tout moment.</string>
+    <string name="welcome_own_hint">Votre propre habitude</string>
+    <string name="welcome_own_add">Ajouter cette habitude</string>
+    <string name="welcome_skip">Passer pour l\'instant</string>
+    <string name="welcome_continue">Continuer</string>
+    <string name="welcome_try_title">Essayez sur cette carte</string>
+    <string name="welcome_try_body">Juste pour s\'entraîner : rien n\'est enregistré. Chaque habitude d\'Aujourd\'hui fonctionne de la même façon.</string>
+    <string name="welcome_try_right">Balayez vers la droite</string>
+    <string name="welcome_try_left">Balayez vers la gauche</string>
+    <string name="welcome_try_left_desc">Passer, quand la vie s\'en mêle</string>
+    <string name="welcome_try_tap">Touchez le cercle</string>
+    <string name="welcome_try_tap_desc">Fait en un geste ; touchez encore pour annuler</string>
+    <string name="welcome_try_hold">Appui long</string>
+    <string name="welcome_try_hold_desc">Fait en partie ? Notez combien : Partiel</string>
+    <string name="welcome_tried">Essayé</string>
+    <string name="welcome_go">Aller à Aujourd\'hui</string>
+    <string name="welcome_own_row">Ajouter votre propre habitude</string>
+    <string name="welcome_own_row_desc">N\'importe quelle habitude, par son nom. Le reste plus tard.</string>
+    <string name="welcome_try_note">Ajouter une note</string>
+    <string name="welcome_try_note_desc">Appui long sur la carte, puis écrivez comment ça s\'est passé. Chaque note est gardée dans le Journal.</string>
 </resources>

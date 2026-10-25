@@ -1,8 +1,9 @@
 package app.sprout.habits.ui.today
 
+import app.sprout.habits.ui.components.ProgressRing
+import app.sprout.habits.ui.components.HabitTile
 import app.sprout.habits.ui.components.toggle
 import app.sprout.habits.ui.theme.SproutType
-import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.combinedClickable
@@ -12,7 +13,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.height
@@ -38,17 +38,11 @@ import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.geometry.Size
-import androidx.compose.ui.graphics.StrokeCap
-import androidx.compose.ui.graphics.drawscope.Stroke
 import app.sprout.habits.R
-import app.sprout.habits.ui.components.CappedFontScale
 import app.sprout.habits.domain.DayOutcome
 import app.sprout.habits.ui.theme.HabitColors
 import app.sprout.habits.ui.theme.habitColors
 import kotlin.math.roundToInt
-
 val HabitCardShape = RoundedCornerShape(22.dp)
 
 /**
@@ -138,9 +132,7 @@ private fun IconTile(habit: HabitRowUi, hc: HabitColors) {
         DayOutcome.SKIP -> colors.surfaceContainerLowest to colors.onSurfaceVariant
         DayOutcome.OPEN -> hc.soft to hc.ink
     }
-    Box(Modifier.size(44.dp).background(tile, RoundedCornerShape(14.dp)), contentAlignment = Alignment.Center) {
-        Icon(painterResource(habit.icon), contentDescription = null, tint = tint, modifier = Modifier.size(22.dp))
-    }
+    HabitTile(habit.icon, tile, tint)
 }
 
 @Composable
@@ -167,26 +159,7 @@ private fun TrailingControl(habit: HabitRowUi, hc: HabitColors, onToggle: () -> 
         // A 44 dp ring (4 dp stroke, round cap) in the habit's solid colour on its mid tone, which
         // stays visible on the card's soft fill, with the % inside. It toggles Done like the circles.
         DayOutcome.PARTIAL -> CircleButton(label, onToggle) {
-            Box(Modifier.size(44.dp), contentAlignment = Alignment.Center) {
-                Canvas(Modifier.fillMaxSize()) {
-                    val stroke = 4.dp.toPx()
-                    val radius = (size.minDimension - stroke) / 2
-                    drawCircle(hc.mid, radius, style = Stroke(stroke))
-                    drawArc(
-                        hc.solid,
-                        -90f,
-                        360f * habit.progress.coerceIn(0f, 1f),
-                        false,
-                        Offset(center.x - radius, center.y - radius),
-                        Size(radius * 2, radius * 2),
-                        style = Stroke(stroke, cap = StrokeCap.Round),
-                    )
-                }
-                // Fixed-size ring, so the text inside stops scaling at 1.3x.
-                CappedFontScale {
-                    Text(stringResource(R.string.percent, (habit.progress * 100).roundToInt()), style = SproutType.tiny, color = colors.onSurface, softWrap = false)
-                }
-            }
+            ProgressRing(habit.progress, habit.hue, stringResource(R.string.percent, (habit.progress * 100).roundToInt()))
         }
 
         DayOutcome.OPEN -> CircleButton(label, onToggle) {

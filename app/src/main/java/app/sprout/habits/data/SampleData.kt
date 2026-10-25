@@ -11,7 +11,8 @@ import kotlinx.coroutines.flow.first
 /**
  * The sample habits a fresh install starts with: the habits from the designs, two weeks of
  * history and notes on several days, so every screen has something to show. Names and notes come
- * from strings.xml, in the app language. Today and More offer to remove them in one tap.
+ * from strings.xml, in the app language. Today's banner removes them in one tap; picking habits
+ * on Get started replaces them.
  */
 object SampleData {
     /**
@@ -32,22 +33,32 @@ object SampleData {
         settings.setSampleHabitIds(emptySet())
     }
 
+    /**
+     * The eight sample habits, without history: also the suggestions on Get started's first step.
+     * Order matters: [seed] refers to them by position.
+     */
+    fun habits(strings: Strings): List<Habit> = listOf(
+        Habit(name = strings(R.string.sample_wake), icon = "alarm", colorHue = 38),
+        Habit(name = strings(R.string.sample_read), icon = "menu_book", colorHue = 215, trackType = TrackType.AMOUNT, target = 20.0, unit = strings(R.string.sample_unit_pages)),
+        Habit(name = strings(R.string.sample_water), icon = "water_drop", colorHue = 192, trackType = TrackType.AMOUNT, target = 8.0, unit = strings(R.string.sample_unit_glasses)),
+        Habit(name = strings(R.string.sample_calm), icon = "self_improvement", colorHue = 275, askForNote = true),
+        Habit(name = strings(R.string.sample_workout), icon = "fitness_center", colorHue = 12, trackType = TrackType.AMOUNT, target = 45.0, unit = "min", step = 5.0),
+        Habit(name = strings(R.string.sample_vitamins), icon = "medication", colorHue = 95),
+        Habit(name = strings(R.string.sample_walk), icon = "directions_walk", colorHue = 150, daysMask = 0b0011111),
+        Habit(name = strings(R.string.sample_journal), icon = "edit_note", colorHue = 330),
+    )
+
     private suspend fun seed(repository: HabitRepository, strings: Strings): List<Long> {
         val today = LocalDate.now()
         val zone = ZoneId.systemDefault()
         val createdAt = today.minusDays(60).atStartOfDay(zone).toInstant().toEpochMilli()
         // Reminders only in debug builds: real users shouldn't get notifications for sample habits.
         val remind = BuildConfig.DEBUG
-        val habits = listOf(
-            Habit(name = strings(R.string.sample_wake), icon = "alarm", colorHue = 38, reminderMinutes = if (remind) 7 * 60 else null),
-            Habit(name = strings(R.string.sample_read), icon = "menu_book", colorHue = 215, trackType = TrackType.AMOUNT, target = 20.0, unit = strings(R.string.sample_unit_pages)),
-            Habit(name = strings(R.string.sample_water), icon = "water_drop", colorHue = 192, trackType = TrackType.AMOUNT, target = 8.0, unit = strings(R.string.sample_unit_glasses)),
-            Habit(name = strings(R.string.sample_calm), icon = "self_improvement", colorHue = 275, askForNote = true),
-            Habit(name = strings(R.string.sample_workout), icon = "fitness_center", colorHue = 12, trackType = TrackType.AMOUNT, target = 45.0, unit = "min", step = 5.0),
-            Habit(name = strings(R.string.sample_vitamins), icon = "medication", colorHue = 95),
-            Habit(name = strings(R.string.sample_walk), icon = "directions_walk", colorHue = 150, daysMask = 0b0011111),
-            Habit(name = strings(R.string.sample_journal), icon = "edit_note", colorHue = 330, reminderMinutes = if (remind) 21 * 60 + 30 else null),
-        ).mapIndexed { i, h -> h.copy(createdAt = createdAt, sortOrder = i) }
+        val habits = habits(strings).mapIndexed { i, h ->
+            // Wake up and Evening journal remind at 7:00 and 21:30, in debug builds only.
+            val reminder = if (!remind) null else when (i) { 0 -> 7 * 60; 7 -> 21 * 60 + 30; else -> null }
+            h.copy(createdAt = createdAt, sortOrder = i, reminderMinutes = reminder)
+        }
         val ids = habits.map { repository.saveHabit(it) }
         val (wake, read, water, calm, workout) = ids
         val journal = ids[7]

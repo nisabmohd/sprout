@@ -32,7 +32,7 @@ These rules apply to every change, whether a person or an AI agent makes it. The
 - Text uses only the nine styles in [`docs/TYPOGRAPHY.md`](docs/TYPOGRAPHY.md), available as `SproutType.*` from `ui/theme/Type.kt`. Never set a font size or weight anywhere else, and never read `MaterialTheme.typography` in a screen. Headings use Outfit; body text and numbers use the chosen font (Lexend by default).
 - Haptics go through `ui/components/Haptics.kt`, so the same kind of action always feels the same. A new switch, chip, choice or stepper gets the matching one.
 - Text must grow with the user's font size. Only text inside a fixed-size shape (rings, segmented buttons, the navigation bar, the week columns) may cap its scaling, using `CappedFontScale`.
-- Filters, pickers and choices (dates, times, habits, amounts, week start) open in a bottom sheet, never a dialog, inline chips or menus. Use `DateRangeSheet`, `DatePickerSheet`, `TimePickerSheet` and `HabitFilterSheet` in `ui/components`. Dialogs are only for confirming something (delete, import). Every sheet is a `SproutSheet` (ui/components): it opens fully and stops at 90% of the screen, so put long content in a scrolling list with `Modifier.weight(1f, fill = false)` and keep the main button below it. Full screens are only for creating or editing (New habit, New note).
+- Filters, pickers and choices (dates, times, habits, amounts, week start) open in a bottom sheet, never a dialog, inline chips or menus. Use `DateRangeSheet`, `DatePickerSheet`, `TimePickerSheet` and `HabitFilterSheet` in `ui/components`. `TimePickerSheet` (the wheel) is the only time picker: every time setting uses it. Dialogs are only for confirming something (delete, import). Every sheet is a `SproutSheet` (ui/components): it opens fully and stops at 90% of the screen, so put long content in a scrolling list with `Modifier.weight(1f, fill = false)` and keep the main button below it. Full screens are only for creating or editing (New habit, New note).
 - Tab headers (`TabHeader`, plus the filter chips on Journal and Insights) sit above the list, not inside it, so they stay in place while the list scrolls.
 - Widgets follow the system: wallpaper colors on Android 12+ and the system light or dark mode. Never apply the in-app theme, accent or dynamic-color setting to them.
 - Every clickable element is at least 48 dp and has a label TalkBack can read. Gestures such as swipe and press and hold also get an accessibility action.
@@ -40,6 +40,8 @@ These rules apply to every change, whether a person or an AI agent makes it. The
 
 ## Code
 
+- A habit tile is `HabitTile` and a partial ring is `ProgressRing` (`ui/components/HabitTile.kt`, sizes `HabitTileSize` 44dp / `HabitTileCorner` 14dp / `HabitTileIconSize` 22dp, `ProgressRingSize` 44dp / `ProgressRingStroke` 4dp). Never hand-build either; grouped lists use `ui/components/Grouping.kt`.
+- New UI gets a component test in `app/src/androidTest` and a smoke check; new logic gets a unit test.
 - Pure logic goes in `domain/` with unit tests. Scoring and streak rules are easy to get subtly wrong, so change the tests first.
 - UI state classes are immutable, lazy lists use stable keys, swipe state lives inside the card, and statistics run off the main thread.
 - Query only what the screen shows (the visible week or month).

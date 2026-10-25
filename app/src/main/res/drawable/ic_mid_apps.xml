@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- The developer mark "mid apps" (from Burrow's design/logo/mid-apps/mid-icon.svg): white eyes and mouth on a dark rounded tile. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="44dp"
+    android:height="44dp"
+    android:viewportWidth="512"
+    android:viewportHeight="512">
+    <path
+        android:fillColor="#1C1B22"
+        android:pathData="M112,0H400A112,112 0,0 1,512 112V400A112,112 0,0 1,400 512H112A112,112 0,0 1,0 400V112A112,112 0,0 1,112 0Z" />
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M190,198a24,24 0,1 1,0 48a24,24 0,1 1,0 -48ZM322,198a24,24 0,1 1,0 48a24,24 0,1 1,0 -48Z" />
+    <path
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="26"
+        android:strokeLineCap="round"
+        android:pathData="M172,324H340" />
+</vector>

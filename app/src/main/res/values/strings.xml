@@ -331,8 +331,6 @@
     <string name="set_time">Set time</string>
     <string name="time_hour">Hour</string>
     <string name="time_minute">Minute</string>
-    <string name="time_later">Later</string>
-    <string name="time_earlier">Earlier</string>
     <string name="clear">Clear</string>
     <string name="delete_habit_title">Delete %1$s?</string>
     <string name="delete_habit_text">This removes the habit with all its history and notes. Archive it instead to keep them.</string>
@@ -485,4 +483,29 @@
     <string name="insights_sort_streak">Streak</string>
     <string name="insights_sort_by_score">Sort by score</string>
     <string name="insights_sort_by_streak">Sort by streak</string>
+    <string name="time_am_pm">AM or PM</string>
+    <string name="about_contact">Contact: %1$s</string>
+    <string name="welcome_step_of">Step %1$d of %2$d</string>
+    <string name="welcome_pick_title">Pick a few habits</string>
+    <string name="welcome_pick_body">Start small. You can change them or add more any time.</string>
+    <string name="welcome_own_hint">Your own habit</string>
+    <string name="welcome_own_add">Add this habit</string>
+    <string name="welcome_skip">Skip for now</string>
+    <string name="welcome_continue">Continue</string>
+    <string name="welcome_try_title">Try it on this card</string>
+    <string name="welcome_try_body">Just practice: nothing here is saved. Every habit on Today works the same way.</string>
+    <string name="welcome_try_right">Swipe right</string>
+    <string name="welcome_try_left">Swipe left</string>
+    <string name="welcome_try_left_desc">Skip, when life happens</string>
+    <string name="welcome_try_tap">Tap the circle</string>
+    <string name="welcome_try_tap_desc">Done in one tap; tap again to undo</string>
+    <string name="welcome_try_hold">Press and hold</string>
+    <string name="welcome_try_hold_desc">Did part of it? Log how much: Partial</string>
+    <string name="welcome_tried">Tried</string>
+    <string name="welcome_go">Go to Today</string>
+    <string name="mid_apps" translatable="false">mid apps</string>
+    <string name="welcome_own_row">Add your own habit</string>
+    <string name="welcome_own_row_desc">Any habit, by name. Set the rest later.</string>
+    <string name="welcome_try_note">Add a note</string>
+    <string name="welcome_try_note_desc">Hold the card and write how it went. Every note is kept in the Journal.</string>
 </resources>

@@ -1,5 +1,9 @@
 <resources>
     <style name="Theme.Sprout" parent="android:Theme.Material.Light.NoActionBar">
         <item name="android:windowBackground">@color/sprout_bg</item>
+        <!-- Transparent bars for edge-to-edge on Android 8–14 (see ui/EdgeToEdge.kt). Android 15+
+             ignores these and is always edge-to-edge. -->
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
     </style>
 </resources>

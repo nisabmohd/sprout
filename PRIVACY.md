@@ -2,7 +2,7 @@
 
 _Last updated: 1 October 2026_
 
-Sprout is an open-source habit tracker for Android, published by Mohd. Nisab ("we"). This policy covers the Sprout app from Google Play, GitHub Releases and F-Droid.
+Sprout is an open-source habit tracker for Android, published by Mohd. Nisab under the developer name mid apps ("we"). This policy covers the Sprout app from Google Play, GitHub Releases and F-Droid.
 
 ## What Sprout stores
 
@@ -40,4 +40,4 @@ If this policy changes, the new version is published at this address with a new 
 
 ## Contact
 
-Open an issue at https://github.com/nisabmohd/sprout-habit-tracker/issues or email nisabmohd@gmail.com.
+Email hello.midapps@gmail.com, or open an issue at https://github.com/nisabmohd/sprout-habit-tracker/issues.

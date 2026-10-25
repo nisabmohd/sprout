@@ -1,5 +1,23 @@
 # Changelog
 
+## 1.3.8
+
+Changed:
+
+- Get started is now a short setup, like Burrow's: a page that shows Sprout in use, then pick your habits (five suggestions, or add your own), then try logging on a practice card: swipe right for Done, left for Skip, tap the circle, and press and hold to log part of it (Partial) or add a note, which shows how it will look in the Journal. The habits you pick replace the sample habits; "Skip for now" keeps the sample habits as before.
+- Reminder time and Default reminder use a new time wheel (hour, minute in 5s, AM/PM), the same as Burrow's. It replaces the hour and minute boxes with arrows.
+- About shows the developer, mid apps, with a contact address: hello.midapps@gmail.com.
+
+Fixed:
+
+- Play Console: "Your app uses deprecated APIs or parameters for edge-to-edge". Sprout no longer uses androidx.activity's enableEdgeToEdge(), whose code for Android 8–14 sets the bar colours with APIs deprecated on Android 15. It sets up edge-to-edge itself, with no deprecated calls.
+- Play Console: "Improve your app's memory and performance with R8 optimization". R8 now shrinks resources together with the code (`android.r8.optimizedResourceShrinking`).
+
+Internal:
+
+- One habit tile and one progress ring for every screen (`HabitTile`, `ProgressRing`), replacing nine hand-built copies of the tile and three of the ring. The Get started ring now has round ends like Today's.
+- Tests: unit tests for the time wheel, the shared components and Get started's rules (22 new), component tests on an emulator for the time wheel, the tile and ring, and both Get started steps (13), and smoke checks for Get started, the time wheel and About's contact row.
+
 ## 1.3.7
 
 Changed:

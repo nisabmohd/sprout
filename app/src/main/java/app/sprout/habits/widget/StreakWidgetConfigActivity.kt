@@ -6,7 +6,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
+import app.sprout.habits.ui.drawEdgeToEdge
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -60,7 +60,7 @@ class StreakWidgetConfigActivity : ComponentActivity() {
             finish()
             return
         }
-        enableEdgeToEdge()
+        drawEdgeToEdge(dark = (resources.configuration.uiMode and android.content.res.Configuration.UI_MODE_NIGHT_MASK) == android.content.res.Configuration.UI_MODE_NIGHT_YES)
         setContent {
             SproutTheme {
                 val habits by produceState<List<Habit>?>(null) {

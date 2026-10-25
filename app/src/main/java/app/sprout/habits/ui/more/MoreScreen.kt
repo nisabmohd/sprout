@@ -236,6 +236,7 @@ fun MoreScreen(
             initialMinutes = settings.defaultReminderMinutes,
             onApply = { minutes -> save { setDefaultReminderMinutes(minutes) }; pickingReminder = false },
             onDismiss = { pickingReminder = false },
+            line = stringResource(R.string.default_reminder_desc),
         )
     }
 }

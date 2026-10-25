@@ -1,5 +1,7 @@
 package app.sprout.habits.ui.habits
 
+import androidx.compose.runtime.getValue
+import app.sprout.habits.ui.components.HabitTile
 import app.sprout.habits.ui.components.tick
 import androidx.compose.ui.platform.LocalHapticFeedback
 import app.sprout.habits.ui.theme.SproutType
@@ -54,7 +56,6 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LifecycleEventEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.compose.runtime.getValue
 import app.sprout.habits.R
 import app.sprout.habits.ui.components.HeaderIconButton
 import app.sprout.habits.ui.components.TabHeader
@@ -63,7 +64,6 @@ import app.sprout.habits.ui.components.DayMarkView
 import app.sprout.habits.ui.components.MarkColors
 import app.sprout.habits.ui.components.MarkKind
 import app.sprout.habits.ui.theme.habitColors
-
 @Composable
 fun HabitsScreen(
     viewModel: HabitsViewModel,
@@ -149,9 +149,7 @@ private fun CardHeader(icon: Int, hue: Float, title: String, subtitle: String?, 
     val hc = habitColors(hue)
     Row(verticalAlignment = Alignment.CenterVertically) {
         // The same 44 dp tile and 22 dp icon as a Today habit card.
-        Box(Modifier.size(44.dp).background(hc.soft, RoundedCornerShape(14.dp)), contentAlignment = Alignment.Center) {
-            Icon(painterResource(icon), contentDescription = null, tint = hc.ink, modifier = Modifier.size(22.dp))
-        }
+        HabitTile(icon, hc.soft, hc.ink)
         Column(Modifier.weight(1f).padding(start = 12.dp, end = 12.dp), verticalArrangement = Arrangement.spacedBy(2.dp)) {
             Text(title, style = SproutType.cardTitle, color = MaterialTheme.colorScheme.onSurface, maxLines = 1, overflow = TextOverflow.Ellipsis)
             subtitle?.let { Text(it, style = SproutType.supporting, color = MaterialTheme.colorScheme.onSurfaceVariant) }

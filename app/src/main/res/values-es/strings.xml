@@ -327,8 +327,6 @@
     <string name="set_time">Fijar hora</string>
     <string name="time_hour">Hora</string>
     <string name="time_minute">Minuto</string>
-    <string name="time_later">Más tarde</string>
-    <string name="time_earlier">Antes</string>
     <string name="clear">Borrar</string>
     <string name="delete_habit_title">¿Eliminar %1$s?</string>
     <string name="delete_habit_text">Se eliminará el hábito con todo su historial y sus notas. Archívalo si quieres conservarlos.</string>
@@ -496,4 +494,28 @@
     <string name="insights_sort_streak">Racha</string>
     <string name="insights_sort_by_score">Ordenar por puntuación</string>
     <string name="insights_sort_by_streak">Ordenar por racha</string>
+    <string name="time_am_pm">a. m. o p. m.</string>
+    <string name="about_contact">Contacto: %1$s</string>
+    <string name="welcome_step_of">Paso %1$d de %2$d</string>
+    <string name="welcome_pick_title">Elige algunos hábitos</string>
+    <string name="welcome_pick_body">Empieza poco a poco. Puedes cambiarlos o añadir más cuando quieras.</string>
+    <string name="welcome_own_hint">Tu propio hábito</string>
+    <string name="welcome_own_add">Añadir este hábito</string>
+    <string name="welcome_skip">Omitir por ahora</string>
+    <string name="welcome_continue">Continuar</string>
+    <string name="welcome_try_title">Pruébalo en esta tarjeta</string>
+    <string name="welcome_try_body">Solo es práctica: aquí no se guarda nada. Todos los hábitos de Hoy funcionan igual.</string>
+    <string name="welcome_try_right">Desliza a la derecha</string>
+    <string name="welcome_try_left">Desliza a la izquierda</string>
+    <string name="welcome_try_left_desc">Omitir, cuando la vida se interpone</string>
+    <string name="welcome_try_tap">Toca el círculo</string>
+    <string name="welcome_try_tap_desc">Hecho con un toque; vuelve a tocar para deshacer</string>
+    <string name="welcome_try_hold">Mantén pulsado</string>
+    <string name="welcome_try_hold_desc">¿Hiciste una parte? Registra cuánto: Parcial</string>
+    <string name="welcome_tried">Probado</string>
+    <string name="welcome_go">Ir a Hoy</string>
+    <string name="welcome_own_row">Añadir tu propio hábito</string>
+    <string name="welcome_own_row_desc">Cualquier hábito, por su nombre. El resto, después.</string>
+    <string name="welcome_try_note">Añadir una nota</string>
+    <string name="welcome_try_note_desc">Mantén pulsada la tarjeta y escribe cómo fue. Cada nota se guarda en el Diario.</string>
 </resources>

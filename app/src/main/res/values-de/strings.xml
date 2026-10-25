@@ -327,8 +327,6 @@
     <string name="set_time">Zeit festlegen</string>
     <string name="time_hour">Stunde</string>
     <string name="time_minute">Minute</string>
-    <string name="time_later">Später</string>
-    <string name="time_earlier">Früher</string>
     <string name="clear">Zurücksetzen</string>
     <string name="delete_habit_title">%1$s löschen?</string>
     <string name="delete_habit_text">Die Gewohnheit wird mit ihrem gesamten Verlauf und allen Notizen gelöscht. Archiviere sie stattdessen, um beides zu behalten.</string>
@@ -480,4 +478,28 @@
     <string name="insights_sort_streak">Serie</string>
     <string name="insights_sort_by_score">Nach Wert sortieren</string>
     <string name="insights_sort_by_streak">Nach Serie sortieren</string>
+    <string name="time_am_pm">Vormittag oder Nachmittag</string>
+    <string name="about_contact">Kontakt: %1$s</string>
+    <string name="welcome_step_of">Schritt %1$d von %2$d</string>
+    <string name="welcome_pick_title">Wähle ein paar Gewohnheiten</string>
+    <string name="welcome_pick_body">Fang klein an. Du kannst sie jederzeit ändern oder mehr hinzufügen.</string>
+    <string name="welcome_own_hint">Eigene Gewohnheit</string>
+    <string name="welcome_own_add">Diese Gewohnheit hinzufügen</string>
+    <string name="welcome_skip">Erst mal überspringen</string>
+    <string name="welcome_continue">Weiter</string>
+    <string name="welcome_try_title">Probier es an dieser Karte aus</string>
+    <string name="welcome_try_body">Nur zum Üben: Hier wird nichts gespeichert. Jede Gewohnheit unter Heute funktioniert genauso.</string>
+    <string name="welcome_try_right">Nach rechts wischen</string>
+    <string name="welcome_try_left">Nach links wischen</string>
+    <string name="welcome_try_left_desc">Auslassen, wenn das Leben dazwischenkommt</string>
+    <string name="welcome_try_tap">Auf den Kreis tippen</string>
+    <string name="welcome_try_tap_desc">Mit einem Tipp erledigt; erneut tippen macht es rückgängig</string>
+    <string name="welcome_try_hold">Gedrückt halten</string>
+    <string name="welcome_try_hold_desc">Nur einen Teil geschafft? Trag die Menge ein: Teilweise</string>
+    <string name="welcome_tried">Ausprobiert</string>
+    <string name="welcome_go">Zu Heute</string>
+    <string name="welcome_own_row">Eigene Gewohnheit hinzufügen</string>
+    <string name="welcome_own_row_desc">Jede Gewohnheit, nach Namen. Den Rest später.</string>
+    <string name="welcome_try_note">Notiz hinzufügen</string>
+    <string name="welcome_try_note_desc">Halte die Karte gedrückt und schreib, wie es lief. Jede Notiz landet im Tagebuch.</string>
 </resources>

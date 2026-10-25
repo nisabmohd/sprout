@@ -14,6 +14,8 @@ Every tab starts with the same header (`ui/components/TabHeader.kt`): the title,
 
 ## Sample data
 
+First run is Get started (`ui/WelcomeScreen.kt`, after Burrow's): a pitch page with a panel of what Sprout looks like in use, then two steps with dots on top. Step 1 picks habits: five suggestions (Wake up at 7, Read, Drink water, Workout, Evening journal), plus your own: the last row, "Add your own habit", opens a sheet with the Name field from New habit. Step 2 is a practice card (the real Today card and amount sheet, nothing saved) that ticks off swipe right, swipe left, tap the circle, press and hold (log part of it as Partial) and add a note; a note written in the amount sheet then shows as a Journal note card, so you see where notes are kept. "Go to Today" saves: picked habits replace the sample habits; "Skip for now" keeps the sample habits and their banner.
+
 A fresh install starts with eight sample habits (from the designs), two weeks of history and notes on several days, in the app language (`data/SampleData.kt`). They're added only on the very first launch, never on an update or after a restore. A card on Today removes them (only the sample habits, with their entries and notes); their ids are kept in DataStore (`sampleHabitIds`). The card goes for good the first time you log or change a habit (`sampleBannerHidden`); after that the sample habits are deleted like any other habit. Sample habits have reminders only in debug builds.
 
 ## Habits
@@ -40,7 +42,7 @@ Code: `ui/insights/`.
 
 ## Reminders
 
-Each habit can have one daily reminder on its scheduled days. The time is set in a sheet with hour and minute steppers (tap or hold the arrows, or drag a number) and an AM/PM switch on 12-hour phones (`ui/components/TimePickerSheet.kt`). The notification shows what's left for today and opens the habit when tapped. A habit already marked Done or Skip today gets no reminder; a Partial one still does, with what's left. Reminders are exact when the user allows "Alarms & reminders", and otherwise arrive within 10 minutes. At 9 PM, habits that were skipped and ask for a note get a short prompt to add one.
+Each habit can have one daily reminder on its scheduled days. The time is set in the one time sheet, the same wheel as Burrow's: three snapping columns (hour, minute in 5s, AM/PM; hours 00–23 and no AM/PM on a 24-hour phone) over a pill band, the top and bottom rows fading out (`ui/components/TimePickerSheet.kt`). Every time setting uses it. The notification shows what's left for today and opens the habit when tapped. A habit already marked Done or Skip today gets no reminder; a Partial one still does, with what's left. Reminders are exact when the user allows "Alarms & reminders", and otherwise arrive within 10 minutes. At 9 PM, habits that were skipped and ask for a note get a short prompt to add one.
 
 Code: `notify/`, timing in `domain/ReminderTime.kt`.
 
@@ -74,6 +76,6 @@ Code: `data/update/UpdateManager.kt`, `ui/update/UpdateUi.kt`, `domain/Versions.
 
 ## Support
 
-About has a Sponsor link (not in the `play` build, where Google Play's payments policy rules it out; the support prompt drops its Sponsor button there too) and, in the `play` build once it is listed (`PLAY_LISTED`), a Rate on Play Store link; the support prompt offers the same button. The `foss` and `github` builds never link to Google Play. After a week of use and 30 check-ins, Sprout asks once whether you'd like to support it; it asks again after 60 days at most, and stops after two "Maybe later"s.
+About ends with the developer, mid apps (its mark, and "Contact: hello.midapps@gmail.com"; tapping writes an email), above "Made by Nisab Mohd & Contributors". It has a Sponsor link (not in the `play` build, where Google Play's payments policy rules it out; the support prompt drops its Sponsor button there too) and, in the `play` build once it is listed (`PLAY_LISTED`), a Rate on Play Store link; the support prompt offers the same button. The `foss` and `github` builds never link to Google Play. After a week of use and 30 check-ins, Sprout asks once whether you'd like to support it; it asks again after 60 days at most, and stops after two "Maybe later"s.
 
 Code: `support/`, `ui/about/`.

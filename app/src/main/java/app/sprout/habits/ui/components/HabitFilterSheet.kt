@@ -1,5 +1,7 @@
 package app.sprout.habits.ui.components
 
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.rememberScrollState
@@ -35,10 +37,8 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -47,7 +47,6 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
 import app.sprout.habits.R
 import app.sprout.habits.ui.theme.habitColors
-
 @Immutable
 data class HabitFilterOption(val habitId: Long, val name: String, val icon: Int, val hue: Float)
 
@@ -84,9 +83,7 @@ fun HabitFilterSheet(
                         .padding(horizontal = 12.dp),
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    Box(Modifier.size(44.dp).background(hc.soft, RoundedCornerShape(14.dp)), contentAlignment = Alignment.Center) {
-                        Icon(painterResource(o.icon), contentDescription = null, tint = hc.ink, modifier = Modifier.size(22.dp))
-                    }
+                    HabitTile(o.icon, hc.soft, hc.ink)
                     Text(o.name, style = SproutType.cardTitle, color = colors.onSurface, modifier = Modifier.weight(1f).padding(start = 12.dp))
                     Checkbox(checked = checked, onCheckedChange = null)
                 }

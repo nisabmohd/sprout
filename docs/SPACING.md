@@ -41,7 +41,7 @@ The Journal's day groups are the model. In code: `ui/components/Grouping.kt` (`S
 
 | Element | Size |
 | --- | --- |
-| Habit tile | 44dp, 14dp corners, 22dp icon. Everywhere a habit is listed: Today, Week, Overall, Journal, Insights, the filter sheet and the habit picker |
+| Habit tile | 44dp, 14dp corners, 22dp icon (`HabitTile` in `ui/components/HabitTile.kt`; never hand-built). Everywhere a habit is listed: Today, Week, Overall, Journal, Insights, the filter sheet and the habit picker |
 | Habit tile in the habit detail header | 56dp, 18dp corners |
 | Header icon button | 48dp circle, 22dp icon |
 | Touch target | at least 48dp |

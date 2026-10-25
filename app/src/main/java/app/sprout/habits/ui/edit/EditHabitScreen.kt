@@ -1,5 +1,8 @@
 package app.sprout.habits.ui.edit
 
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.getValue
+import app.sprout.habits.ui.components.HabitTile
 import app.sprout.habits.ui.components.GroupGap
 import app.sprout.habits.ui.components.SectionGapBelow
 import app.sprout.habits.ui.components.SectionGapAbove
@@ -69,8 +72,6 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LifecycleEventEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 import app.sprout.habits.R
 import app.sprout.habits.ui.components.groupedShape
 import app.sprout.habits.ui.components.HeaderIconButton
@@ -88,7 +89,6 @@ import java.time.DayOfWeek
 import java.time.format.TextStyle
 import java.util.Locale
 import app.sprout.habits.ui.components.TimePickerSheet
-
 @Composable
 fun EditHabitScreen(viewModel: EditHabitViewModel, onClose: () -> Unit, onDeleted: () -> Unit) {
     val form by viewModel.form.collectAsStateWithLifecycle()
@@ -319,9 +319,7 @@ private fun EditHabitContent(
                         verticalAlignment = Alignment.CenterVertically,
                     ) {
                         // A round tile in the habit's color, like the icon tiles elsewhere.
-                        Box(Modifier.size(44.dp).background(hc.soft, CircleShape), contentAlignment = Alignment.Center) {
-                            Icon(painterResource(R.drawable.ic_bell_filled), contentDescription = null, tint = hc.ink, modifier = Modifier.size(22.dp))
-                        }
+                        HabitTile(R.drawable.ic_bell_filled, hc.soft, hc.ink, shape = CircleShape)
                         Column(Modifier.weight(1f).padding(start = 14.dp, end = 12.dp), verticalArrangement = Arrangement.spacedBy(2.dp)) {
                             // 16sp like the titles in the card below; 22sp looked too big next to them.
                             Text(TodayViewModel.formatTime(form.reminderMinutes), style = SproutType.cardTitle, color = colors.onSurface)
@@ -388,6 +386,7 @@ private fun EditHabitContent(
                 pickingTime = false
             },
             onDismiss = { pickingTime = false },
+            line = form.name.trim().ifEmpty { null },
         )
     }
 }

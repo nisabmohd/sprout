@@ -73,6 +73,10 @@ See [`CONTRIBUTING.md`](CONTRIBUTING.md) for setup and testing, and [`AGENTS.md`
 
 Sprout is free and has no ads. I build it because I enjoy it. If it helps you, you can [sponsor me on GitHub](https://github.com/sponsors/nisabmohd) or star the repo.
 
+## Contact
+
+Sprout is made by **mid apps** (Nisab Mohd & contributors). Questions, ideas or press: [hello.midapps@gmail.com](mailto:hello.midapps@gmail.com). Bugs and feature requests: [GitHub Issues](https://github.com/nisabmohd/sprout-habit-tracker/issues).
+
 ## License
 
 Sprout is licensed under the [GNU General Public License v3.0](LICENSE). The bundled fonts (Space Grotesk, Outfit, Lexend and Atkinson Hyperlegible Next) use the SIL Open Font License 1.1; see [`licenses/fonts`](licenses/fonts).

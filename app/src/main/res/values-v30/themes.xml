@@ -1,0 +1,9 @@
+<resources>
+    <style name="Theme.Sprout" parent="android:Theme.Material.Light.NoActionBar">
+        <item name="android:windowBackground">@color/sprout_bg</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <!-- Draw into the camera cutout too, as Android 15+ always does. -->
+        <item name="android:windowLayoutInDisplayCutoutMode">always</item>
+    </style>
+</resources>

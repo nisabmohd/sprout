@@ -327,8 +327,6 @@
     <string name="set_time">時刻を設定</string>
     <string name="time_hour">時</string>
     <string name="time_minute">分</string>
-    <string name="time_later">遅く</string>
-    <string name="time_earlier">早く</string>
     <string name="clear">クリア</string>
     <string name="delete_habit_title">%1$s を削除しますか？</string>
     <string name="delete_habit_text">この習慣と、そのすべての記録とメモが削除されます。残したい場合はアーカイブしてください。</string>
@@ -464,4 +462,28 @@
     <string name="insights_sort_streak">連続</string>
     <string name="insights_sort_by_score">スコア順</string>
     <string name="insights_sort_by_streak">連続日数順</string>
+    <string name="time_am_pm">午前または午後</string>
+    <string name="about_contact">連絡先: %1$s</string>
+    <string name="welcome_step_of">ステップ %1$d / %2$d</string>
+    <string name="welcome_pick_title">習慣をいくつか選ぶ</string>
+    <string name="welcome_pick_body">小さく始めましょう。あとからいつでも変更・追加できます。</string>
+    <string name="welcome_own_hint">自分の習慣</string>
+    <string name="welcome_own_add">この習慣を追加</string>
+    <string name="welcome_skip">今はスキップ</string>
+    <string name="welcome_continue">続ける</string>
+    <string name="welcome_try_title">このカードで試してみましょう</string>
+    <string name="welcome_try_body">練習用なので、ここでは何も保存されません。「今日」の習慣はすべて同じように操作できます。</string>
+    <string name="welcome_try_right">右にスワイプ</string>
+    <string name="welcome_try_left">左にスワイプ</string>
+    <string name="welcome_try_left_desc">スキップ（どうしてもできない日に）</string>
+    <string name="welcome_try_tap">丸をタップ</string>
+    <string name="welcome_try_tap_desc">1回で完了、もう一度タップで取り消し</string>
+    <string name="welcome_try_hold">長押し</string>
+    <string name="welcome_try_hold_desc">一部だけできた？量を記録：一部</string>
+    <string name="welcome_tried">試しました</string>
+    <string name="welcome_go">「今日」へ</string>
+    <string name="welcome_own_row">自分の習慣を追加</string>
+    <string name="welcome_own_row_desc">名前だけでOK。ほかはあとで設定できます。</string>
+    <string name="welcome_try_note">メモを追加</string>
+    <string name="welcome_try_note_desc">カードを長押しして、どうだったかを書きましょう。メモはすべて日記に残ります。</string>
 </resources>

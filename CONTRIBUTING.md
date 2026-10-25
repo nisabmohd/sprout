@@ -18,10 +18,16 @@ Debug builds fill an empty database with sample habits and two weeks of history,
 
 ## Test
 
-Unit tests cover scoring, streaks, reminder timing, notification text and the backup format:
+Unit tests cover scoring, streaks, reminder timing, notification text, the backup format, the time wheel's maths, the shared components' sizes and Get started's rules:
 
 ```sh
 ./gradlew :app:testPlayDebugUnitTest
+```
+
+Component tests (Compose UI tests in `app/src/androidTest`) run the time wheel, the habit tile and progress ring, and Get started's two steps on a connected emulator. They need Android 16 or older with Espresso 3.7+ (pinned in the version catalog). With several emulators running, pick one with `ANDROID_SERIAL`:
+
+```sh
+ANDROID_SERIAL=emulator-5556 ./gradlew :app:connectedFossDebugAndroidTest
 ```
 
 The smoke suite checks every feature on a connected emulator or phone. It installs a fresh debug build, runs one short check per feature and fails on touch targets smaller than 48 dp:

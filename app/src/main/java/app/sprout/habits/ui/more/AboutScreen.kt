@@ -1,10 +1,13 @@
 package app.sprout.habits.ui.more
 
+import app.sprout.habits.ui.components.HabitTileSize
 import app.sprout.habits.ui.theme.SproutType
 import androidx.compose.foundation.layout.Spacer
 import app.sprout.habits.ui.update.CheckForUpdates
 import app.sprout.habits.data.update.UpdateManager
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -33,9 +36,9 @@ import androidx.compose.ui.unit.dp
 import app.sprout.habits.BuildConfig
 import app.sprout.habits.R
 import app.sprout.habits.ui.components.HeaderIconButton
+import app.sprout.habits.ui.openEmail
 import app.sprout.habits.ui.openUrl
 import app.sprout.habits.ui.theme.habitColors
-
 @Composable
 fun AboutScreen(updates: UpdateManager, onBack: () -> Unit, onOpenLicences: () -> Unit) {
     val context = LocalContext.current
@@ -86,6 +89,8 @@ fun AboutScreen(updates: UpdateManager, onBack: () -> Unit, onOpenLicences: () -
                     }
                 },
             )
+            // The developer, mid apps, with the contact address; tapping writes an email.
+            SettingsCard { MidAppsRow { openEmail(context, BuildConfig.CONTACT_EMAIL, context.getString(R.string.app_name)) } }
             Text(stringResource(R.string.made_by), style = SproutType.supporting, color = colors.onSurfaceVariant, textAlign = TextAlign.Center, modifier = Modifier.padding(bottom = 24.dp))
         }
     }
@@ -102,6 +107,24 @@ private fun SupportRow(onClick: () -> Unit) {
             color = pink.ink,
             modifier = Modifier.background(pink.soft, RoundedCornerShape(50)).padding(horizontal = 12.dp, vertical = 6.dp),
         )
+    }
+}
+
+/** "mid apps" with its mark and "Contact: hello.midapps@gmail.com", like Burrow's Made by row. */
+@Composable
+private fun MidAppsRow(onClick: () -> Unit) {
+    val colors = MaterialTheme.colorScheme
+    Row(
+        Modifier.fillMaxWidth().clickable(onClick = onClick).padding(horizontal = 16.dp, vertical = 12.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(12.dp),
+    ) {
+        Image(painterResource(R.drawable.ic_mid_apps), contentDescription = null, modifier = Modifier.size(HabitTileSize))
+        Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(2.dp)) {
+            Text(stringResource(R.string.mid_apps), style = SproutType.cardTitle, color = colors.onSurface)
+            Text(stringResource(R.string.about_contact, BuildConfig.CONTACT_EMAIL), style = SproutType.supporting, color = colors.onSurfaceVariant)
+        }
+        Icon(painterResource(R.drawable.ic_sym_mail), contentDescription = null, tint = colors.onSurfaceVariant, modifier = Modifier.size(20.dp))
     }
 }
 

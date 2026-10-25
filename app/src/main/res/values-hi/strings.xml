@@ -327,8 +327,6 @@
     <string name="set_time">समय तय करें</string>
     <string name="time_hour">घंटा</string>
     <string name="time_minute">मिनट</string>
-    <string name="time_later">बाद में</string>
-    <string name="time_earlier">पहले</string>
     <string name="clear">हटाएं</string>
     <string name="delete_habit_title">%1$s मिटाएं?</string>
     <string name="delete_habit_text">इससे आदत अपने पूरे इतिहास और नोट के साथ मिट जाएगी। इन्हें रखने के लिए इसे संग्रह में डालें।</string>
@@ -481,4 +479,28 @@
     <string name="insights_sort_streak">लगातार</string>
     <string name="insights_sort_by_score">स्कोर के अनुसार क्रम</string>
     <string name="insights_sort_by_streak">लगातार दिनों के अनुसार क्रम</string>
+    <string name="time_am_pm">AM या PM</string>
+    <string name="about_contact">संपर्क: %1$s</string>
+    <string name="welcome_step_of">चरण %1$d / %2$d</string>
+    <string name="welcome_pick_title">कुछ आदतें चुनें</string>
+    <string name="welcome_pick_body">छोटी शुरुआत करें। आप इन्हें कभी भी बदल सकते हैं या और जोड़ सकते हैं।</string>
+    <string name="welcome_own_hint">आपकी अपनी आदत</string>
+    <string name="welcome_own_add">यह आदत जोड़ें</string>
+    <string name="welcome_skip">अभी छोड़ें</string>
+    <string name="welcome_continue">आगे बढ़ें</string>
+    <string name="welcome_try_title">इस कार्ड पर आज़माएँ</string>
+    <string name="welcome_try_body">बस अभ्यास: यहाँ कुछ भी सेव नहीं होता। आज की हर आदत ऐसे ही काम करती है।</string>
+    <string name="welcome_try_right">दाएँ स्वाइप करें</string>
+    <string name="welcome_try_left">बाएँ स्वाइप करें</string>
+    <string name="welcome_try_left_desc">छोड़ें, जब ज़िंदगी आड़े आए</string>
+    <string name="welcome_try_tap">गोले पर टैप करें</string>
+    <string name="welcome_try_tap_desc">एक टैप में हो गया; दोबारा टैप करके वापस लें</string>
+    <string name="welcome_try_hold">दबाकर रखें</string>
+    <string name="welcome_try_hold_desc">थोड़ा किया? कितना, दर्ज करें: आंशिक</string>
+    <string name="welcome_tried">आज़माया</string>
+    <string name="welcome_go">आज पर जाएँ</string>
+    <string name="welcome_own_row">अपनी आदत जोड़ें</string>
+    <string name="welcome_own_row_desc">कोई भी आदत, नाम से। बाकी बाद में।</string>
+    <string name="welcome_try_note">नोट जोड़ें</string>
+    <string name="welcome_try_note_desc">कार्ड दबाकर रखें और लिखें कि कैसा रहा। हर नोट डायरी में रहता है।</string>
 </resources>

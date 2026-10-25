@@ -28,6 +28,9 @@ class BaselineProfileGenerator {
 
     private fun UiDevice.startSession() {
         waitAndClick("Get started")
+        // The two Get started steps: keep the sample habits, then leave the practice card.
+        waitAndClick("Skip for now")
+        waitAndClick("Go to Today")
         // Add a habit so Today, Habits and Insights have something to draw.
         if (!hasObject(By.text("Walk"))) {
             waitAndClick(By.desc("New habit"))

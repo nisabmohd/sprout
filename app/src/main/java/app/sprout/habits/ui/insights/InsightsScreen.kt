@@ -1,5 +1,9 @@
 package app.sprout.habits.ui.insights
 
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.getValue
+import app.sprout.habits.ui.components.ProgressRing
+import app.sprout.habits.ui.components.HabitTile
 import app.sprout.habits.ui.components.groupedShape
 import app.sprout.habits.ui.components.SectionGapBelow
 import app.sprout.habits.ui.components.SectionGapAbove
@@ -35,9 +39,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -62,8 +64,6 @@ import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.key
-import androidx.compose.ui.graphics.StrokeCap
-import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.semantics.Role
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.ui.graphics.toArgb
@@ -86,7 +86,6 @@ import app.sprout.habits.ui.components.BarSegment
 import app.sprout.habits.ui.components.CappedFontScale
 import app.sprout.habits.ui.components.SegmentBar
 import app.sprout.habits.ui.theme.habitColors
-
 @Composable
 fun InsightsScreen(viewModel: InsightsViewModel, weekStart: java.time.DayOfWeek, onOpenHabit: (Long) -> Unit) {
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -426,9 +425,7 @@ private fun HabitBreakdown(rates: List<HabitRateUi>, byStreak: Boolean, onSort: 
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(12.dp),
                 ) {
-                    Box(Modifier.size(44.dp).background(hc.soft, RoundedCornerShape(14.dp)), contentAlignment = Alignment.Center) {
-                        Icon(painterResource(r.icon), contentDescription = null, tint = hc.ink, modifier = Modifier.size(22.dp))
-                    }
+                    HabitTile(r.icon, hc.soft, hc.ink)
                     Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(2.dp)) {
                         Text(r.name, style = SproutType.cardTitle, color = colors.onSurface, maxLines = 1, overflow = TextOverflow.Ellipsis)
                         // "5 done · 1 partial", or "7 of 7 days" when nothing was partial. The streak has its own toggle.
@@ -451,26 +448,7 @@ private fun HabitBreakdown(rates: List<HabitRateUi>, byStreak: Boolean, onSort: 
                     val progress = if (byStreak) r.streak.toFloat() / r.scheduledDays.coerceAtLeast(1) else r.percent / 100f
                     val ringText = if (byStreak) stringResource(R.string.insights_streak_short, r.streak) else stringResource(R.string.percent, r.percent)
                     val ringDescription = if (byStreak) pluralStringResource(R.plurals.streak_days, r.streak, r.streak) else ringText
-                    Box(Modifier.size(44.dp).semantics { contentDescription = ringDescription }, contentAlignment = Alignment.Center) {
-                        Canvas(Modifier.fillMaxSize()) {
-                            val stroke = 4.dp.toPx()
-                            val radius = (size.minDimension - stroke) / 2
-                            drawCircle(hc.mid, radius, style = Stroke(stroke))
-                            if (progress > 0f) drawArc(
-                                hc.solid,
-                                -90f,
-                                360f * progress.coerceAtMost(1f),
-                                false,
-                                Offset(center.x - radius, center.y - radius),
-                                Size(radius * 2, radius * 2),
-                                style = Stroke(stroke, cap = StrokeCap.Round),
-                            )
-                        }
-                        // Fixed-size ring, so the text inside stops scaling at 1.3x.
-                        CappedFontScale {
-                            Text(ringText, style = SproutType.tiny, color = colors.onSurface, softWrap = false, modifier = Modifier.clearAndSetSemantics {})
-                        }
-                    }
+                    ProgressRing(progress, r.hue, ringText, description = ringDescription)
                 }
                 }
             }

@@ -1,5 +1,8 @@
 package app.sprout.habits.ui.note
 
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.getValue
+import app.sprout.habits.ui.components.HabitTile
 import app.sprout.habits.ui.theme.SproutType
 import app.sprout.habits.ui.datePattern
 import androidx.compose.ui.res.stringResource
@@ -59,15 +62,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 import app.sprout.habits.R
 import app.sprout.habits.ui.components.HeaderIconButton
 import app.sprout.habits.data.HabitIcon
 import app.sprout.habits.ui.components.DatePickerSheet
 import app.sprout.habits.ui.theme.habitColors
 import java.time.DayOfWeek
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun WriteNoteScreen(viewModel: WriteNoteViewModel, weekStart: DayOfWeek, onClose: () -> Unit) {
@@ -132,9 +132,7 @@ fun WriteNoteScreen(viewModel: WriteNoteViewModel, weekStart: DayOfWeek, onClose
                         .padding(start = 12.dp, end = 4.dp),
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    Box(Modifier.size(44.dp).clip(RoundedCornerShape(14.dp)).background(hc.mid), contentAlignment = Alignment.Center) {
-                        Icon(painterResource(HabitIcon.fromKey(habit.icon).drawable), contentDescription = null, tint = hc.ink, modifier = Modifier.size(22.dp))
-                    }
+                    HabitTile(HabitIcon.fromKey(habit.icon).drawable, hc.mid, hc.ink)
                     Column(Modifier.weight(1f).padding(start = 12.dp), verticalArrangement = Arrangement.spacedBy(2.dp)) {
                         Text(habit.name, style = SproutType.cardTitle, color = hc.ink, maxLines = 1, overflow = TextOverflow.Ellipsis)
                         Row(
@@ -244,9 +242,7 @@ private fun HabitPickerSheet(
                         .padding(horizontal = 12.dp),
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    Box(Modifier.size(44.dp).background(c.soft, RoundedCornerShape(14.dp)), contentAlignment = Alignment.Center) {
-                        Icon(painterResource(HabitIcon.fromKey(h.icon).drawable), contentDescription = null, tint = c.ink, modifier = Modifier.size(22.dp))
-                    }
+                    HabitTile(HabitIcon.fromKey(h.icon).drawable, c.soft, c.ink)
                     Text(
                         h.name,
                         style = SproutType.cardTitle,

@@ -44,8 +44,27 @@ def fresh_install():
 
 @check
 def welcome_shows_once():
-    assert d.exists("Get started"), "welcome screen missing on first launch"
+    assert d.exists("Get started", timeout=12), "welcome screen missing on first launch"
     d.tap("Get started")
+    # Get started has two steps since 1.3.8. Step 1: five suggestions and "Add your own habit".
+    # The first launch after a fresh install is slow: wait for the step to settle before reading it.
+    assert d.exists("Pick a few habits", timeout=10), "pick-habits step missing"
+    time.sleep(1)
+    for name in ("Wake up at 7", "Read", "Drink water", "Workout", "Evening journal"):
+        assert d.scroll_to(name), f"suggestion {name} missing"
+    assert d.scroll_to("Add your own habit"), "add-your-own row missing"
+    d.tap("Add your own habit")
+    assert d.exists("Your own habit") and d.exists("Add this habit"), "own-habit sheet missing"
+    d.back()  # keyboard
+    d.back()  # sheet
+    # Skipping the pick step keeps the sample habits (later checks use them).
+    d.tap("Skip for now")
+    # Step 2: the practice card and the five ways to log, Journal included.
+    assert d.exists("Try it on this card", timeout=10), "practice step missing"
+    time.sleep(1)
+    for row in ("Swipe right", "Swipe left", "Tap the circle", "Press and hold", "Add a note"):
+        assert d.scroll_to(row), f"practice row {row} missing"
+    d.tap("Go to Today")
     # The first launch after a fresh install is slow (no baseline profile compiled yet).
     assert d.exists("Today", timeout=10), "Today not shown after Get started"
     d.shell(f"am force-stop {d.PACKAGE}")
@@ -144,6 +163,25 @@ def new_habit_is_created():
     d.tap("Save")
     time.sleep(1)
     assert d.scroll_to("Smoke test habit"), "new habit not on Today"
+
+
+@check
+def reminder_time_wheel():
+    # The one time picker (1.3.8): the wheel sheet. Tap the 10 o'clock row and set it.
+    d.nav("Today")
+    d.scroll_to_top()
+    d.tap("New habit")
+    assert d.scroll_to("9:00", contains=True), "reminder time missing on New habit"
+    d.tap("9:00", contains=True)
+    assert d.exists("Reminder time") and d.exists("Set time"), "time wheel sheet missing"
+    assert d.exists("AM") and d.exists("PM"), "AM/PM column missing"
+    d.tap("10")
+    time.sleep(0.6)
+    d.tap("Set time")
+    assert d.exists("10:00", contains=True), "picked time not shown on New habit"
+    d.tap("Close")
+    if d.exists("Discard", timeout=1.5):
+        d.tap("Discard")
 
 
 @check
@@ -307,8 +345,11 @@ def journal_cards_and_new_note():
     # Outcome and time share one line: "Skipped · 9:12 AM".
     assert d.exists("Skipped · ", contains=True), "note card doesn't show the day's outcome and time"
     d.tap("Add note")
-    # The check before this one wrote today's note for the first habit, so Add note shows it.
-    assert d.exists("Smoke test note"), "today's saved note isn't shown when adding a note for the same habit and day"
+    # Since 1.3.6 Add note starts on the habit logged last today that has no note yet, so the note the
+    # check before this one wrote is not what opens: the editor is empty. (Opening a day that has a
+    # note is covered by note_shows_the_saved_one_for_that_day.)
+    assert d.exists("New note", timeout=4), "Add note didn't open New note"
+    assert not d.exists("Smoke test note", timeout=1), "Add note opened a habit that already has today's note"
     time.sleep(1)
     assert "mInputShown=true" in d.shell("dumpsys input_method"), "new note didn't open with the keyboard"
     d.back()
@@ -482,6 +523,9 @@ def more_settings_and_about():
         d.swipe(w // 2, int(h * 0.8), w // 2, int(h * 0.3))
     d.tap("About Sprout")
     assert d.scroll_to("Open-source licences"), "About screen incomplete"
+    # The developer row (1.3.8): mid apps and the contact address.
+    assert d.scroll_to("mid apps"), "mid apps row missing"
+    assert d.exists("Contact: hello.midapps@gmail.com"), "contact address missing"
     d.back()
 
 
@@ -519,6 +563,11 @@ def touch_targets_48dp():
 def recover():
     """After a failure, back out of sheets and inner screens to the tabs so later checks run."""
     d.shell(f"am start -W -n {d.PACKAGE}/.MainActivity")
+    # A failure during Get started leaves the app there after a restart: walk through it, keeping the samples.
+    if d.exists("Get started", timeout=2):
+        d.tap("Get started")
+        d.tap("Skip for now", timeout=10)
+        d.tap("Go to Today", timeout=10)
     for _ in range(4):
         if d.exists("Today", timeout=1) and d.exists("Insights", timeout=1):
             return
@@ -532,6 +581,8 @@ def main(filters):
     fresh_install()
     if welcome_shows_once not in selected and d.exists("Get started", timeout=3):
         d.tap("Get started")
+        d.tap("Skip for now")
+        d.tap("Go to Today")
     failures = 0
     for c in selected:
         try:

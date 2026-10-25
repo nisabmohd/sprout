@@ -1,5 +1,8 @@
 package app.sprout.habits.ui.manage
 
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.getValue
+import app.sprout.habits.ui.components.HabitTile
 import app.sprout.habits.ui.components.SectionGapAbove
 import app.sprout.habits.ui.components.SectionHeader
 import app.sprout.habits.ui.theme.SproutType
@@ -49,14 +52,11 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 import app.sprout.habits.R
 import app.sprout.habits.ui.components.HeaderIconButton
 import app.sprout.habits.data.Habit
 import app.sprout.habits.data.HabitIcon
 import app.sprout.habits.ui.theme.habitColors
-
 @Composable
 fun ManageHabitsScreen(
     viewModel: ManageHabitsViewModel,
@@ -205,9 +205,7 @@ private fun HabitRow(
             .padding(start = 12.dp, end = 4.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        Box(Modifier.size(44.dp).background(hc.soft, RoundedCornerShape(14.dp)), contentAlignment = Alignment.Center) {
-            Icon(painterResource(HabitIcon.fromKey(habit.icon).drawable), contentDescription = null, tint = hc.ink, modifier = Modifier.size(22.dp))
-        }
+        HabitTile(HabitIcon.fromKey(habit.icon).drawable, hc.soft, hc.ink)
         Spacer(Modifier.width(14.dp))
         Text(
             habit.name,

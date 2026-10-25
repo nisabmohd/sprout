@@ -1,0 +1,4 @@
+• Get started is now a short setup: pick your habits (or type your own), then try logging on a practice card. Swipe right for Done, left for Skip, tap the circle, or press and hold to log part of it (Partial) and add a note for the Journal.
+• A new time wheel for reminders.
+• About shows the developer, mid apps, and a contact address.
+• Edge-to-edge without the APIs Android 15 deprecated, and R8 now also shrinks resources.
