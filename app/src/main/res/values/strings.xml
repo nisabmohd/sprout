@@ -77,7 +77,6 @@
     <string name="choose_habit">Choose habit</string>
     <string name="change_date">Change date</string>
     <string name="note">Note</string>
-    <string name="note_placeholder">How did it go today?</string>
     <string name="delete_note_title">Delete this note?</string>
     <string name="tab_habits">Habits</string>
     <string name="tab_more">More</string>
@@ -501,6 +500,8 @@
     <string name="welcome_try_tap_desc">Done in one tap; tap again to undo</string>
     <string name="welcome_try_hold">Press and hold</string>
     <string name="welcome_try_hold_desc">Did part of it? Log how much: Partial</string>
+    <string name="welcome_try_undo">Undo</string>
+    <string name="welcome_try_undo_desc">Changed your mind? Tap Undo on the bar that pops up</string>
     <string name="welcome_tried">Tried</string>
     <string name="welcome_go">Go to Today</string>
     <string name="mid_apps" translatable="false">mid apps</string>
@@ -508,4 +509,49 @@
     <string name="welcome_own_row_desc">Any habit, by name. Set the rest later.</string>
     <string name="welcome_try_note">Add a note</string>
     <string name="welcome_try_note_desc">Hold the card and write how it went. Every note is kept in the Journal.</string>
+    <!-- Writing suggestions in New note -->
+    <string name="note_placeholder_done">How did it go?</string>
+    <string name="note_placeholder_partial">What stopped you from finishing?</string>
+    <string name="note_placeholder_skipped">What got in the way?</string>
+    <string name="note_placeholder_none">What\'s on your mind?</string>
+    <string name="suggest_quick_start">Quick start</string>
+    <string name="suggest_recent">Your recent notes</string>
+    <string name="suggest_this_habit">This habit</string>
+    <string name="suggest_finish_with">Finish with</string>
+    <string name="suggest_tap_to_add">Tap to add</string>
+    <string name="suggest_similar">Similar notes</string>
+    <plurals name="suggest_found">
+        <item quantity="one">%1$d found</item>
+        <item quantity="other">%1$d found</item>
+    </plurals>
+    <string name="suggest_chip_a11y">Suggestion: %1$s</string>
+    <string name="suggest_add">add</string>
+    <string name="suggest_past_note_a11y">Past note from %1$s: %2$s</string>
+    <string name="suggest_use">use</string>
+    <string name="suggest_ghost_a11y">Suggestion: %1$s, double tap \'Finish with\' to accept</string>
+    <string name="writing_suggestions">Writing suggestions</string>
+    <string name="writing_suggestions_desc">Starter phrases and endings from your own notes, worked out on this device.</string>
+    <string name="clear_suggestion_history">Clear suggestion history</string>
+    <string name="clear_suggestion_history_desc">Your notes stay.</string>
+    <string name="suggestion_history_cleared">Suggestion history cleared</string>
+    <string-array name="suggest_phrases_skipped">
+        <item>Felt tired</item>
+        <item>No time</item>
+        <item>Forgot</item>
+        <item>Got irritated</item>
+        <item>Felt unwell</item>
+        <item>Busy day</item>
+    </string-array>
+    <string-array name="suggest_phrases_partial">
+        <item>Ran out of time</item>
+        <item>Felt tired</item>
+        <item>Started late</item>
+        <item>Good enough today</item>
+    </string-array>
+    <string-array name="suggest_phrases_done">
+        <item>Felt great</item>
+        <item>Easier than usual</item>
+        <item>Hard but did it</item>
+        <item>Kept it short</item>
+    </string-array>
 </resources>

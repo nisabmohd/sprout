@@ -8,6 +8,7 @@ Open work, roughly in priority order. Pick one, open an issue to say you're on i
 - [ ] In-app review (Play In-App Review library) in the `play` flavor, so Rate doesn't leave the app. Needs approval for the dependency.
 - [ ] Play build: update from Google Play with the In-App Updates library, after the Play Store listing. Needs approval for the dependency.
 - [ ] App journey for initial visit
+- [x] Writing suggestions in New note (starter phrases, past notes, sentence completion), on the phone only
 
 ## Before the first release
 

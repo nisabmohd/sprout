@@ -19,6 +19,7 @@ These rules apply to every change, whether a person or an AI agent makes it. The
 - Swipe right marks DONE, swipe left marks SKIP, tapping the circle toggles DONE, and press and hold opens the amount sheet. Every change shows an Undo snackbar.
 - One entry is a Note (buttons say "Add note") and the tab listing them is Journal. Don't use the words "reflect" or "reflection" anywhere in the app.
 - A note is one habit, one date and free text.
+- Writing suggestions in New note (starter phrases, past notes, sentence completion) come only from a fixed phrase list in `strings.xml` and the user's own notes, worked out on the phone (`domain/NoteSuggestions.kt`). No model, no network. More → Journal turns them off or clears what they learned.
 - Notifications are a title and one line, with no action buttons. Tapping one opens the habit.
 - Each habit keeps its own fixed hue. App chrome follows dynamic color on Android 12 and later, and the green seed palette below that.
 

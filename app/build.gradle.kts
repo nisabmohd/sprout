@@ -17,8 +17,8 @@ android {
         applicationId = "app.sprout.habits"
         minSdk = 26
         targetSdk = 36
-        versionCode = 20
-        versionName = "1.3.8"
+        versionCode = 21
+        versionName = "1.4.0"
         // Component tests (app/src/androidTest): ./gradlew :app:connectedFossDebugAndroidTest
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         // Where the About screen's links point. Set once the GitHub repo exists.
@@ -35,10 +35,10 @@ android {
         create("play") {
             dimension = "distribution"
             buildConfigField("boolean", "PLAY_STORE", "true")
-            // Set to true once Sprout is live on Google Play. It turns on "Rate on Play Store"
+            // True since 1.4.0: Sprout is live on Google Play. It turns on "Rate on Play Store"
             // (About and the support prompt) and About's "Check for updates", which both open
             // the store listing. The other builds never link to Google Play.
-            buildConfigField("boolean", "PLAY_LISTED", "false")
+            buildConfigField("boolean", "PLAY_LISTED", "true")
             buildConfigField("boolean", "GITHUB_UPDATES", "false")
         }
         // No Google or Play Services code at all, and no network (F-Droid updates it).

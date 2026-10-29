@@ -59,10 +59,23 @@ def welcome_shows_once():
     d.back()  # sheet
     # Skipping the pick step keeps the sample habits (later checks use them).
     d.tap("Skip for now")
-    # Step 2: the practice card and the five ways to log, Journal included.
+    # Step 2: the practice card and the ways to log, Undo and the Journal included.
     assert d.exists("Try it on this card", timeout=10), "practice step missing"
     time.sleep(1)
-    for row in ("Swipe right", "Swipe left", "Tap the circle", "Press and hold", "Add a note"):
+    # Every change shows Today's Undo bar; its Undo puts the card back and ticks the Undo row.
+    d.tap("Mark Read done")
+    # The bar goes after ~4 s and a dump takes 1-2 s: find the bar and its Undo in one dump. The
+    # bar's Undo, not the "Undo" row, is the last "Undo" (the bar is drawn last).
+    undo, end = None, time.time() + 4
+    while undo is None and time.time() < end:
+        nodes = d.dump()
+        if any(n.label == "Read marked done" for n in nodes):
+            undo = [n for n in nodes if n.label == "Undo"][-1]
+    assert undo, "no Undo bar after a change on the practice card"
+    d.tap_xy(*undo.center)
+    assert d.exists("Mark Read done", timeout=3), "Undo didn't put the practice card back"
+    assert sum(n.label == "Tried" for n in d.dump()) == 2, "tapping the circle and Undo weren't both ticked"
+    for row in ("Swipe right", "Swipe left", "Tap the circle", "Press and hold", "Undo", "Add a note"):
         assert d.scroll_to(row), f"practice row {row} missing"
     d.tap("Go to Today")
     # The first launch after a fresh install is slow (no baseline profile compiled yet).
@@ -329,10 +342,43 @@ def habit_detail_opens():
 
 
 @check
+def note_suggestions():
+    # Sample data: Drink water is Partial today and has a "Busy day..." note from before. Add note's
+    # habit depends on what earlier checks logged, so pick Drink water here.
+    d.nav("Today")
+    d.tap("Add note")
+    time.sleep(1)
+    if "mInputShown=true" in d.shell("dumpsys input_method"):
+        d.back()
+    d.tap("Choose habit")
+    time.sleep(1)
+    d.tap("Drink water")
+    assert d.exists("Quick start", timeout=4), "no Quick start chips on an empty note"
+    assert d.exists("Your recent notes"), "no recent notes for the habit"
+    d.tap("Note")
+    d.type_text("Busy d")
+    assert d.exists("Finish with", timeout=4), "no completion while typing a past sentence"
+    assert d.exists("Similar notes"), "no similar notes while typing"
+    d.tap("Suggestion: day, forgot the bottle at home.")
+    assert d.exists("Busy day, forgot the bottle at home.", timeout=3), "the ending wasn't added"
+    d.back()
+    d.tap("Close")
+
+
+@check
 def journal_lists_and_adds_notes():
     d.nav("Journal")
     assert d.exists("Rough morning", contains=True), "seeded note missing"
     d.tap("Add note")
+    # Add note starts on the habit logged last today, which is Deep work after measure_with_step;
+    # journal_filter_by_habit needs Deep work without notes, so write this one on Read (no note today).
+    time.sleep(1)
+    if "mInputShown=true" in d.shell("dumpsys input_method"):
+        d.back()
+    d.tap("Choose habit")
+    time.sleep(1)
+    d.tap("Read")
+    d.tap("Note")
     d.type_text("Smoke test note")
     d.tap("Save")
     assert d.exists("Smoke test note", timeout=4), "new note not in Journal"
@@ -462,8 +508,8 @@ def note_date_in_a_sheet():
     yesterday = today - datetime.timedelta(days=1)
     assert d.exists(yesterday.strftime("%A, ") + str(yesterday.day), contains=True), "note date didn't change"
     # Saved today about yesterday: the Journal says when it was written.
-    w, h = d.screen_size()
-    d.tap_xy(w // 2, int(h * 0.55))
+    # The field by its label: since 1.4.0 the card is short and suggestions sit under it.
+    d.tap("Note")
     d.type_text("Late note")
     d.tap("Save")
     assert d.scroll_to("written ", contains=True), "a note written a day later doesn't say when it was written"

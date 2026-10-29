@@ -73,7 +73,6 @@
     <string name="choose_habit">Escolher hábito</string>
     <string name="change_date">Mudar data</string>
     <string name="note">Nota</string>
-    <string name="note_placeholder">Como foi hoje?</string>
     <string name="delete_note_title">Excluir esta nota?</string>
     <string name="tab_habits">Hábitos</string>
     <string name="tab_more">Mais</string>
@@ -513,10 +512,57 @@
     <string name="welcome_try_tap_desc">Feito com um toque; toque de novo para desfazer</string>
     <string name="welcome_try_hold">Toque e segure</string>
     <string name="welcome_try_hold_desc">Fez só uma parte? Registre quanto: Parcial</string>
+    <string name="welcome_try_undo">Desfazer</string>
+    <string name="welcome_try_undo_desc">Mudou de ideia? Toque em Desfazer na barra que aparece</string>
     <string name="welcome_tried">Testado</string>
     <string name="welcome_go">Ir para Hoje</string>
     <string name="welcome_own_row">Adicionar seu próprio hábito</string>
     <string name="welcome_own_row_desc">Qualquer hábito, pelo nome. O resto depois.</string>
     <string name="welcome_try_note">Adicionar uma nota</string>
     <string name="welcome_try_note_desc">Toque e segure o cartão e escreva como foi. Toda nota fica no Diário.</string>
+    <!-- Writing suggestions in New note -->
+    <string name="note_placeholder_done">Como foi?</string>
+    <string name="note_placeholder_partial">O que impediu de terminar?</string>
+    <string name="note_placeholder_skipped">O que atrapalhou?</string>
+    <string name="note_placeholder_none">O que está pensando?</string>
+    <string name="suggest_quick_start">Começo rápido</string>
+    <string name="suggest_recent">Suas notas recentes</string>
+    <string name="suggest_this_habit">Este hábito</string>
+    <string name="suggest_finish_with">Terminar com</string>
+    <string name="suggest_tap_to_add">Toque para adicionar</string>
+    <string name="suggest_similar">Notas parecidas</string>
+    <plurals name="suggest_found">
+        <item quantity="one">%1$d encontrada</item>
+        <item quantity="other">%1$d encontradas</item>
+    </plurals>
+    <string name="suggest_chip_a11y">Sugestão: %1$s</string>
+    <string name="suggest_add">adicionar</string>
+    <string name="suggest_past_note_a11y">Nota anterior de %1$s: %2$s</string>
+    <string name="suggest_use">usar</string>
+    <string name="suggest_ghost_a11y">Sugestão: %1$s, toque duas vezes em \"Terminar com\" para aceitar</string>
+    <string name="writing_suggestions">Sugestões ao escrever</string>
+    <string name="writing_suggestions_desc">Começos e finais de frases das suas próprias notas, feitos neste aparelho.</string>
+    <string name="clear_suggestion_history">Limpar histórico de sugestões</string>
+    <string name="clear_suggestion_history_desc">Suas notas continuam.</string>
+    <string name="suggestion_history_cleared">Histórico de sugestões limpo</string>
+    <string-array name="suggest_phrases_skipped">
+        <item>Cansaço</item>
+        <item>Sem tempo</item>
+        <item>Esqueci</item>
+        <item>Fiquei irritado</item>
+        <item>Não me senti bem</item>
+        <item>Dia corrido</item>
+    </string-array>
+    <string-array name="suggest_phrases_partial">
+        <item>O tempo acabou</item>
+        <item>Cansaço</item>
+        <item>Comecei tarde</item>
+        <item>Bom o bastante hoje</item>
+    </string-array>
+    <string-array name="suggest_phrases_done">
+        <item>Me senti ótimo</item>
+        <item>Mais fácil que o normal</item>
+        <item>Difícil, mas fiz</item>
+        <item>Fiz curto</item>
+    </string-array>
 </resources>

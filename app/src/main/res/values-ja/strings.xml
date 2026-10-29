@@ -73,7 +73,6 @@
     <string name="choose_habit">習慣を選ぶ</string>
     <string name="change_date">日付を変更</string>
     <string name="note">メモ</string>
-    <string name="note_placeholder">今日はどうでしたか？</string>
     <string name="delete_note_title">このメモを削除しますか？</string>
     <string name="tab_habits">習慣</string>
     <string name="tab_more">その他</string>
@@ -480,10 +479,56 @@
     <string name="welcome_try_tap_desc">1回で完了、もう一度タップで取り消し</string>
     <string name="welcome_try_hold">長押し</string>
     <string name="welcome_try_hold_desc">一部だけできた？量を記録：一部</string>
+    <string name="welcome_try_undo">元に戻す</string>
+    <string name="welcome_try_undo_desc">気が変わったら、下に出るバーの「元に戻す」をタップ</string>
     <string name="welcome_tried">試しました</string>
     <string name="welcome_go">「今日」へ</string>
     <string name="welcome_own_row">自分の習慣を追加</string>
     <string name="welcome_own_row_desc">名前だけでOK。ほかはあとで設定できます。</string>
     <string name="welcome_try_note">メモを追加</string>
     <string name="welcome_try_note_desc">カードを長押しして、どうだったかを書きましょう。メモはすべて日記に残ります。</string>
+    <!-- Writing suggestions in New note -->
+    <string name="note_placeholder_done">どうでしたか？</string>
+    <string name="note_placeholder_partial">最後までできなかった理由は？</string>
+    <string name="note_placeholder_skipped">何が妨げになりましたか？</string>
+    <string name="note_placeholder_none">今、思うことは？</string>
+    <string name="suggest_quick_start">クイックスタート</string>
+    <string name="suggest_recent">最近のメモ</string>
+    <string name="suggest_this_habit">この習慣</string>
+    <string name="suggest_finish_with">続きの候補</string>
+    <string name="suggest_tap_to_add">タップで追加</string>
+    <string name="suggest_similar">似ているメモ</string>
+    <plurals name="suggest_found">
+        <item quantity="other">%1$d 件</item>
+    </plurals>
+    <string name="suggest_chip_a11y">候補: %1$s</string>
+    <string name="suggest_add">追加</string>
+    <string name="suggest_past_note_a11y">%1$s のメモ: %2$s</string>
+    <string name="suggest_use">使う</string>
+    <string name="suggest_ghost_a11y">候補: %1$s。「続きの候補」をダブルタップで確定</string>
+    <string name="writing_suggestions">入力候補</string>
+    <string name="writing_suggestions_desc">自分のメモから書き出しと続きを提案します。処理はこの端末内だけです。</string>
+    <string name="clear_suggestion_history">候補の履歴を消去</string>
+    <string name="clear_suggestion_history_desc">メモは消えません。</string>
+    <string name="suggestion_history_cleared">候補の履歴を消去しました</string>
+    <string-array name="suggest_phrases_skipped">
+        <item>疲れていた</item>
+        <item>時間がなかった</item>
+        <item>忘れていた</item>
+        <item>イライラした</item>
+        <item>体調が悪かった</item>
+        <item>忙しい日</item>
+    </string-array>
+    <string-array name="suggest_phrases_partial">
+        <item>時間切れ</item>
+        <item>疲れていた</item>
+        <item>始めるのが遅かった</item>
+        <item>今日はこれで十分</item>
+    </string-array>
+    <string-array name="suggest_phrases_done">
+        <item>気分よくできた</item>
+        <item>いつもより楽</item>
+        <item>大変だったけどできた</item>
+        <item>短めにした</item>
+    </string-array>
 </resources>

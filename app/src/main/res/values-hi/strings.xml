@@ -73,7 +73,6 @@
     <string name="choose_habit">आदत चुनें</string>
     <string name="change_date">तारीख बदलें</string>
     <string name="note">नोट</string>
-    <string name="note_placeholder">आज कैसा रहा?</string>
     <string name="delete_note_title">यह नोट मिटाएं?</string>
     <string name="tab_habits">आदतें</string>
     <string name="tab_more">और</string>
@@ -497,10 +496,57 @@
     <string name="welcome_try_tap_desc">एक टैप में हो गया; दोबारा टैप करके वापस लें</string>
     <string name="welcome_try_hold">दबाकर रखें</string>
     <string name="welcome_try_hold_desc">थोड़ा किया? कितना, दर्ज करें: आंशिक</string>
+    <string name="welcome_try_undo">वापस लें</string>
+    <string name="welcome_try_undo_desc">मन बदल गया? नीचे आई पट्टी में वापस लें दबाएँ</string>
     <string name="welcome_tried">आज़माया</string>
     <string name="welcome_go">आज पर जाएँ</string>
     <string name="welcome_own_row">अपनी आदत जोड़ें</string>
     <string name="welcome_own_row_desc">कोई भी आदत, नाम से। बाकी बाद में।</string>
     <string name="welcome_try_note">नोट जोड़ें</string>
     <string name="welcome_try_note_desc">कार्ड दबाकर रखें और लिखें कि कैसा रहा। हर नोट डायरी में रहता है।</string>
+    <!-- Writing suggestions in New note -->
+    <string name="note_placeholder_done">कैसा रहा?</string>
+    <string name="note_placeholder_partial">पूरा करने से क्या रोका?</string>
+    <string name="note_placeholder_skipped">क्या रुकावट आई?</string>
+    <string name="note_placeholder_none">मन में क्या है?</string>
+    <string name="suggest_quick_start">जल्दी शुरू करें</string>
+    <string name="suggest_recent">आपके हाल के नोट</string>
+    <string name="suggest_this_habit">यह आदत</string>
+    <string name="suggest_finish_with">ऐसे पूरा करें</string>
+    <string name="suggest_tap_to_add">जोड़ने के लिए टैप करें</string>
+    <string name="suggest_similar">मिलते-जुलते नोट</string>
+    <plurals name="suggest_found">
+        <item quantity="one">%1$d मिला</item>
+        <item quantity="other">%1$d मिले</item>
+    </plurals>
+    <string name="suggest_chip_a11y">सुझाव: %1$s</string>
+    <string name="suggest_add">जोड़ें</string>
+    <string name="suggest_past_note_a11y">%1$s का पुराना नोट: %2$s</string>
+    <string name="suggest_use">इस्तेमाल करें</string>
+    <string name="suggest_ghost_a11y">सुझाव: %1$s, मानने के लिए \'ऐसे पूरा करें\' पर दो बार टैप करें</string>
+    <string name="writing_suggestions">लिखने के सुझाव</string>
+    <string name="writing_suggestions_desc">आपके अपने नोट से शुरुआती वाक्य और अंत, इसी डिवाइस पर तैयार।</string>
+    <string name="clear_suggestion_history">सुझावों का इतिहास मिटाएँ</string>
+    <string name="clear_suggestion_history_desc">आपके नोट बने रहेंगे।</string>
+    <string name="suggestion_history_cleared">सुझावों का इतिहास मिट गया</string>
+    <string-array name="suggest_phrases_skipped">
+        <item>थकान थी</item>
+        <item>समय नहीं था</item>
+        <item>भूल गया</item>
+        <item>चिढ़ गया</item>
+        <item>तबीयत ठीक नहीं थी</item>
+        <item>व्यस्त दिन</item>
+    </string-array>
+    <string-array name="suggest_phrases_partial">
+        <item>समय खत्म हो गया</item>
+        <item>थकान थी</item>
+        <item>देर से शुरू किया</item>
+        <item>आज के लिए काफ़ी</item>
+    </string-array>
+    <string-array name="suggest_phrases_done">
+        <item>बहुत अच्छा लगा</item>
+        <item>रोज़ से आसान</item>
+        <item>मुश्किल था, पर किया</item>
+        <item>छोटा रखा</item>
+    </string-array>
 </resources>

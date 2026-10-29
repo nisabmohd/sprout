@@ -73,7 +73,6 @@
     <string name="choose_habit">Choisir l\'habitude</string>
     <string name="change_date">Changer la date</string>
     <string name="note">Note</string>
-    <string name="note_placeholder">Comment s\'est passée la journée ?</string>
     <string name="delete_note_title">Supprimer cette note ?</string>
     <string name="tab_habits">Habitudes</string>
     <string name="tab_more">Plus</string>
@@ -513,10 +512,57 @@
     <string name="welcome_try_tap_desc">Fait en un geste ; touchez encore pour annuler</string>
     <string name="welcome_try_hold">Appui long</string>
     <string name="welcome_try_hold_desc">Fait en partie ? Notez combien : Partiel</string>
+    <string name="welcome_try_undo">Annuler</string>
+    <string name="welcome_try_undo_desc">Changé d\'avis ? Touchez Annuler dans la barre en bas</string>
     <string name="welcome_tried">Essayé</string>
     <string name="welcome_go">Aller à Aujourd\'hui</string>
     <string name="welcome_own_row">Ajouter votre propre habitude</string>
     <string name="welcome_own_row_desc">N\'importe quelle habitude, par son nom. Le reste plus tard.</string>
     <string name="welcome_try_note">Ajouter une note</string>
     <string name="welcome_try_note_desc">Appui long sur la carte, puis écrivez comment ça s\'est passé. Chaque note est gardée dans le Journal.</string>
+    <!-- Writing suggestions in New note -->
+    <string name="note_placeholder_done">Comment ça s\'est passé ?</string>
+    <string name="note_placeholder_partial">Qu\'est-ce qui vous a empêché de finir ?</string>
+    <string name="note_placeholder_skipped">Qu\'est-ce qui a coincé ?</string>
+    <string name="note_placeholder_none">Qu\'avez-vous en tête ?</string>
+    <string name="suggest_quick_start">Pour commencer</string>
+    <string name="suggest_recent">Vos notes récentes</string>
+    <string name="suggest_this_habit">Cette habitude</string>
+    <string name="suggest_finish_with">Terminer par</string>
+    <string name="suggest_tap_to_add">Toucher pour ajouter</string>
+    <string name="suggest_similar">Notes similaires</string>
+    <plurals name="suggest_found">
+        <item quantity="one">%1$d trouvée</item>
+        <item quantity="other">%1$d trouvées</item>
+    </plurals>
+    <string name="suggest_chip_a11y">Suggestion : %1$s</string>
+    <string name="suggest_add">ajouter</string>
+    <string name="suggest_past_note_a11y">Note du %1$s : %2$s</string>
+    <string name="suggest_use">utiliser</string>
+    <string name="suggest_ghost_a11y">Suggestion : %1$s, appuyez deux fois sur « Terminer par » pour l\'accepter</string>
+    <string name="writing_suggestions">Suggestions d\'écriture</string>
+    <string name="writing_suggestions_desc">Débuts et fins de phrases tirés de vos propres notes, calculés sur cet appareil.</string>
+    <string name="clear_suggestion_history">Effacer l\'historique des suggestions</string>
+    <string name="clear_suggestion_history_desc">Vos notes restent.</string>
+    <string name="suggestion_history_cleared">Historique des suggestions effacé</string>
+    <string-array name="suggest_phrases_skipped">
+        <item>Fatigué</item>
+        <item>Pas le temps</item>
+        <item>Oublié</item>
+        <item>Agacé</item>
+        <item>Pas bien</item>
+        <item>Journée chargée</item>
+    </string-array>
+    <string-array name="suggest_phrases_partial">
+        <item>Plus de temps</item>
+        <item>Fatigué</item>
+        <item>Commencé tard</item>
+        <item>Assez pour aujourd\'hui</item>
+    </string-array>
+    <string-array name="suggest_phrases_done">
+        <item>Super bien</item>
+        <item>Plus facile que d\'habitude</item>
+        <item>Dur, mais fait</item>
+        <item>Fait court</item>
+    </string-array>
 </resources>

@@ -1,5 +1,22 @@
 # Changelog
 
+## 1.4.0
+
+Added:
+
+- Writing suggestions in New note. Before you type: "Quick start" phrases that fit the day (Skipped, Partial or Done), led by the openers you use most, and your recent notes for that habit. While you type: the rest of a sentence you wrote before, in grey after the cursor, plus "Finish with" endings and "Similar notes". Tap one to use it. Everything is worked out on your phone from a fixed list of phrases and your own notes; nothing is sent anywhere.
+- More → Journal: turn writing suggestions off, or clear what they learned from your notes (the notes stay).
+- The note's placeholder asks a question that fits the day, like "What got in the way?" after a skip.
+- Get started's practice card now shows the Undo bar after every change, like Today, with a new "Undo" step that's ticked once you use it.
+
+Changed:
+
+- The Journal's empty state uses the note icon from the rest of the app, on an accent tile.
+
+Fixed:
+
+- The bottom tab bar's first and last tabs sat almost on the screen edge; they now line up with the rest of the screen.
+
 ## 1.3.8
 
 Changed:

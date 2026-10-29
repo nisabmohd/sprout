@@ -28,6 +28,10 @@ import androidx.navigation.NavBackStackEntry
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.width
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.map
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -135,9 +139,12 @@ fun SproutNavHost(
             composable<WriteNoteRoute> { entry ->
                 val route = entry.toRoute<WriteNoteRoute>()
                 val vm = viewModel {
-                    WriteNoteViewModel(container.repository, route.noteId, route.habitId, route.epochDay.takeIf { it >= 0 }, createSavedStateHandle())
+                    WriteNoteViewModel(
+                        container.repository, route.noteId, route.habitId, route.epochDay.takeIf { it >= 0 }, createSavedStateHandle(),
+                        container.settings.settings.map { it.suggestionsClearedAt }.distinctUntilChanged(),
+                    )
                 }
-                WriteNoteScreen(vm, settings.weekStart, onClose = { navController.popBackStack() })
+                WriteNoteScreen(vm, settings.weekStart, settings.writingSuggestions, onClose = { navController.popBackStack() })
             }
             composable<EditHabitRoute> { entry ->
                 val id = entry.toRoute<EditHabitRoute>().habitId
@@ -266,6 +273,9 @@ private fun SproutNavigationBar(current: Tab, onSelect: (Tab) -> Unit) {
     // Five labels have to fit in one row; past 1.3x they would wrap mid-word.
     CappedFontScale {
     NavigationBar(containerColor = colors.surfaceContainer) {
+        // The bar runs to the screen's edges, but its tabs keep in from them: without this the
+        // first and last pills sat about 6 dp from the edge, against the 16 dp of every screen.
+        Spacer(Modifier.width(NAV_BAR_INSET))
         Tab.entries.forEach { tab ->
             val selected = tab == current
             NavigationBarItem(
@@ -291,6 +301,10 @@ private fun SproutNavigationBar(current: Tab, onSelect: (Tab) -> Unit) {
                 ),
             )
         }
+        Spacer(Modifier.width(NAV_BAR_INSET))
     }
     }
 }
+
+/** Space at each end of the nav bar, so the end pills sit about 16 dp from the screen edge. */
+private val NAV_BAR_INSET = 8.dp

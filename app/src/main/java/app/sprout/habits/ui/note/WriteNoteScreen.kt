@@ -1,5 +1,33 @@
 package app.sprout.habits.ui.note
 
+import app.sprout.habits.data.Entry
+import app.sprout.habits.data.EntryStatus
+import app.sprout.habits.data.Habit
+import app.sprout.habits.domain.COMPLETION_MIN_TYPED
+import app.sprout.habits.domain.SUGGESTIONS_MAX_LENGTH
+import app.sprout.habits.domain.TextEdit
+import app.sprout.habits.domain.insertEnding
+import app.sprout.habits.domain.insertPhrase
+import app.sprout.habits.domain.isScheduled
+import app.sprout.habits.domain.replaceSentence
+import app.sprout.habits.domain.typedSentence
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.key.Key
+import androidx.compose.ui.input.key.KeyEventType
+import androidx.compose.ui.input.key.key
+import androidx.compose.ui.input.key.onPreviewKeyEvent
+import androidx.compose.ui.input.key.type
+import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.TextRange
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.input.OffsetMapping
+import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.text.input.TransformedText
+import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.text.withStyle
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.getValue
 import app.sprout.habits.ui.components.HabitTile
@@ -70,7 +98,7 @@ import app.sprout.habits.ui.theme.habitColors
 import java.time.DayOfWeek
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun WriteNoteScreen(viewModel: WriteNoteViewModel, weekStart: DayOfWeek, onClose: () -> Unit) {
+fun WriteNoteScreen(viewModel: WriteNoteViewModel, weekStart: DayOfWeek, writingSuggestions: Boolean, onClose: () -> Unit) {
     val form by viewModel.form.collectAsStateWithLifecycle()
     val habits by viewModel.habits.collectAsStateWithLifecycle()
     val entry by viewModel.entry.collectAsStateWithLifecycle()
@@ -82,6 +110,39 @@ fun WriteNoteScreen(viewModel: WriteNoteViewModel, weekStart: DayOfWeek, onClose
     var pickingDate by rememberSaveable { mutableStateOf(false) }
     var confirmDelete by rememberSaveable { mutableStateOf(false) }
     val focus = remember { FocusRequester() }
+
+    val habit = habits.firstOrNull { it.id == form.habitId }
+    // What the day's log says, for the placeholder and the Quick start chips. A past scheduled
+    // day with nothing logged counts as Skip.
+    val status: EntryStatus? = entry?.status ?: habit?.takeIf {
+        form.date.isBefore(LocalDate.now()) && isScheduled(it.daysMask, form.date)
+    }?.let { EntryStatus.SKIP }
+
+    // The field keeps its own text and cursor and tells the view model; it takes the view model's
+    // text only when the form puts in one of its own (see NoteForm.textVersion).
+    var field by remember { mutableStateOf(TextFieldValue(form.text, TextRange(form.text.length))) }
+    LaunchedEffect(form.textVersion) {
+        if (field.text != form.text) field = TextFieldValue(form.text, TextRange(form.text.length))
+    }
+    fun apply(edit: TextEdit) {
+        field = TextFieldValue(edit.text, TextRange(edit.cursor))
+        viewModel.setText(edit.text)
+    }
+    // Picking one of "Your recent notes" puts the suggestions away until the field is cleared.
+    var usedRecent by rememberSaveable { mutableStateOf(false) }
+    if (usedRecent && field.text.isEmpty()) usedRecent = false
+
+    val suggestions by viewModel.suggestions.collectAsStateWithLifecycle()
+    val suggest = writingSuggestions && habit != null && !usedRecent && field.text.length <= SUGGESTIONS_MAX_LENGTH
+    val cursor = field.selection.end
+    val typed = if (field.selection.collapsed) typedSentence(field.text, cursor) else ""
+    val typing = typed.trim().length >= COMPLETION_MIN_TYPED
+    // Only complete a sentence when the cursor is at its end, so the ending doesn't land mid-text.
+    val atLineEnd = field.text.substring(cursor.coerceIn(0, field.text.length)).substringBefore('\n').isBlank()
+    val completions = remember(suggestions, typed, form.habitId, suggest, atLineEnd) {
+        if (suggest && typing && atLineEnd) suggestions.index.complete(typed, form.habitId) else emptyList()
+    }
+    val ghost = completions.firstOrNull()
 
     Column(Modifier.fillMaxSize().background(colors.background).statusBarsPadding().navigationBarsPadding().imePadding()) {
         Row(
@@ -102,81 +163,65 @@ fun WriteNoteScreen(viewModel: WriteNoteViewModel, weekStart: DayOfWeek, onClose
             HeaderIconButton(R.drawable.ic_check, stringResource(R.string.action_save), primary = true, enabled = form.canSave, onClick = viewModel::save)
         }
 
-        // One card down to the keyboard: the habit row on top, then the note, with no outline.
-        Column(
-            Modifier
-                .fillMaxSize()
-                .padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 16.dp)
-                .clip(RoundedCornerShape(28.dp))
-                .background(colors.surfaceContainerLowest)
-                .padding(8.dp),
-        ) {
-            val habit = habits.firstOrNull { it.id == form.habitId }
-            if (habit == null) {
-                Text(
-                    stringResource(R.string.note_no_habits),
-                    style = SproutType.body,
-                    color = colors.onSurfaceVariant,
-                    modifier = Modifier.padding(16.dp),
-                )
-            } else {
-                val hc = habitColors(habit.colorHue.toFloat())
-                val (mark, outcome) = NoteCardUi.dayOutcome(habit, entry, form.date.toEpochDay(), LocalDate.now().toEpochDay(), rememberStrings())
-                Row(
-                    Modifier
-                        .fillMaxWidth()
-                        .height(68.dp)
-                        .clip(RoundedCornerShape(22.dp))
-                        .background(hc.soft)
-                        .clickable(onClickLabel = stringResource(R.string.choose_habit)) { pickingHabit = true }
-                        .padding(start = 12.dp, end = 4.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
-                    HabitTile(HabitIcon.fromKey(habit.icon).drawable, hc.mid, hc.ink)
-                    Column(Modifier.weight(1f).padding(start = 12.dp), verticalArrangement = Arrangement.spacedBy(2.dp)) {
-                        Text(habit.name, style = SproutType.cardTitle, color = hc.ink, maxLines = 1, overflow = TextOverflow.Ellipsis)
-                        Row(
-                            Modifier.clickable(onClickLabel = stringResource(R.string.change_date)) { pickingDate = true },
-                            verticalAlignment = Alignment.CenterVertically,
-                        ) {
-                            DayMarkView(mark, hc, MarkColors(colors.outlineVariant, colors.onSurfaceVariant, colors.outline), Modifier.size(16.dp))
-                            Text(
-                                "$outcome · ${form.date.format(datePattern("EEEE, d MMM"))}",
-                                style = SproutType.supporting,
-                                color = hc.ink.copy(alpha = 0.8f),
-                                maxLines = 1,
-                                overflow = TextOverflow.Ellipsis,
-                                modifier = Modifier.padding(start = 6.dp),
-                            )
-                        }
-                    }
-                    IconButton(onClick = { pickingHabit = true }) {
-                        Icon(painterResource(R.drawable.ic_chevron_down), contentDescription = stringResource(R.string.choose_habit), tint = hc.ink, modifier = Modifier.size(22.dp))
-                    }
+        val noteCard: @Composable (Modifier, Modifier) -> Unit = { cardModifier, fieldModifier ->
+            // One card: the habit row on top, then the note, with no outline.
+            Column(
+                cardModifier
+                    .padding(start = 16.dp, end = 16.dp, top = 8.dp)
+                    .clip(RoundedCornerShape(28.dp))
+                    .background(colors.surfaceContainerLowest)
+                    .padding(8.dp),
+            ) {
+                if (habit == null) {
+                    Text(
+                        stringResource(R.string.note_no_habits),
+                        style = SproutType.body,
+                        color = colors.onSurfaceVariant,
+                        modifier = Modifier.padding(16.dp),
+                    )
+                } else {
+                    HabitRow(habit, entry, form.date, onPickHabit = { pickingHabit = true }, onPickDate = { pickingDate = true })
+                    NoteField(
+                        field = field,
+                        onChange = { field = it; viewModel.setText(it.text) },
+                        placeholder = stringResource(placeholderFor(status)),
+                        cursorColor = habitColors(habit.colorHue.toFloat()).solid,
+                        ghost = ghost?.ending,
+                        onAcceptGhost = { ghost?.let { apply(insertEnding(field.text, cursor, it.ending)) } },
+                        modifier = fieldModifier.focusRequester(focus),
+                    )
+                    // Add note opens ready to type, also when that day's note is already there; the
+                    // field only exists once the habit is known.
+                    LaunchedEffect(Unit) { if (viewModel.opensTyping) focus.requestFocus() }
                 }
-                val noteLabel = stringResource(R.string.note)
-                val textStyle = SproutType.noteEditor.copy(color = colors.onSurface)
-                BasicTextField(
-                    value = form.text,
-                    onValueChange = viewModel::setText,
-                    textStyle = textStyle,
-                    cursorBrush = SolidColor(hc.solid),
-                    keyboardOptions = KeyboardOptions(capitalization = KeyboardCapitalization.Sentences),
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(start = 16.dp, end = 16.dp, top = 20.dp)
-                        .focusRequester(focus)
-                        .semantics { contentDescription = noteLabel },
-                    decorationBox = { field ->
-                        Box {
-                            if (form.text.isEmpty()) Text(stringResource(R.string.note_placeholder), style = textStyle.copy(color = colors.onSurfaceVariant))
-                            field()
-                        }
-                    },
-                )
-                // Add note opens ready to type, also when that day's note is already there; the
-                // field only exists once the habit is known.
-                LaunchedEffect(Unit) { if (viewModel.opensTyping) focus.requestFocus() }
+            }
+        }
+
+        if (!writingSuggestions) {
+            // Without suggestions the card reaches down to the keyboard, as it always did.
+            noteCard(Modifier.fillMaxSize().padding(bottom = 16.dp), Modifier.fillMaxSize().padding(start = 16.dp, end = 16.dp, top = 20.dp))
+        } else {
+            // The card is only as tall as the writing area; the suggestions sit under it and the
+            // page scrolls, so the field stays in view above the keyboard.
+            Column(Modifier.weight(1f).verticalScroll(rememberScrollState())) {
+                noteCard(Modifier, Modifier.fillMaxWidth().height(NoteFieldHeight).padding(start = 16.dp, end = 16.dp, top = 20.dp, bottom = 12.dp))
+                if (suggest && habit != null) {
+                    NoteSuggestions(
+                        data = suggestions,
+                        isNew = form.isNew,
+                        noteId = form.noteId,
+                        habitId = habit.id,
+                        status = status,
+                        typed = typed,
+                        typing = typing,
+                        completions = completions,
+                        onInsertPhrase = { apply(insertPhrase(field.text, cursor, it)) },
+                        onUseRecent = { apply(replaceSentence(field.text, cursor, it)); usedRecent = true },
+                        onUseSimilar = { apply(replaceSentence(field.text, cursor, it)) },
+                        onAddEnding = { apply(insertEnding(field.text, cursor, it)) },
+                    )
+                }
+                Spacer(Modifier.height(24.dp))
             }
         }
     }
@@ -255,5 +300,118 @@ private fun HabitPickerSheet(
                 }
             }
         }
+    }
+}
+
+/** The writing area's height when the suggestions sit under the card; longer notes scroll inside it. */
+private val NoteFieldHeight = 182.dp
+
+private fun placeholderFor(status: EntryStatus?): Int = when (status) {
+    EntryStatus.SKIP -> R.string.note_placeholder_skipped
+    EntryStatus.PARTIAL -> R.string.note_placeholder_partial
+    EntryStatus.DONE -> R.string.note_placeholder_done
+    null -> R.string.note_placeholder_none
+}
+
+/** The tinted habit row at the top of the card: tile, name, the day's mark, outcome and date. */
+@Composable
+private fun HabitRow(habit: Habit, entry: Entry?, date: LocalDate, onPickHabit: () -> Unit, onPickDate: () -> Unit) {
+    val colors = MaterialTheme.colorScheme
+    val hc = habitColors(habit.colorHue.toFloat())
+    val (mark, outcome) = NoteCardUi.dayOutcome(habit, entry, date.toEpochDay(), LocalDate.now().toEpochDay(), rememberStrings())
+    Row(
+        Modifier
+            .fillMaxWidth()
+            .height(68.dp)
+            .clip(RoundedCornerShape(22.dp))
+            .background(hc.soft)
+            .clickable(onClickLabel = stringResource(R.string.choose_habit), onClick = onPickHabit)
+            .padding(start = 12.dp, end = 4.dp),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        HabitTile(HabitIcon.fromKey(habit.icon).drawable, hc.mid, hc.ink)
+        Column(Modifier.weight(1f).padding(start = 12.dp), verticalArrangement = Arrangement.spacedBy(2.dp)) {
+            Text(habit.name, style = SproutType.cardTitle, color = hc.ink, maxLines = 1, overflow = TextOverflow.Ellipsis)
+            Row(
+                Modifier.clickable(onClickLabel = stringResource(R.string.change_date), onClick = onPickDate),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                DayMarkView(mark, hc, MarkColors(colors.outlineVariant, colors.onSurfaceVariant, colors.outline), Modifier.size(16.dp))
+                Text(
+                    "$outcome · ${date.format(datePattern("EEEE, d MMM"))}",
+                    style = SproutType.supporting,
+                    color = hc.ink.copy(alpha = 0.8f),
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                    modifier = Modifier.padding(start = 6.dp),
+                )
+            }
+        }
+        IconButton(onClick = onPickHabit) {
+            Icon(painterResource(R.drawable.ic_chevron_down), contentDescription = stringResource(R.string.choose_habit), tint = hc.ink, modifier = Modifier.size(22.dp))
+        }
+    }
+}
+
+/**
+ * The borderless note field. [ghost] is the rest of the best completion, drawn muted right after
+ * the cursor; it is not part of the text, so TalkBack doesn't read it as the note. Tab or → on a
+ * hardware keyboard accepts it.
+ */
+@Composable
+private fun NoteField(
+    field: TextFieldValue,
+    onChange: (TextFieldValue) -> Unit,
+    placeholder: String,
+    cursorColor: Color,
+    ghost: String?,
+    onAcceptGhost: () -> Unit,
+    modifier: Modifier,
+) {
+    val colors = MaterialTheme.colorScheme
+    val noteLabel = stringResource(R.string.note)
+    val textStyle = SproutType.noteEditor.copy(color = colors.onSurface)
+    val transformation = if (ghost != null) GhostText(field.selection.end, ghost, colors.onSurfaceVariant) else VisualTransformation.None
+    BasicTextField(
+        value = field,
+        onValueChange = onChange,
+        textStyle = textStyle,
+        cursorBrush = SolidColor(cursorColor),
+        keyboardOptions = KeyboardOptions(capitalization = KeyboardCapitalization.Sentences),
+        visualTransformation = transformation,
+        modifier = modifier
+            .onPreviewKeyEvent { event ->
+                val accept = ghost != null && event.type == KeyEventType.KeyDown && (event.key == Key.Tab || event.key == Key.DirectionRight)
+                if (accept) onAcceptGhost()
+                accept
+            }
+            .semantics { contentDescription = noteLabel },
+        decorationBox = { inner ->
+            Box {
+                if (field.text.isEmpty()) Text(placeholder, style = textStyle.copy(color = colors.onSurfaceVariant))
+                inner()
+            }
+        },
+    )
+}
+
+/** Shows [ghost] in [color] at [at] without changing the text; the cursor stays before it. */
+private data class GhostText(val at: Int, val ghost: String, val color: Color) : VisualTransformation {
+    override fun filter(text: AnnotatedString): TransformedText {
+        val split = at.coerceIn(0, text.length)
+        val shown = buildAnnotatedString {
+            append(text.subSequence(0, split))
+            withStyle(SpanStyle(color = color)) { append(ghost) }
+            append(text.subSequence(split, text.length))
+        }
+        val g = ghost.length
+        return TransformedText(shown, object : OffsetMapping {
+            override fun originalToTransformed(offset: Int) = if (offset <= split) offset else offset + g
+            override fun transformedToOriginal(offset: Int) = when {
+                offset <= split -> offset
+                offset <= split + g -> split
+                else -> offset - g
+            }
+        })
     }
 }

@@ -49,6 +49,10 @@ data class Settings(
     val sampleHabitIds: Set<Long> = emptySet(),
     /** True once the user logged or changed a habit: the Today banner goes, the sample habits stay. */
     val sampleBannerHidden: Boolean = false,
+    /** Starter phrases, past notes and sentence completion in New note (More → Journal). */
+    val writingSuggestions: Boolean = true,
+    /** Epoch millis of "Clear suggestion history": notes last written before it aren't learned from. */
+    val suggestionsClearedAt: Long = 0,
 )
 
 private val Context.dataStore by preferencesDataStore(name = "settings")
@@ -102,6 +106,8 @@ class SettingsRepository(context: Context) {
             if (it[ACCENT_HUE] == null) it[ACCENT_HUE] = 150f
         }
     }
+    suspend fun setWritingSuggestions(enabled: Boolean) = store.edit { it[WRITING_SUGGESTIONS] = enabled }
+    suspend fun clearSuggestionHistory(now: Long = System.currentTimeMillis()) = store.edit { it[SUGGESTIONS_CLEARED_AT] = now }
     suspend fun addCheckIn() = store.edit { it[CHECK_INS] = (it[CHECK_INS] ?: 0) + 1 }
     suspend fun supportPromptShown(dismissed: Boolean, now: Long = System.currentTimeMillis()) = store.edit {
         it[PROMPT_SHOWN_AT] = now
@@ -144,6 +150,8 @@ class SettingsRepository(context: Context) {
             dismissedUpdate = this[DISMISSED_UPDATE],
             sampleHabitIds = this[SAMPLE_HABITS].orEmpty().mapNotNullTo(HashSet()) { it.toLongOrNull() },
             sampleBannerHidden = this[SAMPLE_BANNER_HIDDEN] == true,
+            writingSuggestions = this[WRITING_SUGGESTIONS] ?: defaults.writingSuggestions,
+            suggestionsClearedAt = this[SUGGESTIONS_CLEARED_AT] ?: 0,
         )
     }
 
@@ -167,6 +175,8 @@ class SettingsRepository(context: Context) {
         val DISMISSED_UPDATE = stringPreferencesKey("dismissedUpdateVersion")
         val SAMPLE_HABITS = stringSetPreferencesKey("sampleHabitIds")
         val SAMPLE_BANNER_HIDDEN = booleanPreferencesKey("sampleBannerHidden")
+        val WRITING_SUGGESTIONS = booleanPreferencesKey("writingSuggestions")
+        val SUGGESTIONS_CLEARED_AT = longPreferencesKey("suggestionsClearedAt")
 
         inline fun <reified E : Enum<E>> enumOrDefault(name: String?, default: E): E =
             name?.let { n -> enumValues<E>().firstOrNull { it.name == n } } ?: default

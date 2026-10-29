@@ -73,7 +73,6 @@
     <string name="choose_habit">Gewohnheit wählen</string>
     <string name="change_date">Datum ändern</string>
     <string name="note">Notiz</string>
-    <string name="note_placeholder">Wie lief es heute?</string>
     <string name="delete_note_title">Diese Notiz löschen?</string>
     <string name="tab_habits">Gewohnheiten</string>
     <string name="tab_more">Mehr</string>
@@ -496,10 +495,57 @@
     <string name="welcome_try_tap_desc">Mit einem Tipp erledigt; erneut tippen macht es rückgängig</string>
     <string name="welcome_try_hold">Gedrückt halten</string>
     <string name="welcome_try_hold_desc">Nur einen Teil geschafft? Trag die Menge ein: Teilweise</string>
+    <string name="welcome_try_undo">Rückgängig</string>
+    <string name="welcome_try_undo_desc">Doch anders? Tippe in der Leiste unten auf Rückgängig</string>
     <string name="welcome_tried">Ausprobiert</string>
     <string name="welcome_go">Zu Heute</string>
     <string name="welcome_own_row">Eigene Gewohnheit hinzufügen</string>
     <string name="welcome_own_row_desc">Jede Gewohnheit, nach Namen. Den Rest später.</string>
     <string name="welcome_try_note">Notiz hinzufügen</string>
     <string name="welcome_try_note_desc">Halte die Karte gedrückt und schreib, wie es lief. Jede Notiz landet im Tagebuch.</string>
+    <!-- Writing suggestions in New note -->
+    <string name="note_placeholder_done">Wie lief es?</string>
+    <string name="note_placeholder_partial">Was hat dich am Abschließen gehindert?</string>
+    <string name="note_placeholder_skipped">Was kam dazwischen?</string>
+    <string name="note_placeholder_none">Was beschäftigt dich?</string>
+    <string name="suggest_quick_start">Schnellstart</string>
+    <string name="suggest_recent">Deine letzten Notizen</string>
+    <string name="suggest_this_habit">Diese Gewohnheit</string>
+    <string name="suggest_finish_with">Fertig mit</string>
+    <string name="suggest_tap_to_add">Tippen zum Einfügen</string>
+    <string name="suggest_similar">Ähnliche Notizen</string>
+    <plurals name="suggest_found">
+        <item quantity="one">%1$d gefunden</item>
+        <item quantity="other">%1$d gefunden</item>
+    </plurals>
+    <string name="suggest_chip_a11y">Vorschlag: %1$s</string>
+    <string name="suggest_add">einfügen</string>
+    <string name="suggest_past_note_a11y">Frühere Notiz vom %1$s: %2$s</string>
+    <string name="suggest_use">verwenden</string>
+    <string name="suggest_ghost_a11y">Vorschlag: %1$s, zum Übernehmen „Fertig mit“ doppelt tippen</string>
+    <string name="writing_suggestions">Schreibvorschläge</string>
+    <string name="writing_suggestions_desc">Satzanfänge und Endungen aus deinen eigenen Notizen, auf diesem Gerät ermittelt.</string>
+    <string name="clear_suggestion_history">Vorschlagsverlauf löschen</string>
+    <string name="clear_suggestion_history_desc">Deine Notizen bleiben.</string>
+    <string name="suggestion_history_cleared">Vorschlagsverlauf gelöscht</string>
+    <string-array name="suggest_phrases_skipped">
+        <item>Müde</item>
+        <item>Keine Zeit</item>
+        <item>Vergessen</item>
+        <item>Genervt</item>
+        <item>Nicht gut gefühlt</item>
+        <item>Voller Tag</item>
+    </string-array>
+    <string-array name="suggest_phrases_partial">
+        <item>Zeit wurde knapp</item>
+        <item>Müde</item>
+        <item>Spät angefangen</item>
+        <item>Gut genug für heute</item>
+    </string-array>
+    <string-array name="suggest_phrases_done">
+        <item>Fühlte mich super</item>
+        <item>Leichter als sonst</item>
+        <item>Schwer, aber geschafft</item>
+        <item>Kurz gehalten</item>
+    </string-array>
 </resources>

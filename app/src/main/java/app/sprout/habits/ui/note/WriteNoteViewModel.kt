@@ -9,7 +9,13 @@ import app.sprout.habits.data.Entry
 import app.sprout.habits.data.Habit
 import app.sprout.habits.data.HabitRepository
 import app.sprout.habits.data.Note
+import app.sprout.habits.domain.PastNote
+import app.sprout.habits.domain.SentenceIndex
 import app.sprout.habits.domain.joinNoteText
+import app.sprout.habits.data.EntryStatus
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOn
 import java.time.LocalDate
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.Channel
@@ -33,9 +39,24 @@ data class NoteForm(
     val habitId: Long = 0,
     val date: LocalDate = LocalDate.now(),
     val text: String = "",
+    /**
+     * Goes up each time the form puts in a text of its own (a saved note shown, a habit or day
+     * changed), and not on [WriteNoteViewModel.setText]. The field takes the text over only then:
+     * copying back every echo of what was typed let an older one land after newer keystrokes and
+     * drop letters when typing fast.
+     */
+    val textVersion: Int = 0,
 ) {
     val isNew: Boolean get() = noteId == 0L
     val canSave: Boolean get() = habitId != 0L && text.isNotBlank()
+}
+
+/** What the writing suggestions learn from: the user's notes and a prefix index of their sentences. */
+@Immutable
+class NoteSuggestionData(val notes: List<PastNote>, val index: SentenceIndex) {
+    companion object {
+        val EMPTY = NoteSuggestionData(emptyList(), SentenceIndex(emptyList()))
+    }
 }
 
 @OptIn(ExperimentalCoroutinesApi::class)
@@ -45,6 +66,8 @@ class WriteNoteViewModel(
     habitId: Long,
     epochDay: Long?,
     private val state: SavedStateHandle,
+    /** "Clear suggestion history" time: notes last written before it aren't suggested. */
+    suggestionsClearedAt: Flow<Long> = flowOf(0L),
 ) : ViewModel() {
     /** True when the screen was opened to write, not to edit a note picked from a list. */
     val opensTyping: Boolean = noteId == 0L
@@ -64,6 +87,30 @@ class WriteNoteViewModel(
             if (habit == 0L) flowOf(null) else repository.observeEntries(habit, day, day).map { it.firstOrNull() }
         }
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), null)
+
+    /**
+     * Every note with the outcome of its day, and the sentence index, rebuilt off the main thread
+     * whenever a note is saved, edited or deleted. A past scheduled day with no entry counts as
+     * Skip, like everywhere else.
+     */
+    val suggestions: StateFlow<NoteSuggestionData> = combine(
+        repository.observeNotes(),
+        repository.observeEntries(0, LocalDate.now().toEpochDay()),
+        repository.observeAllHabits(),
+        suggestionsClearedAt,
+    ) { notes, entries, habits, clearedAt ->
+        val status = entries.associate { (it.habitId to it.date) to it.status }
+        val habitById = habits.associateBy { it.id }
+        val today = LocalDate.now().toEpochDay()
+        val past = notes.filter { it.updatedAt >= clearedAt && it.text.isNotBlank() }.map { n ->
+            val logged = status[n.habitId to n.date]
+            val missed = n.date < today && habitById[n.habitId]?.let { isScheduled(it.daysMask, LocalDate.ofEpochDay(n.date)) } == true
+            PastNote(n.id, n.habitId, n.date, n.text, logged ?: if (missed) EntryStatus.SKIP else null)
+        }
+        NoteSuggestionData(past, SentenceIndex(past))
+    }
+        .flowOn(Dispatchers.Default)
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), NoteSuggestionData.EMPTY)
 
     /**
      * The saved note the form shows because the habit and day chosen already have one. Null for a
@@ -157,6 +204,7 @@ class WriteNoteViewModel(
             habitId = habitId,
             date = date,
             text = joinNoteText(saved?.text, typed),
+            textVersion = _form.value.textVersion + 1,
         )
     }
 

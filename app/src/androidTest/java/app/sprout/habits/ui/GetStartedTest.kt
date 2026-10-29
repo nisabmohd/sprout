@@ -10,6 +10,7 @@ import androidx.compose.ui.test.longClick
 import androidx.compose.ui.test.onAllNodesWithContentDescription
 import androidx.compose.ui.test.onAllNodesWithText
 import androidx.compose.ui.test.onFirst
+import androidx.compose.ui.test.onLast
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
@@ -84,6 +85,17 @@ class GetStartedTest {
         rule.onNodeWithContentDescription("Mark Read done").performClick()
         rule.onNodeWithText("20 / 20 pages").assertIsDisplayed()
         rule.onAllNodesWithContentDescription("Tried").assertCountEquals(3)
+    }
+
+    @Test fun practiceUndoBarPutsTheCardBackAndTicksUndo() {
+        rule.setContent { SproutTheme { PracticeStep(suggestions[1], strings) } }
+        rule.onNodeWithContentDescription("Mark Read done").performClick()
+        rule.onNodeWithText("Read marked done").assertIsDisplayed()
+        // The bar's Undo, not the "Undo" row title: the bar comes last.
+        rule.onAllNodesWithText("Undo").onLast().performClick()
+        rule.onNodeWithText("20 pages").assertIsDisplayed()
+        // Tap the circle and Undo are both ticked.
+        rule.onAllNodesWithContentDescription("Tried").assertCountEquals(2)
     }
 
     @Test fun practiceNoteShowsInTheJournal() {

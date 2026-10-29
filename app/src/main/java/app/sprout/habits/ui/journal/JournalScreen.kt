@@ -228,15 +228,16 @@ fun JournalScreen(
 }
 
 /**
- * Nothing to list: a note tile, what is missing and why, and with [action] a tonal button that
+ * Nothing to list: the note icon on a secondaryContainer tile, what is missing and why, and with [action] a tonal button that
  * brings every note back.
  */
 @Composable
 private fun EmptyJournal(title: String, text: String, action: String?, onAction: () -> Unit) {
     val colors = MaterialTheme.colorScheme
     Column(Modifier.fillMaxWidth().padding(top = 72.dp, start = 16.dp, end = 16.dp), horizontalAlignment = Alignment.CenterHorizontally) {
-        Box(Modifier.size(72.dp).background(colors.surfaceContainerHigh, RoundedCornerShape(24.dp)), contentAlignment = Alignment.Center) {
-            Icon(painterResource(R.drawable.ic_note), contentDescription = null, tint = colors.onSurfaceVariant, modifier = Modifier.size(32.dp))
+        // The app's own note icon (edit_note, as on the Evening journal habit) on an accent tile.
+        Box(Modifier.size(72.dp).background(colors.secondaryContainer, RoundedCornerShape(24.dp)), contentAlignment = Alignment.Center) {
+            Icon(painterResource(R.drawable.ic_sym_edit_note), contentDescription = null, tint = colors.onSecondaryContainer, modifier = Modifier.size(32.dp))
         }
         Text(title, style = SproutType.title, color = colors.onSurface, textAlign = TextAlign.Center, modifier = Modifier.padding(top = 20.dp))
         Text(text, style = SproutType.supporting, color = colors.onSurfaceVariant, textAlign = TextAlign.Center, modifier = Modifier.padding(top = 8.dp))

@@ -15,6 +15,10 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import app.sprout.habits.ui.today.UndoSnackbarHost
+import androidx.compose.material3.SnackbarResult
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.SnackbarDuration
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
@@ -407,11 +411,12 @@ private fun PickRow(habit: Habit, line: String, on: Boolean, shape: RoundedCorne
     }
 }
 
-private enum class Gesture { RIGHT, LEFT, TAP, HOLD, NOTE }
+private enum class Gesture { RIGHT, LEFT, TAP, HOLD, UNDO, NOTE }
 
 /**
- * Step 2: a real Today card for [habit] that saves nothing, and the four ways to log, each ticked
- * once tried. Holding opens the real amount sheet, so a Partial shows its fill and ring.
+ * Step 2: a real Today card for [habit] that saves nothing, and the ways to log, each ticked
+ * once tried. Holding opens the real amount sheet, so a Partial shows its fill and ring. Every
+ * change shows Today's Undo bar; tapping its Undo ticks the Undo row.
  */
 @Composable
 internal fun PracticeStep(habit: Habit, strings: Strings) {
@@ -423,6 +428,22 @@ internal fun PracticeStep(habit: Habit, strings: Strings) {
     val tried = rememberSaveable(saver = intListSaver()) { mutableStateListOf() }
     fun tried(g: Gesture) { if (g.ordinal !in tried) tried.add(g.ordinal) }
     fun set(o: DayOutcome, a: Double) { outcome = o; amount = a }
+
+    // The same Undo bar as Today: each change says what happened, and Undo puts the card back.
+    val snackbar = remember { SnackbarHostState() }
+    val scope = rememberCoroutineScope()
+    val undoLabel = stringResource(R.string.action_undo)
+    fun change(o: DayOutcome, a: Double, message: String) {
+        val before = outcome to amount
+        set(o, a)
+        scope.launch {
+            snackbar.currentSnackbarData?.dismiss()
+            if (snackbar.showSnackbar(message, actionLabel = undoLabel, duration = SnackbarDuration.Short) == SnackbarResult.ActionPerformed) {
+                set(before.first, before.second)
+                tried(Gesture.UNDO)
+            }
+        }
+    }
 
     val measured = habit.trackType == TrackType.AMOUNT
     val row = HabitRowUi(
@@ -437,14 +458,19 @@ internal fun PracticeStep(habit: Habit, strings: Strings) {
         }.let { if (note.isNotEmpty()) strings(R.string.note_added, it) else it },
         hasNote = note.isNotEmpty(),
     )
+    Box(Modifier.fillMaxSize()) {
     Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(horizontal = 16.dp)) {
         StepHeading(2, R.string.welcome_try_title, R.string.welcome_try_body)
         SwipeableHabitCard(
             habit = row,
-            onDone = { set(DayOutcome.DONE, habit.target); tried(Gesture.RIGHT) },
-            onSkip = { set(DayOutcome.SKIP, 0.0); tried(Gesture.LEFT) },
-            onUndo = { set(DayOutcome.OPEN, 0.0) },
-            onToggle = { if (outcome == DayOutcome.DONE) set(DayOutcome.OPEN, 0.0) else set(DayOutcome.DONE, habit.target); tried(Gesture.TAP) },
+            onDone = { change(DayOutcome.DONE, habit.target, strings(R.string.log_marked_done, habit.name)); tried(Gesture.RIGHT) },
+            onSkip = { change(DayOutcome.SKIP, 0.0, strings(R.string.log_skipped, habit.name)); tried(Gesture.LEFT) },
+            onUndo = { change(DayOutcome.OPEN, 0.0, strings(R.string.log_undone, habit.name)) },
+            onToggle = {
+                if (outcome == DayOutcome.DONE) change(DayOutcome.OPEN, 0.0, strings(R.string.log_marked_not_done, habit.name))
+                else change(DayOutcome.DONE, habit.target, strings(R.string.log_marked_done, habit.name))
+                tried(Gesture.TAP)
+            },
             onLongPress = { sheetOpen = true },
             onClick = {},
         )
@@ -454,6 +480,7 @@ internal fun PracticeStep(habit: Habit, strings: Strings) {
             Triple(Gesture.LEFT, R.string.welcome_try_left, R.string.welcome_try_left_desc),
             Triple(Gesture.TAP, R.string.welcome_try_tap, R.string.welcome_try_tap_desc),
             Triple(Gesture.HOLD, R.string.welcome_try_hold, R.string.welcome_try_hold_desc),
+            Triple(Gesture.UNDO, R.string.welcome_try_undo, R.string.welcome_try_undo_desc),
             Triple(Gesture.NOTE, R.string.welcome_try_note, R.string.welcome_try_note_desc),
         )
         Column(verticalArrangement = Arrangement.spacedBy(GroupGap)) {
@@ -479,6 +506,8 @@ internal fun PracticeStep(habit: Habit, strings: Strings) {
         }
         Spacer(Modifier.height(16.dp))
     }
+        UndoSnackbarHost(snackbar, Modifier.align(Alignment.BottomCenter).padding(horizontal = 8.dp))
+    }
     if (sheetOpen) {
         val goal = if (measured) habit.measure(habit.target) else null
         LogSheet(
@@ -496,14 +525,17 @@ internal fun PracticeStep(habit: Habit, strings: Strings) {
                 note = text.trim()
                 if (note.isNotEmpty()) tried(Gesture.NOTE)
                 when (status) {
-                    EntryStatus.DONE -> set(DayOutcome.DONE, habit.target)
-                    EntryStatus.PARTIAL -> set(DayOutcome.PARTIAL, a)
-                    EntryStatus.SKIP -> set(DayOutcome.SKIP, 0.0)
+                    EntryStatus.DONE -> change(DayOutcome.DONE, habit.target, strings(R.string.log_marked_done, habit.name))
+                    EntryStatus.PARTIAL -> change(
+                        DayOutcome.PARTIAL, a,
+                        strings(R.string.log_partial, habit.name, TodayViewModel.formatNumber(a), "${TodayViewModel.formatNumber(habit.target)} ${habit.displayUnit()}".trimEnd()),
+                    )
+                    EntryStatus.SKIP -> change(DayOutcome.SKIP, 0.0, strings(R.string.log_skipped, habit.name))
                 }
                 tried(Gesture.HOLD)
                 sheetOpen = false
             },
-            onUndo = { set(DayOutcome.OPEN, 0.0); sheetOpen = false },
+            onUndo = { change(DayOutcome.OPEN, 0.0, strings(R.string.log_cleared, habit.name)); sheetOpen = false },
             onDismiss = { sheetOpen = false },
         )
     }
@@ -532,6 +564,7 @@ private fun GestureRow(gesture: Gesture, title: String, line: String, tried: Boo
                 Gesture.LEFT -> Icon(painterResource(R.drawable.ic_chevron_left), contentDescription = null, tint = hc.ink, modifier = glyph)
                 Gesture.TAP -> Icon(painterResource(R.drawable.ic_check), contentDescription = null, tint = hc.ink, modifier = glyph)
                 Gesture.NOTE -> Icon(painterResource(R.drawable.ic_note), contentDescription = null, tint = hc.ink, modifier = glyph)
+                Gesture.UNDO -> Icon(painterResource(R.drawable.ic_undo), contentDescription = null, tint = hc.ink, modifier = glyph)
                 // A small partial ring, the sign for "part of it".
                 Gesture.HOLD -> Canvas(glyph) { drawRing(0.6f, hc.solid, hc.mid, 3.dp.toPx()) }
             }

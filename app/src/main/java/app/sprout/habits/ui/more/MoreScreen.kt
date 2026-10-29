@@ -179,6 +179,28 @@ fun MoreScreen(
                 )
             }
 
+            item(key = "journal") {
+                SectionLabel(stringResource(R.string.journal_title))
+                val cleared = stringResource(R.string.suggestion_history_cleared)
+                SettingsGroup(
+                    {
+                        SwitchRow(stringResource(R.string.writing_suggestions), stringResource(R.string.writing_suggestions_desc), settings.writingSuggestions) { on ->
+                            save { setWritingSuggestions(on) }
+                        }
+                    },
+                    {
+                        SettingsRow(
+                            stringResource(R.string.clear_suggestion_history),
+                            stringResource(R.string.clear_suggestion_history_desc),
+                            onClick = {
+                                save { clearSuggestionHistory() }
+                                scope.launch { snackbar.showSnackbar(cleared) }
+                            },
+                        )
+                    },
+                )
+            }
+
             item(key = "about") {
                 Box(Modifier.padding(top = SectionGapAbove - 8.dp)) {
                     SettingsCard {

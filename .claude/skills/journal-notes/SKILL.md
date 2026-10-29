@@ -15,6 +15,10 @@ description: Notes and the Journal tab (write, edit, delete, list). Use when cha
 
 **State:** the form's habit, day and text are kept in the `SavedStateHandle`, so coming back after the system closed the app in the background shows them as they were left. Before, the form fell back to the habit and day it was opened with (from Today, a skipped habit and today) with the text gone, and a note retyped there was saved on the wrong habit and day.
 
+**Writing suggestions:** pure logic in `domain/NoteSuggestions.kt` (sentence split, the prefix index `SentenceIndex`, `similarNotes`, `recentNotes`, `customOpeners`, the text edits), tested in `NoteSuggestionsTest`. `WriteNoteViewModel.suggestions` turns all notes plus their day's outcome into `NoteSuggestionData` on `Dispatchers.Default` whenever notes change; notes last written before `suggestionsClearedAt` (More → Journal → Clear suggestion history) are left out. The screen keeps a `TextFieldValue` for the cursor; the ghost text is a `VisualTransformation` (`GhostText`), so it is never part of the saved text or read by TalkBack as the note. Sections are in `ui/note/NoteSuggestionsSection.kt`. Off (`writingSuggestions`), the card fills the screen as before.
+
+**Pitfall:** the field keeps a `TextFieldValue` and the view model keeps the text. Copying `form.text` back into the field on every change dropped letters when typing fast (an older echo landed after newer keystrokes: "Smoke test note" was saved as "Smot noe"; the 1.4.0 smoke run caught it). The field takes the view model's text only when `NoteForm.textVersion` changes, i.e. when the form puts in a text of its own.
+
 **Pitfall:** in adb-driven checks, wait for a sheet to finish opening before `uiautomator dump`; a dump during the animation comes back without the Compose nodes.
 
-**Verify:** `python3 tools/verify/smoke.py journal`.
+**Verify:** `python3 tools/verify/smoke.py journal note_suggestions` (release only; by hand otherwise: on Today's sample data, Add note opens Drink water with Quick start "Partial" and the "Busy day…" note under Your recent notes; typing "Busy d" shows the ghost text, Finish with and Similar notes).

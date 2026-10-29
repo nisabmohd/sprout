@@ -17,7 +17,7 @@ The raw emulator screenshots are 1080 × 2400 (20:9). Play rejects those because
 
 How they were taken: Pixel-size emulator (API 36), gesture navigation, status bar demo mode (9:30, full battery, Wi-Fi only), date set to Sunday 27 September 2026, fresh install with the sample habits, Dynamic color off, brown accent, Lexend font. Widgets follow the system colours, so they use the wallpaper's colours rather than the in-app accent.
 
-The frames are made by `python3 tools/store_shots.py <folder of raw shots>`, which writes all eight files here. It redraws the status bar a little lower and pulled in from the sides, so the frame's rounded corners never cut the clock or the battery (they did on 04 and 06 until 2026-10-19). Shot 7 is the home screen with the This week widget. All eight were retaken on 2026-10-19 from 1.3.7.
+The frames are made by `python3 tools/store_shots.py <folder of raw shots>`, which writes all eight files here. It redraws the status bar a little lower and pulled in from the sides, so the frame's rounded corners never cut the clock or the battery (they did on 04 and 06 until 2026-10-19). Shot 7 is the home screen with the This week widget. All eight were retaken on 2026-10-19 from 1.3.7. On 2026-10-29 (1.4.0) shots 1, 3, 5, 6 and 8 were rebuilt for the nav bar fix (the tabs no longer run to the screen edges); 2, 4 and 7 don't show the nav bar and stayed.
 
 | # | Screen | Caption |
 | --- | --- | --- |
